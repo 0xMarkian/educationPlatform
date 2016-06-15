@@ -1,8 +1,16 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+
+import basicSchemaCtrls from './index'
+
+
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 const studentSchema = new mongoose.Schema({
   name: String,
-  scores: {}
+  groupId: ObjectId,
 })
 
-module.exports = mongoose.model('Student', studentSchema)
+studentSchema.statics = basicSchemaCtrls
+
+
+export default mongoose.model('Student', studentSchema)

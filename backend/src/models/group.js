@@ -1,5 +1,8 @@
-const mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
+import mongoose from 'mongoose'
+
+import basicSchemaCtrls from './index'
+
+const Schema = mongoose.Schema,
   ObjectId = Schema.Types.ObjectId
 
 const groupSchema = new Schema({
@@ -7,4 +10,6 @@ const groupSchema = new Schema({
   curatorId: ObjectId,
 })
 
-module.exports = mongoose.model('Group', groupSchema)
+groupSchema.statics = basicSchemaCtrls
+
+export default mongoose.model('Group', groupSchema)

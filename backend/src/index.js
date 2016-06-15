@@ -1,7 +1,7 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+import express from 'express'
+import bodyParser from 'body-parser'
 
-const routes = require('./routes')
+import routes from './routes'
 
 const app = express()
 
@@ -13,4 +13,4 @@ configurateExpress(app)
 
 app.use('/', routes)
 
-module.exports = app
+export default app

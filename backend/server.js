@@ -1,7 +1,8 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
-const app = require('./src')
+import app from './src'
 
+// import './migrations/intializeDB'
 
 const connectDataBase = uri => {
   mongoose.connect(uri)

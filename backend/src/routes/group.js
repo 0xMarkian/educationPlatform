@@ -1,65 +1,32 @@
-const express = require('express')
-const mongoose = require('mongoose'),
-  ObjectId = mongoose.Types.ObjectId
+import express from 'express'
+import mongoose from 'mongoose'
 
-const Group = require('../models/group')
-
-const groupCtrl = require('../controllers/group')
+import Group from '../models/group'
+import Teacher from '../models/teacher'
 
 
 const groupsRouter = express.Router()
 groupsRouter.route('/')
+  
   // ** GET /groups - array of all groups
-  .get(groupCtrl.list)
+  .get(function(req,res){
+    Group.list()( groups => res.json(groups) )
+  })
 
   // ** POST /groups/ - create new group
-  .post(groupCtrl.create)
-
-
-
-groupsRouter.route('/:id')
-  .get(function(req,res){
-    Group.findById(req.params.id)
-      .populate('students subjects')
-      .exec( function(err,group){
-        handleError(res)(err)
-        res.json(group)
-      })
-  })
   .post(function(req,res){
-    const id = req.params.id
-    Group.findById(id, function(err, group){
-      if(err) res.send(err)
+    // const { curatorIId } = req.body
+    const { curatorIId, name } = req.body
 
-      const name = req.body.name
-      group.name = name
+    Teacher.findOne(function(err, teacher){
+      const curatorId = teacher._id
 
-      group.save()
+      Group.create({
+        curatorId,
+        name,
+      })( newGroup => res.json(newGroup) )
     })
-  })
-  .delete(function(req,res){
-    const id = req.params.id
-    Group.remove({_id: id}, function(err){
-      if(err) res.send(err)
 
-      res.json({message: 'Succesfully deleted'})
-    })
   })
 
-groupsRouter.route('/:id/scores/:student_id')
-  .post(function(req,res){
-    const { id, student_id } = req.params
-
-    Group.findById(req.params.id, function(err,group){
-      if(err) res.send(err)
-      const student = group.students.id(student_id)
-      student.score = {}
-      req.body.forEach( subject => {
-        student.score[subject.id] = subject.score
-      })
-      console.log(group)
-      group.save()
-    })
-  })
-
-module.exports = groupsRouter
+export default groupsRouter

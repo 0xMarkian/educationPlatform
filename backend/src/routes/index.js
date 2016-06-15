@@ -1,6 +1,6 @@
 const express = require('express')
 
-const groupRoutes = require('./group')
+import groupRoutes from './group'
 
 
 const router = express.Router()
@@ -13,4 +13,4 @@ router.route('/', function(req, res){
 
 router.use('/groups', groupRoutes)
 
-module.exports = router
+export default router
