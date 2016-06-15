@@ -1,11 +1,10 @@
 const mongoose = require('mongoose'),
-  Schema = mongoose.Schema
-
+  Schema = mongoose.Schema,
+  ObjectId = Schema.Types.ObjectId
 
 const groupSchema = new Schema({
   name: String,
-  students: [Schema.Types.ObjectId],
-  subjects: [Schema.Types.ObjectId],
+  curatorId: ObjectId,
 })
 
 module.exports = mongoose.model('Group', groupSchema)

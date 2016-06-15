@@ -4,11 +4,16 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "serve": "nodemon --harmony ./server.js"
+    "serve": "./node_modules/.bin/nodemon --harmony ./server.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
     "express": "~4.13.1",
-    "mongoose": "^4.4.19"
+    "mongoose": "^4.4.19",
+    "nodemon": "^1.9.2",
+  },
+  "devDependencies": {
+    "webpack": "^1.13.1"
+    "source-map-support": "^0.4.0"
   }
 }
