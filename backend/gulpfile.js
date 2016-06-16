@@ -12,47 +12,11 @@ var deepmerge = DeepMerge(function(target, source, key) {
   return source;
 });
 
-// generic
-
-var defaultConfig = {
-  module: {
-    loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
-    ]
-  }
-};
-
-if(process.env.NODE_ENV !== 'production') {
-  defaultConfig.devtool = '#eval-source-map';
-  defaultConfig.debug = true;
-}
-
 function config(overrides) {
   return deepmerge(defaultConfig, overrides || {});
 }
 
-// frontend
-
-var frontendConfig = config({
-  entry: './static/js/main.js',
-  output: {
-    path: path.join(__dirname, 'static/build'),
-    filename: 'frontend.js'
-  }
-});
-
-// backend
-
-var nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter(function(x) {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach(function(mod) {
-    nodeModules[mod] = 'commonjs ' + mod;
-  });
-
-var backendConfig = config({
+var defaultConfig = {
   entry: './server.js',
   target: 'node',
   output: {
@@ -68,8 +32,28 @@ var backendConfig = config({
     new webpack.IgnorePlugin(/\.(css|less)$/),
     new webpack.BannerPlugin('require("source-map-support").install();',
       { raw: true, entryOnly: false })
-  ]
-});
+  ],
+  module: {
+    loaders: [
+      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
+    ]
+  }
+};
+
+if(process.env.NODE_ENV !== 'production') {
+  defaultConfig.devtool = '#eval-source-map';
+  defaultConfig.debug = true;
+}
+
+
+var nodeModules = {};
+fs.readdirSync('node_modules')
+  .filter(function(x) {
+    return ['.bin'].indexOf(x) === -1;
+  })
+  .forEach(function(mod) {
+    nodeModules[mod] = 'commonjs ' + mod;
+  });
 
 // tasks
 
@@ -88,29 +72,18 @@ function onBuild(done) {
   }
 }
 
-gulp.task('frontend-build', function(done) {
-  webpack(frontendConfig).run(onBuild(done));
+gulp.task('build', function(done) {
+  webpack(defaultConfig).run(onBuild(done));
 });
 
-gulp.task('frontend-watch', function() {
-  webpack(frontendConfig).watch(100, onBuild());
-});
-
-gulp.task('backend-build', function(done) {
-  webpack(backendConfig).run(onBuild(done));
-});
-
-gulp.task('backend-watch', function() {
-  webpack(backendConfig).watch(100, function(err, stats) {
+gulp.task('watch', function() {
+  webpack(defaultConfig).watch(100, function(err, stats) {
     onBuild()(err, stats);
     nodemon.restart();
   });
 });
 
-gulp.task('build', ['frontend-build', 'backend-build']);
-gulp.task('watch', ['frontend-watch', 'backend-watch']);
-
-gulp.task('run', ['backend-watch'], function() {
+gulp.task('run', ['watch'], function() {
   nodemon({
     execMap: {
       js: 'node'
@@ -123,3 +96,36 @@ gulp.task('run', ['backend-watch'], function() {
     console.log('Restarted!');
   });
 });
+
+//migrations
+
+var webpackStream = require('webpack-stream')
+const eventStream = require('event-stream')
+const spawn = require('child_process').spawn
+
+const migrationConfig = config({
+  entry: './migrations/intializeDB',
+  watch: false,
+})
+
+gulp.task('migrateDB', function() {
+  return gulp.src(migrationConfig.entry)
+    .pipe(webpackStream(migrationConfig))
+    .pipe(nodeEval())
+})
+
+const nodeEval = (git ) => (
+  eventStream.map( function(file, cb) {
+    const out = fs.openSync('./out.log', 'a'),
+      err = out
+
+    const childProcess = spawn('node',['--eval', String(file.contents)],{
+      detached: true,
+      stdio: [ 'ignore', out, err ],
+    })
+    childProcess.unref()
+
+    cb(null,null)
+    // fs.writeFile('./migrations/tmp.js', file.contents)
+  })
+)

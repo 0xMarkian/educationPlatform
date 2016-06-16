@@ -21,6 +21,8 @@
     "deep-merge": "^1.0.0",
     "gulp": "^3.9.1",
     "source-map-support": "^0.4.0",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-stream": "^3.2.0"
   }
 }

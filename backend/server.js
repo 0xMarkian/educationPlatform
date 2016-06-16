@@ -2,8 +2,6 @@ import mongoose from 'mongoose'
 
 import app from './src'
 
-// import './migrations/intializeDB'
-
 const connectDataBase = uri => {
   mongoose.connect(uri)
   mongoose.connection.on('error', () => {
@@ -16,7 +14,6 @@ const startServer = (port = 8080) => app => {
     console.log('Server is running on port 8000')
   })
 }
-
 
 connectDataBase('mongodb://localhost/educationPlatform')
 startServer(process.env.PORT)(app)
