@@ -1,16 +1,13 @@
 import mongoose from 'mongoose'
 
-import basicSchemaCtrls from './index'
+import { basicSchemaCtrls, requiredObjectId } from './utils'
 
-const Schema = mongoose.Schema,
-  ObjectId = Schema.Types.ObjectId
-
-const scoreSchema = new Schema({
-  scoreValue: Number,
-  studentId: ObjectId,
-  courseId: ObjectId,
+const scoreSchema = new mongoose.Schema({
+  scoreValue: { type: Number, required: true},
+  studentId: requiredObjectId,
+  courseId: requiredObjectId,
 })
 
 scoreSchema.statics = basicSchemaCtrls
 
-export default mongoose.model('Group', scoreSchema)
+export default mongoose.model('Score', scoreSchema)

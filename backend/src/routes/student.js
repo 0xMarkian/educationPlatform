@@ -19,7 +19,7 @@ studentRouter.route('/')
     Student.create({
       name,
       groupId,
-    })( newStudent => res.json(newStudent) )
+    })( (err, newStudent) => res.json(newStudent) )
 
   })
 

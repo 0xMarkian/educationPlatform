@@ -1,15 +1,16 @@
 import mongoose from 'mongoose'
 
-import basicSchemaCtrls from './index'
+import { basicSchemaCtrls, requiredObjectId } from './utils'
 
 const Schema = mongoose.Schema,
   ObjectId = Schema.Types.ObjectId
 
 const groupSchema = new Schema({
   name: String,
-  curatorId: ObjectId,
+  curatorId: requiredObjectId,
 })
 
 groupSchema.statics = basicSchemaCtrls
+
 
 export default mongoose.model('Group', groupSchema)

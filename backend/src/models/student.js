@@ -1,13 +1,11 @@
 import mongoose from 'mongoose'
 
-import basicSchemaCtrls from './index'
+import { basicSchemaCtrls, uniqueName, requiredObjectId } from './utils'
 
-
-const ObjectId = mongoose.Schema.Types.ObjectId
 
 const studentSchema = new mongoose.Schema({
-  name: String,
-  groupId: ObjectId,
+  name: uniqueName,
+  groupId: requiredObjectId,
 })
 
 studentSchema.statics = basicSchemaCtrls

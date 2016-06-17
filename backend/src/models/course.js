@@ -1,9 +1,11 @@
-const mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  ObjectId = Schema.Types.ObjectId
+import mongoose from 'mongoose'
 
-const courseSchema = new Schema({
-  name: String,
-  subjectId: ObjectId,
-  teacherId: ObjectId,
+import { basicSchemaCtrls, requiredObjectId } from './utils'
+
+const courseSchema = new mongoose.Schema({
+  subjectId: requiredObjectId,
+  teacherId: requiredObjectId,
 })
+courseSchema.statics = basicSchemaCtrls
+
+export default mongoose.model('Course', courseSchema)

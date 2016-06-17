@@ -24,7 +24,7 @@ groupsRouter.route('/')
       Group.create({
         curatorId,
         name,
-      })( newGroup => res.json(newGroup) )
+      })( (err, newGroup ) => res.json(newGroup) )
     })
 
   })
