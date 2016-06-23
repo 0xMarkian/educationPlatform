@@ -32,6 +32,4 @@ bower_components/
 # Intellij IDEA
 .idea/
 
-dist/
-
-API/
+build/
