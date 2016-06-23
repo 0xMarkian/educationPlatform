@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "gulp run",
+    "migrateDB": "gulp migrateDB",
     "dropDB": "mongo educationPlatform --eval 'db.dropDatabase();'"
   },
   "dependencies": {

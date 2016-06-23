@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+import { handleError } from '../src/utils'
+
 import Subject from '../src/models/subject'
 import Teacher from '../src/models/teacher'
 import Student from '../src/models/student'
@@ -10,7 +12,6 @@ import StudentToCourse from '../src/models/student2Course'
 
 const mode = 'dev'
 
-const handleError = err => { if(err) console.error(err) }
 
 const connectDataBase = uri => {
   mongoose.connect(uri)
@@ -20,38 +21,38 @@ const connectDataBase = uri => {
 }
 // connectDataBase('mongodb://localhost/educationPlatform')
 
+
 const string2ObjectInArray = propName => valueArr => valueArr.map( value => ({ [propName] : value}))
 const generateName = baseName => mode === 'dev' ? baseName + Math.random() : baseName
 
 const createEntities = Entity => entitieConfigs => entitieConfigs.forEach( config => Entity.create(config)( err => err))
 
-createEntities(Subject)( [{name: 'Math'}] )
 
-Subject.create({name:generateName('Math')})( (err, subject) => {
+Subject.create( {name:generateName('Math')}, (err, subject) => {
   handleError(err)
   const subjectId = subject._id
 
-  Teacher.create({name: generateName('Lesia')})( (err, teacher) => {
+  Teacher.create( {name: generateName('Lesia')}, (err, teacher) => {
     handleError(err)
     const teacherId = teacher._id
 
-    Group.create({name: '11-D', curatorId: teacherId})( (err,group) => {
+    Group.create( {name: '11-D', curatorId: teacherId}, (err,group) => {
       handleError(err)
       const groupId = group._id
 
-      Student.create({name: generateName('Stuart'), groupId})( (err, student) => {
+      Student.create({name: generateName('Stuart'), groupId}, (err, student) => {
         handleError(err)
         const studentId = student._id
 
-        Course.create({teacherId, subjectId,})( (err, course) => {
+        Course.create( { subjectId,}, (err, course) => {
           handleError(err)
           const courseId = course._id
           
-          StudentToCourse.create({studentId, courseId,})( (err) => {
+          StudentToCourse.create( {studentId, courseId,}, (err) => {
             handleError(err)
           })
 
-          Score.create({ scoreValue: 10, studentId, courseId})( (err) => {
+          Score.create({ scoreValue: 10, studentId, courseId}, (err) => {
             handleError(err)
           })
         })

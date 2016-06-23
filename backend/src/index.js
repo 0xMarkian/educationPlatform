@@ -5,7 +5,6 @@ import routes from './routes'
 import mongoose from 'mongoose'
 
 const app = express()
-
 function configurateExpress(app){
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
