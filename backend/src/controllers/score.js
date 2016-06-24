@@ -21,4 +21,4 @@ class ScoreCtrl extends BasicCtrl {
   }
 }
 
-export default new ScoreCtrl().getRouter()
+export default new ScoreCtrl(Score).getRouter()

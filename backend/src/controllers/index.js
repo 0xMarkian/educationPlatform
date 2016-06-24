@@ -1,41 +1,5 @@
 import express from 'express'
 
-export const deleteCtrl = Entity => (req,res, next) => {
-  const _id = req.params.id
-
-  Entity.remove( {_id}, err => {
-    if(err) return next(err)
-    res.sendStatus(200)
-  })
-}
-
-export const getAllCtrl = Entity => (req, res, next) => {
-  Entity.find((err, entities) => {
-    if (err) next(err)
-    res.json(entities)
-  })
-}
-
-
-export const getOneByIdCtrl = Entity => (req, res, next) => {
-  const _id = req.params.id
-  Entity.findById(_id, (err, entity) => {
-    if (err) next(err)
-    res.json(entity)
-  })
-}
-
-
-export const patchOneById = Entity => (req,res, next) => {
-  const { id: _id } = req.params
-  Entity.update( { _id}, req.body, err => {
-    if(err) return next(err)
-    res.sendStatus(200)
-
-  })
-}
-
-
 
 export default class BasicCtrl {
   constructor(Model){

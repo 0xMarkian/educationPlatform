@@ -19,4 +19,4 @@ class SubjectCtrl extends BasicCtrl {
   }
 }
 
-export default new SubjectCtrl().getRouter()
+export default new SubjectCtrl(Subject).getRouter()
