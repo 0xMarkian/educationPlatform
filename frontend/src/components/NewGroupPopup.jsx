@@ -16,10 +16,26 @@ const NewGroupPopup = React.createClass({
   },
 
   nextStep() {
+    const store = this.props.store
+    const dispatch = this.props.dispatch
     const {stepIndex} = this.state
-    this.setState({
-      stepIndex: stepIndex + 1,
-      finished: stepIndex >= 3
+    
+    fetch('http://localhost:8080/groups', {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        curatorId: store.curatorId,
+        name: store.newGroupPopup.groupName.value,
+      })
+    }).then(() => {
+      this.setState({
+        stepIndex: stepIndex + 1,
+        finished: stepIndex >= 3
+      })
     })
   },
 
@@ -39,6 +55,7 @@ const NewGroupPopup = React.createClass({
 
     const dispatch = this.props.dispatch
 
+    dispatch({ type: 'GROUP_NAME_INPUT', value: groupNameInputValue })
     if(!groupNameInputValue) { // An empty string
       // Set a flag to disable the Register button but don't show any error
       dispatch({ type: 'SET_GROUP_NAME_ERROR', errorText: null })
@@ -54,9 +71,19 @@ const NewGroupPopup = React.createClass({
   },
 
   render() {
-    const store = this.props.store
+    const store = this.props.store.newGroupPopup
     const {finished, stepIndex} = this.state;
     const nextStepDisabled = (store.groupName.error)
+
+    if(this.state.stepIndex === 1){
+      console.log(1)
+      fetch('http://localhost:8080/subjects', {
+        mode: 'cors',
+        method: 'GET'
+      }).then(res => res.text()).then(res => {
+        console.log(res)
+      })
+    }
 
     return(
       <Dialog
@@ -82,6 +109,7 @@ const NewGroupPopup = React.createClass({
           <div>
             <label htmlFor='new-group-modal-name'>Group name:</label><br/>
             <TextField
+             defaultValue={store.groupName.value}
              errorText={store.groupName.errorText}
              ref='new-group-modal-name'
              id='new-group-modal-name'
@@ -89,6 +117,12 @@ const NewGroupPopup = React.createClass({
              type='text'
              onChange={this.handleGroupNameInput}
             /><br/><br/>
+          </div>
+        ) : (null)}
+        {this.state.stepIndex === 1 ? (
+          <div>
+            <label htmlFor='new-group-subject'></label><br/>
+            
           </div>
         ) : (null)}
         <FlatButton

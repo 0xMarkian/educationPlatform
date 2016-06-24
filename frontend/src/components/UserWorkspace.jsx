@@ -13,7 +13,7 @@ const UserWorkspace = React.createClass({
     return(
       <div>
         <TopToolbar store={store} dispatch={dispatch} />
-        <NewGroupPopup store={store.newGroupPopup} dispatch={dispatch} />
+        <NewGroupPopup store={store} dispatch={dispatch} />
       </div>
     )
   }

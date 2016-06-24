@@ -11,8 +11,28 @@ import UserWorkspace from './UserWorkspace'
 
 const store = createStore(reducers, initialState, window.devToolsExtension && window.devToolsExtension())
 
+ 
+if(module.hot) {
+  // Enable Webpack hot module replacement for reducers
+  module.hot.accept('../reducers', () => {
+    const nextRootReducer = require('../reducers/index').default
+    store.replaceReducer(nextRootReducer)
+  });
+}
+
 const ConnectedLoginPopup = connect( (store) => ({ store: store.login }) )(LoginPopup)
 const ConnectedUserWorkspace = connect( (store) => ({ store: store.workspace }) )(UserWorkspace)
+
+
+store.dispatch({ type: 'SET_CURATOR_ID', id: '57646aa30bbf78d02d29f70e' })
+//fetch('http://localhost:8080/groups', {
+//  'mode':'cors'
+//})
+//.then(res => res.json())
+//.then(res => {
+//  console.log(res)
+//})
+
 
 class AppComponent extends React.Component {
   render() {
