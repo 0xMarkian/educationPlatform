@@ -10,7 +10,7 @@ export default class BasicCtrl {
 
     const basicProps = Object.getOwnPropertyNames(BasicCtrl.prototype)
     const childProps = Object.getOwnPropertyNames(this.__proto__)
-    const props = [...basicProps, ...childProps]
+    const props = [...basicProps, ...childProps].filter( (item,pos,self) => self.indexOf(item) === pos)
     props.forEach( prop => {
       if(prop === 'constructor') return
 
@@ -38,10 +38,12 @@ export default class BasicCtrl {
   updateOneById(router){
     router.route('/:id').patch( (req,res, next) => {
       const { id: _id } = req.params
+
+      if( Object.keys(req.body).length === 0 ) return next(new Error('The request body is empty'))
+
       this.Model.update( { _id}, req.body, err => {
         if(err) return next(err)
         res.sendStatus(200)
-
       })
     })
   }

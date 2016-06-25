@@ -36,23 +36,23 @@ Subject.create( {name:generateName('Math')}, (err, subject) => {
     handleError(err)
     const teacherId = teacher._id
 
-    Group.create( {name: '11-D', curatorId: teacherId}, (err,group) => {
+    Group.create( {name: '11-D', curator: teacherId}, (err, group) => {
       handleError(err)
       const groupId = group._id
 
-      Student.create({name: generateName('Stuart'), groupId}, (err, student) => {
+      Student.create({name: generateName('Stuart'), group}, (err, student) => {
         handleError(err)
         const studentId = student._id
 
-        Course.create( { subjectId,}, (err, course) => {
+        Course.create( { subject,}, (err, course) => {
           handleError(err)
           const courseId = course._id
           
-          StudentToCourse.create( {studentId, courseId,}, (err) => {
+          StudentToCourse.create( {student, course,}, (err) => {
             handleError(err)
           })
 
-          Score.create({ scoreValue: 10, studentId, courseId}, (err) => {
+          Score.create({ scoreValue: 10, student:studentId, course}, (err) => {
             handleError(err)
           })
         })

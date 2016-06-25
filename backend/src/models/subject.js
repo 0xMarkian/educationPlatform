@@ -4,7 +4,7 @@ import { basicSchemaCtrls, uniqueName } from './utils'
 
 
 const subjectSchema = new mongoose.Schema({
-  name: String,
+  name: uniqueName,
 })
 
 subjectSchema.statics = basicSchemaCtrls
