@@ -4,6 +4,10 @@ export default (state = initialState, action) => {
   switch(action.type) {
     case 'SET_CURATOR_ID':
       return { ...state, curatorId: action.id }
+    case 'SET_GROUP_ID':
+      return { ...state, groupId: action.id }
+    case 'SET_COURSE_ID':
+      return { ...state, courseId: action.id}
     case 'SHOW_NEW_GROUP_POPUP':
       return { ...state, newGroupPopup: { ...state.newGroupPopup, popupOpen: true } }
     case 'GROUP_NAME_INPUT':

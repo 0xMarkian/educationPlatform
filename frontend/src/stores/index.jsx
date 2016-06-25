@@ -18,6 +18,8 @@ const stores = {
   },
   workspace: {
     curatorId: null,
+    groupId: null,
+    courseId: null,
     newGroupPopup: {
      popupOpen: false,
      groupName: {

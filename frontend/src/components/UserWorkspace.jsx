@@ -1,7 +1,6 @@
 import React from 'react'
 import TopToolbar from './TopToolbar.jsx'
 import NewGroupPopup from './NewGroupPopup.jsx'
-import {Dialog, TextField, RaisedButton} from 'material-ui'
 
 if(module.hot){ module.hot.accept() }
 

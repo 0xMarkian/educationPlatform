@@ -3,7 +3,6 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle, RaisedButton, Ava
 
 class TopToolbar extends React.Component {
   render() {
-    const store = this.props.store
     const dispatch = this.props.dispatch
 
     return(

@@ -25,14 +25,6 @@ const ConnectedUserWorkspace = connect( (store) => ({ store: store.workspace }) 
 
 
 store.dispatch({ type: 'SET_CURATOR_ID', id: '57646aa30bbf78d02d29f70e' })
-//fetch('http://localhost:8080/groups', {
-//  'mode':'cors'
-//})
-//.then(res => res.json())
-//.then(res => {
-//  console.log(res)
-//})
-
 
 class AppComponent extends React.Component {
   render() {
