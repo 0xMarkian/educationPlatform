@@ -10,23 +10,27 @@ import BasicCtrl from './index'
 
 class CourseCtrl extends BasicCtrl{
   create(router){
-    router.post('/', (req,res) => {
-      const { teacherId, subjectId, groupId } = req.body
+    router.post('/', (req,res, next) => {
+      const { subject, group } = req.body
 
       Course.create({
-        teacherId,
-        subjectId,
+        subject,
       }, (err, newCourse) => {
-        const courseId = newCourse._id
-        Student.find({groupId}).select('groupId')
-          .exec( (err, studentIds) => {
-            studentIds.forEach( studentId => {
+        if(err) return next(err)
+
+        Student
+          .find({group})
+          .select('_id')
+          .exec( (err, findedStudents) => {
+            if(err) return next(err)
+
+            findedStudents.forEach( student => {
               Student2Course.create({
-                studentId,
-                courseId,
-              })( err => {
-                if(err) return res.send(err)
-                res.send(newCourse)
+                student: student._id,
+                course: newCourse._id,
+              }, err => {
+                if(err) return next(err)
+                res.status(201).json(newCourse)
               })
             })
           })
