@@ -1,3 +1,4 @@
+import url from 'url'
 import express from 'express'
 import mongoose from 'mongoose'
 
@@ -17,6 +18,40 @@ class ScoreCtrl extends BasicCtrl {
         courseId,
       }, (err, newScore) => res.json(newScore) )
 
+    })
+  }
+
+  getAll(router){
+    router.route('/').get((req, res, next) => {
+      // To embed resource representatio(show not only ref to id, but external resources too) use API with query.
+      // For example /?embed=student&embed=course
+      const { embed ='' } = req.query
+
+      this.Model
+        .find()
+        .populate(embed)
+        .exec((err, entities) => {
+          if (err) next(err)
+          res.json(entities)
+        })
+    })
+  }
+
+  getOneById(router){
+    router.route('/:id').get((req, res, next) => {
+      const { id: _id } = req.params
+
+      // To embed resource representatio(show not only ref to id, but external resources too) use API with query.
+      // For example /:id?embed=student&embed=course
+      const { embed ='' } = req.query
+
+      this.Model
+        .findById(_id)
+        .populate(embed)
+        .exec((err, entity) => {
+        if (err) next(err)
+        res.json(entity)
+      })
     })
   }
 }

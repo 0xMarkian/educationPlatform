@@ -3,8 +3,8 @@ import mongoose from 'mongoose'
 import { basicSchemaCtrls, requiredObjectId } from './utils'
 
 const courseSchema = new mongoose.Schema({
-  subjectId: requiredObjectId,
-  // teacherId: requiredObjectId,
+  subject: requiredObjectId,
+  // teacher: requiredObjectId,
 })
 courseSchema.statics = basicSchemaCtrls
 

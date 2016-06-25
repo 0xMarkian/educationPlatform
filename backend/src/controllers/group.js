@@ -16,7 +16,7 @@ class GroupCtrl extends BasicCtrl{
         Group.create({
           curatorId,
           name,
-        }, (err, newGroup ) => res.json(newGroup) )
+        }, (err, newGroup ) => res.status(201).json(newGroup) )
       })
 
     })

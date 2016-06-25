@@ -7,7 +7,7 @@ const Schema = mongoose.Schema,
 
 const groupSchema = new Schema({
   name: String,
-  curatorId: requiredObjectId,
+  curator: requiredObjectId,
 })
 
 groupSchema.statics = basicSchemaCtrls

@@ -5,7 +5,7 @@ import { basicSchemaCtrls, uniqueName, requiredObjectId } from './utils'
 
 const studentSchema = new mongoose.Schema({
   name: uniqueName,
-  groupId: requiredObjectId,
+  group: requiredObjectId,
 })
 
 studentSchema.statics = basicSchemaCtrls

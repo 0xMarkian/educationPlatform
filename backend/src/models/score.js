@@ -4,8 +4,8 @@ import { basicSchemaCtrls, requiredObjectId } from './utils'
 
 const scoreSchema = new mongoose.Schema({
   scoreValue: { type: Number, required: true},
-  studentId: requiredObjectId,
-  courseId: requiredObjectId,
+  student: { ...requiredObjectId, ref:'Student'},
+  course: { ...requiredObjectId, ref: 'Course'},
 })
 
 scoreSchema.statics = basicSchemaCtrls
