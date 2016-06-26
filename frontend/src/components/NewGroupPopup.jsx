@@ -1,16 +1,17 @@
 import React from 'react'
-import Person from 'material-ui/svg-icons/social/person'
-import Remove from 'material-ui/svg-icons/content/backspace'
+import {connect} from 'react-redux'
 import {Grid, Row, Cell} from 'react-inline-grid'
+import Remove from 'material-ui/svg-icons/content/backspace'
+import Person from 'material-ui/svg-icons/social/person'
 import {Dialog, TextField, FlatButton, RaisedButton} from 'material-ui'
 import {Step, Stepper, StepLabel, CircularProgress} from 'material-ui'
 import {DropDownMenu, MenuItem, List, ListItem} from 'material-ui'
 
-if(module.hot){ module.hot.accept() }
 
-const NewGroupPopup = React.createClass({
-  getInitialState() {
-    return {
+class NewGroupPopup extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
       finished: false,
       stepIndex: 0,
       groupNamePattern: /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/,
@@ -23,7 +24,7 @@ const NewGroupPopup = React.createClass({
       chosenSubject: null,
       loading: false
     }
-  },
+  }
 
   nextStep() {
     const store = this.props.store
@@ -38,10 +39,6 @@ const NewGroupPopup = React.createClass({
       fetch('http://localhost:8080/groups', {
         mode: 'cors',
         method: requestMethod,
-        // headers: {
-        //   'Accept': 'application/json',
-        //   'Content-Type': 'application/json'
-        // },
         body: JSON.stringify({
           curatorId: store.curatorId,
           name: store.newGroupPopup.groupName.value
@@ -49,7 +46,6 @@ const NewGroupPopup = React.createClass({
       })
       .then(res => res.json())
       .then(res => {
-        console.log('ID to set:', res)
         dispatch({ type: 'SET_GROUP_ID', id: res._id })
         this.setState({
           loading: false,
@@ -58,43 +54,23 @@ const NewGroupPopup = React.createClass({
         })
       })
     } else if(this.state.stepIndex === 1) {
-      console.log({
-        teacherId: store.curatorId,
-        subjectId: this.state.chosenSubject._id,
-        groupId: store.groupId
+      fetch('http://localhost:8080/courses', {
+        mode: 'cors',
+        method: 'post',
+        body: JSON.stringify({
+          subject: this.state.chosenSubject._id,
+          group: store.groupId
+        })
+      }).then(res => {
+        dispatch({ type: 'SET_COURSE_ID', id: res._id })
+        this.setState({
+          loading: false,
+          stepIndex: stepIndex + 1,
+          finished: stepIndex >= 3
+        })
       })
-      //fetch('http://localhost:8080/courses', {
-      //  mode: 'cors',
-      //  method: 'post',
-      //  //headers: {
-      //  //  'Accept': 'application/json',
-      //  //  'Content-Type': 'application/json'
-      //  //},
-      //  body: JSON.stringify({
-      //    teacherId: store.curatorId,
-      //    subjectId: this.state.chosenSubject._id,
-      //    groupId: store.groupId
-      //  })
-      //}).then(res => {
-      //  alert('o_0')
-      //  dispatch({ type: 'SET_COURSE_ID', id: res._id })
-      //  this.setState({
-      //    loading: false,
-      //    stepIndex: stepIndex + 1,
-      //    finished: stepIndex >= 3
-      //  })
-      //})
-      
-      // Let's assume I did it well
-      this.setState({
-        loading: false,
-        stepIndex: stepIndex + 1,
-        finished: stepIndex >= 3
-      })
-    } else if(this.state.stepIndex === 2) {
-      
     }
-  },
+  }
 
   prevStep() {
     const {stepIndex} = this.state
@@ -104,7 +80,7 @@ const NewGroupPopup = React.createClass({
         stepIndex: stepIndex - 1
       })
     }
-  },
+  }
 
   handleGroupNameInput(event) {
     const groupNameInput = event.target
@@ -125,11 +101,11 @@ const NewGroupPopup = React.createClass({
     } else {
       dispatch({ type: 'REMOVE_GROUP_NAME_ERROR' })
     }
-  },
+  }
 
   handleSubjectChosing(event, index, value) {
     this.setState({ chosenSubject: this.state.subjects[index] })
-  },
+  }
 
   handleNewStudentInput() {
     const newStudentNameInput = this.refs['new-group-modal-students']
@@ -144,13 +120,13 @@ const NewGroupPopup = React.createClass({
     this.setState({
       students: finalStudentsArray
     })
-  },
+  }
 
   handleRemoveStudent(index) {
     this.setState({
       students: [ ...this.state.students.slice(0, index), ...this.state.students.slice(index+1) ]
     })
-  },
+  }
 
   componentDidMount() {
     this.setState({ loading: true })
@@ -164,9 +140,10 @@ const NewGroupPopup = React.createClass({
         loading: false
       })
     })
-  },
+  }
 
   render() {
+    console.log(this.props.store)
     const store = this.props.store.newGroupPopup
     const {finished, stepIndex, loading} = this.state;
     const nextStepDisabled = (store.groupName.error || loading)
@@ -309,6 +286,6 @@ const NewGroupPopup = React.createClass({
       </Dialog>
     )
   }
-})
+}
 
-export default NewGroupPopup
+export default connect( (store) => ({ store: store.workspace }))(NewGroupPopup)

@@ -13,7 +13,7 @@
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
-    "serve": "./node_modules/.bin/webpack-dev-server --evn=dev",
+    "serve": "./node_modules/.bin/webpack-dev-server --evn=dev --progress",
     "serve:dist": "node server.js --env=dist",
     "start": "npm run serve --",
     "test": "karma start",
@@ -76,6 +76,7 @@
     "react-inline-grid": "^0.5.3",
     "react-redux": "^4.4.5",
     "react-tap-event-plugin": "^1.0.0",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "redux-act": "^0.5.0"
   }
 }
