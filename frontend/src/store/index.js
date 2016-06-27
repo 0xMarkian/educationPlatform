@@ -19,6 +19,6 @@ export default (initialState) => {
       store.replaceReducer(nextRootReducer)
     })
   }
-  
+
   return store
 }

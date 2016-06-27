@@ -1,10 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import Remove from 'material-ui/svg-icons/content/backspace'
-import Person from 'material-ui/svg-icons/social/person'
 import {Dialog, TextField, FlatButton, RaisedButton} from 'material-ui'
-import {Step, Stepper, StepLabel, CircularProgress} from 'material-ui'
-import {DropDownMenu, MenuItem, List, ListItem} from 'material-ui'
 
 import StepProgress from './StepProgress'
 import GroupNameForm from './GroupNameForm'
@@ -49,16 +45,12 @@ class NewGroupPopup extends React.Component {
         onRequestClose={this.handleClose}
       >
         <StepProgress />
-        <br/>
-        {currentStep === 0 ? (
-          <GroupNameForm />
-        ) : (null)}
-        {currentStep === 1 ? (
-          <SubjectsForm />
-        ) : (null)}
-        {currentStep === 2 ? (
-          <StudentsForm />
-        ) : (null)}
+        {
+          currentStep === 0 ? <GroupNameForm /> :
+          currentStep === 1 ? <SubjectsForm /> :
+          currentStep === 2 ? <StudentsForm /> :
+          null
+        }
       </Dialog>
     )
   }

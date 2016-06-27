@@ -1,35 +1,23 @@
 {
-  "parser": "babel-eslint",
-  "plugins": [
-    "react"
-  ],
   "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
+    "ecmaFeatures":{
+      "experimentalObjectRestSpread":true
     }
   },
-  "env": {
-    "browser": true,
-    "amd": true,
-    "es6": true,
-    "node": true,
-    "mocha": true
-  },
+  "extends": "airbnb",
   "rules": {
-    "comma-dangle": 1,
-    "quotes": [ 1, "single" ],
-    "no-undef": 1,
-    "global-strict": 0,
-    "no-extra-semi": 1,
-    "no-underscore-dangle": 0,
-    "no-console": 1,
-    "no-unused-vars": 1,
-    "no-trailing-spaces": [1, { "skipBlankLines": true }],
-    "no-unreachable": 1,
-    "no-alert": 0,
-    "react/jsx-uses-react": 1,
-    "react/jsx-uses-vars": 1
+    "semi": [2, "never"],
+    "no-console": [2],
+    "no-confusing-arrow": [0],
+    "radix": [2, "as-needed"],
+    "max-len": ["error", {"code": 110}],
+    "func-names": [0],
+    "no-shadow":[0],
+    "no-nested-ternary":[0],
+    "react/prop-types":[0],
+    "react/no-multi-comp":[1],
+    "react/jsx-no-bind":[0],
+    "react/prefer-stateless-function":[0],
+    "no-multi-str":[0]
   }
 }

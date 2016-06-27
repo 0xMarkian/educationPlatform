@@ -24,7 +24,6 @@ export const fetchGroupName = (method, curator, name) =>
       body: JSON.stringify({ curator, name })
     })//.then(response => {response.json()})
       .then(response => {
-        response//ES-LINT
         setTimeout(() => {
           dispatch(setGroupId('576ea30282d3a8b863e5dc12'))
           dispatch(stopFetchingGroupName())
