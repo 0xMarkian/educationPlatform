@@ -28,22 +28,19 @@ export const fetchSubjectsList = () =>
 export const setChosenSubject = createAction('SET CHOSEN SUBJECT')
 export const applyChosenSubject = createAction('APPLY CHOSEN SUBJECT')
 export const stopFetchingSubjects = createAction('STOP FETCHING SUBJECTS')
-export const fetchChosenSubject = (subject, group) =>
+export const fetchChosenSubject = (method, subject, group) =>
   dispatch => {
-    console.log(JSON.stringify({ subject, group }))
-    dispatch(applyChosenSubject())
-    setTimeout(() => {
-      dispatch(setCourseId('576e93ddc1bc001b1c4ecb8d'))
-      dispatch(stopFetchingSubjects())
-      dispatch(setCurrentStep(2))
-    }, 1000)
-    //fetch('http://localhost:8080/courses', {
-    //  mode: 'cors',
-    //  method: 'post',
-    //  body: JSON.stringify({ subject, group })
-    //}).then(() => {
-    //     dispatch(stopFetchingSubjects())
-    //}).catch(exception => {
-    //     throw Error(exception)
-    //})
+    fetch('http://localhost:8080/courses', {
+      mode: 'cors',
+      method,
+      body: JSON.stringify({ subject, group })
+    }).then(response => {
+        console.log('res', response)
+         dispatch(applyChosenSubject())
+         dispatch(setCourseId('576e93ddc1bc001b1c4ecb8d'))
+         dispatch(stopFetchingSubjects())
+         dispatch(setCurrentStep(2))
+    }).catch(exception => {
+         throw Error(exception)
+    })
   }

@@ -9,7 +9,7 @@ export const groupNameInput = createAction('GROUP NAME INPUT')
 export const setGroupNameError = createAction('SET GROUP NAME ERROR')
 export const removeGroupNameError = createAction('REMOVE GROUP NAME ERROR')
 
-export const sendGroupName = createAction('APPLY GROUP NAME')
+export const sendGroupName = createAction('SEND GROUP NAME')
 export const stopFetchingGroupName = createAction('STOP FETCHING GROUP NAME')
 export const setCurrentStep = createAction('SET CURRENT STEP')
 
@@ -17,17 +17,18 @@ export const setCurrentStep = createAction('SET CURRENT STEP')
 export const fetchGroupName = (method, curator, name) =>
   dispatch => {
     dispatch(sendGroupName())
-    // console.log('Fetching: ', { method, curator, name })
     fetch('http://localhost:8080/groups', {
       method,
       mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({ curator, name })
-    })//.then(response => {response.json()})
+    }).then(response => response.json())
       .then(response => {
-        setTimeout(() => {
-          dispatch(setGroupId('576ea30282d3a8b863e5dc12'))
+          dispatch(setGroupId(response._id))
           dispatch(stopFetchingGroupName())
           dispatch(setCurrentStep(1))
-        }, 1000)
-      })
+      }).catch(exception => {throw new Error(exception)})
   }

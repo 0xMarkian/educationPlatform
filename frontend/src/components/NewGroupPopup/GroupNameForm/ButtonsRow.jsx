@@ -15,8 +15,8 @@ class ButtonsRow extends React.Component {
 
   nextStep() {
     const {fetchGroupName, groupStore, commonStore} = this.props,
-      { fetchMethod, value} = groupStore.groupName,
-      { curatorId } = commonStore
+          {fetchMethod, value} = groupStore.groupName,
+          {curatorId} = commonStore
 
     fetchGroupName(fetchMethod, curatorId, value)
   }

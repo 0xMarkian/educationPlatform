@@ -17,6 +17,7 @@ const initialState = {
   groupId: null,
   courseId: null,
   subjects: {
+    fetchMethod: 'POST',
     isFetching: false,
     chosen: null,
     list: [{}]
@@ -25,12 +26,12 @@ const initialState = {
 
 export default createReducer({
   [setCuratorId]: (state, payload) => ({
-    ...state,
-    curatorId: payload
+      ...state,
+      curatorId: payload
   }),
   [setGroupId]: (state, payload) => ({
-    ...state,
-    groupId: payload
+      ...state,
+      groupId: payload
   }),
   [setCourseId]: (state, payload) => ({
     ...state,
@@ -69,7 +70,8 @@ export default createReducer({
     ...state,
     subjects: {
       ...state.subjects,
-      isFetching: false
+      isFetching: false,
+      fetchMethod: 'PATCH'
     }
   })
 }, initialState)

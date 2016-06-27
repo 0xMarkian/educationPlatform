@@ -19,13 +19,8 @@ import {setCuratorId} from 'actions/common'
 
 const store = createStore()
 
-
-// TMP
+//TMP:
 store.dispatch(setCuratorId('576ea30282d3a8b863e5dc11'))
-import {setGroupId, setCourseId} from 'actions/common'
-store.dispatch(setGroupId('576ea30282d3a8b863e5dc12'))
-store.dispatch(setCourseId('5576e93ddc1bc001b1c4ecb8d'))
-
 
 class App extends React.Component {
   render() {

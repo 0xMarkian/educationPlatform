@@ -16,6 +16,7 @@ class InputRow extends React.Component {
 
   handleInput() {
     const newStudentName = this.refs['new-group-modal-students'].input.value
+    this.refs['new-group-modal-students'].input.value = null
 
     this.setState({
       students: [ ...this.state.students, newStudentName]
@@ -43,7 +44,7 @@ class InputRow extends React.Component {
           primary={true}
           onTouchTap={this.handleInput}
         />
-        <List style={{maxHeight: 200, overflowY: 'auto'}}>
+        <List style={{maxHeight: 150, overflowY: 'auto'}}>
           {this.state.students ? this.state.students.map((value, index) => (
             <ListItem
               key={index}

@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Dialog, TextField, FlatButton, RaisedButton} from 'material-ui'
+import {Dialog} from 'material-ui'
 
 import StepProgress from './StepProgress'
 import GroupNameForm from './GroupNameForm'
@@ -11,26 +11,6 @@ import StudentsForm from './StudentsForm'
 class NewGroupPopup extends React.Component {
   constructor(props){
     super(props)
-  }
-
-  handleRemoveStudent(index) {
-    this.setState({
-      students: [ ...this.state.students.slice(0, index), ...this.state.students.slice(index+1) ]
-    })
-  }
-
-  componentDidMount() {
-    this.setState({ loading: true })
-    fetch('http://localhost:8080/subjects', {
-      mode: 'cors',
-      method: 'GET'
-    }).then(res => res.json()).then(res => {
-      this.setState({
-        subjects: res,
-        chosenSubject: res[0],
-        loading: false
-      })
-    })
   }
 
   render() {

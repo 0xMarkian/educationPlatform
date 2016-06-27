@@ -19,8 +19,9 @@ class ButtonsRow extends React.Component {
   }
 
   nextStep() {
-    const {fetchChosenSubject, commonStore} = this.props
-    fetchChosenSubject(commonStore.subjects.chosen._id, commonStore.groupId)
+    const {fetchChosenSubject, commonStore} = this.props,
+          {fetchMethod, chosen} = commonStore.subjects
+    fetchChosenSubject(fetchMethod, chosen._id, commonStore.groupId)
   }
 
   render() {

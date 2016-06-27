@@ -14,13 +14,11 @@ class SubjectsForm extends React.Component {
     return(
       <div>
         <InputRow />
-        <br/><br/>
+        <br/>
         <ButtonsRow />
       </div>
     )
   }
 }
 
-export default connect( store => ({ commonStore: store.common }), {
-
-})(SubjectsForm)
+export default connect()(SubjectsForm)
