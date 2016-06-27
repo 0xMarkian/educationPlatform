@@ -9,21 +9,18 @@ import BasicCtrl from './index'
 class GroupCtrl extends BasicCtrl{
   createNewGroup(router){
     router.route('/').post( (req,res, next) => {
-      const { curatorId, name } = req.body
-      Teacher.findOne(function(err, teacher){
-        // const curator = teacher._id
+      const { curator, name } = req.body
 
-        Group.create({
-          curator,
-          name,
-        }, (err, newGroup ) => {
-          if(err) return next(err)
+      Group.create({
+        curator,
+        name,
+      }, (err, newGroup ) => {
+        if(err) return next(err)
 
-          res.status(201).json(newGroup)
-        })
+        res.status(201).json(newGroup)
       })
-
     })
+
   }
 }
 
