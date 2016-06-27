@@ -17,7 +17,7 @@ export default class BasicCtrl {
       this[prop](router)
     })
   }
-  getAll(router){
+  list(router){
     router.route('/').get((req, res, next) => {
       this.Model.find((err, entities) => {
         if (err) next(err)

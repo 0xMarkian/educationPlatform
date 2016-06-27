@@ -4,8 +4,9 @@ import { basicSchemaCtrls, requiredObjectId } from './utils'
 
 
 const student2CourseSchema = new mongoose.Schema({
-  student: requiredObjectId,
-  course: requiredObjectId,
+  group: requiredObjectId,
+  student: { ...requiredObjectId, ref:'Student'},
+  course: { ...requiredObjectId, ref: 'Course'},
 })
 
 student2CourseSchema.statics = basicSchemaCtrls

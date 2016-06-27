@@ -2,18 +2,17 @@ import url from 'url'
 import express from 'express'
 import mongoose from 'mongoose'
 
-import Score from '../models/score'
+import Student2Course from '../models/student2Course'
 
 import BasicCtrl from './index'
 
 
-class ScoreCtrl extends BasicCtrl {
+class Student2CourseCtrl extends BasicCtrl {
   create(router){
     router.post('/', function(req,res, next){
-      const { scoreValue, student, course } = req.body
+      const { student, course } = req.body
 
-      Score.create({
-        scoreValue,
+      Student2Course.create({
         student,
         course,
       }, (err, newEntity) => {
@@ -54,11 +53,11 @@ class ScoreCtrl extends BasicCtrl {
         .findById(_id)
         .populate(embed)
         .exec((err, entity) => {
-        if (err) next(err)
-        res.json(entity)
-      })
+          if (err) next(err)
+          res.json(entity)
+        })
     })
   }
 }
 
-export default new ScoreCtrl(Score).getRouter()
+export default new Student2CourseCtrl(Student2Course).getRouter()

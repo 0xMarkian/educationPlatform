@@ -8,7 +8,7 @@ import Student from '../src/models/student'
 import Group from '../src/models/group'
 import Course from '../src/models/course'
 import Score from '../src/models/score'
-import StudentToCourse from '../src/models/student2Course'
+import Student2Course from '../src/models/student2Course'
 
 const mode = 'dev'
 
@@ -48,11 +48,11 @@ Subject.create( {name:generateName('Math')}, (err, subject) => {
           handleError(err)
           const courseId = course._id
           
-          StudentToCourse.create( {student, course,}, (err) => {
+          Student2Course.create( {group: groupId, student: studentId, course: courseId,}, (err) => {
             handleError(err)
           })
 
-          Score.create({ scoreValue: 10, student:studentId, course}, (err) => {
+          Score.create({ scoreValue: 10, group: groupId, student:studentId, course}, (err) => {
             handleError(err)
           })
         })

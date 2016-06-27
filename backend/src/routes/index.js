@@ -4,6 +4,7 @@ import groupRoutes from '../controllers/group'
 import studentRoutes from '../controllers/student'
 import courseRoutes from '../controllers/course'
 import scoreRoutes from '../controllers/score'
+import student2CourseRoutes from '../controllers/student2Course'
 import subjectRoutes from '../controllers/subject'
 
 
@@ -20,6 +21,7 @@ router.use('/groups', groupRoutes)
 router.use('/students', studentRoutes)
 router.use('/courses', courseRoutes)
 router.use('/scores', scoreRoutes)
+router.use('/students2Courses', student2CourseRoutes)
 router.use('/subjects', subjectRoutes)
 
 export default router

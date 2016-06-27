@@ -2,10 +2,8 @@ import mongoose from 'mongoose'
 
 import { basicSchemaCtrls, requiredObjectId } from './utils'
 
-const Schema = mongoose.Schema,
-  ObjectId = Schema.Types.ObjectId
 
-const groupSchema = new Schema({
+const groupSchema = new mongoose.Schema({
   name: String,
   curator: requiredObjectId,
 })
