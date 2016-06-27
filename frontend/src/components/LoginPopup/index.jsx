@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Dialog, TextField, RaisedButton} from 'material-ui'
+import {Dialog, RaisedButton} from 'material-ui'
 
 import Username from './Username'
 import Password from './Password'

@@ -4,7 +4,7 @@ import {
   fieldInput,
   setFieldError,
   removeFieldError
-} from '../actions/login'
+} from 'actions/login'
 
 
 const initialState = {

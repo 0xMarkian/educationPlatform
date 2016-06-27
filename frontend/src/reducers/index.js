@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux'
+import common from './common'
 import login from './login'
-import workspace from './workspace'
+import newGroupPopup from './newGroupPopup'
 
 
 const rootReducer = combineReducers({
+  common,
   login,
-  workspace
+  newGroupPopup
 })
 
 export default rootReducer
