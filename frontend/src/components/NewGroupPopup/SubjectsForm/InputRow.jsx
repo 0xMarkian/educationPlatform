@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {DropDownMenu, MenuItem} from 'material-ui'
 
 import {
-  fetchSubjectsList,
+  fetchSubjects,
   setChosenSubject
 } from 'actions/common'
 
@@ -20,8 +20,8 @@ class InputRow extends React.Component {
   }
 
   componentWillMount() {
-    const {fetchSubjectsList} = this.props
-    fetchSubjectsList()
+    const {fetchSubjects} = this.props
+    fetchSubjects()
   }
 
   render() {
@@ -54,6 +54,6 @@ class InputRow extends React.Component {
 }
 
 export default connect(store => ({ commonStore: store.common }), {
-  fetchSubjectsList,
+  fetchSubjects,
   setChosenSubject
 })(InputRow)

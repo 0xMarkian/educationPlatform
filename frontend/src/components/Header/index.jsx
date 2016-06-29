@@ -8,10 +8,6 @@ import {
 
 
 class TopToolbar extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const {showNewGroupPopup} = this.props
 

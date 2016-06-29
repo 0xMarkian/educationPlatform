@@ -13,13 +13,13 @@ import createStore from '../store'
 import LoginPopup from './LoginPopup'
 import NewGroupPopup from './NewGroupPopup'
 import TopToolbar from './Header/index'
-
-import {setCuratorId} from 'actions/common'
+import ScoresTable from './ScoresTable/index.jsx'
 
 
 const store = createStore()
 
 //TMP:
+import {setCuratorId} from 'actions/common'
 store.dispatch(setCuratorId('576ea30282d3a8b863e5dc11'))
 
 class App extends React.Component {
@@ -31,6 +31,7 @@ class App extends React.Component {
             <LoginPopup />
             <NewGroupPopup />
             <TopToolbar />
+            <ScoresTable />
           </main>
         </MuiThemeProvider>
       </Provider>

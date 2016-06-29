@@ -9,7 +9,7 @@ export const setCourseId = createAction('SET COURSE ID')
 
 export const requestSubjectsList = createAction('REQUEST SUBJECTS LIST')
 export const receiveSubjectsList = createAction('RECEIVE SUBJECTS LIST')
-export const fetchSubjectsList = () =>
+export const fetchSubjects = (parentResolver) =>
   dispatch => {
     dispatch(requestSubjectsList())
     fetch('http://localhost:8080/subjects', {
@@ -19,6 +19,8 @@ export const fetchSubjectsList = () =>
       .then(response => {
          dispatch(receiveSubjectsList(response))
          dispatch(setChosenSubject(response[0]))
+    }).then(() =>{
+         parentResolver ? parentResolver() : null
     }).catch(exception => {
          throw Error(exception)
     })
@@ -35,7 +37,6 @@ export const fetchChosenSubject = (method, subject, group) =>
       method,
       body: JSON.stringify({ subject, group })
     }).then(response => {
-        console.log('res', response)
          dispatch(applyChosenSubject())
          dispatch(setCourseId('576e93ddc1bc001b1c4ecb8d'))
          dispatch(stopFetchingSubjects())
@@ -43,4 +44,47 @@ export const fetchChosenSubject = (method, subject, group) =>
     }).catch(exception => {
          throw Error(exception)
     })
+  }
+
+export const requestStudents = createAction('REQUEST STUDENTS')
+export const receiveStudents = createAction('RECEIVE STUDENTS')
+export const fetchStudents = (parentResolver) =>
+  dispatch => {
+    dispatch(requestStudents())
+    fetch('http://localhost:8080/students', {
+      mode: 'cors',
+      method: 'GET'
+    }).then(response => response.json())
+      .then(response => {
+        dispatch(receiveStudents(response))
+    }).then(() => {
+        parentResolver ? parentResolver() : null
+    }).catch(exception => {
+      throw Error(exception)
+    })
+  }
+
+export const requestScores = createAction('REQUEST SCORES')
+export const receiveScores = createAction('RECEIVE SCORES')
+export const fetchScores = (parentResolver) =>
+  dispatch => {
+    dispatch(requestScores())
+    fetch('http://localhost:8080/scores?embed=student&embed=course', {
+      mode: 'cors',
+      method: 'GET'
+    }).then(response => response.json())
+      .then(response => {
+        dispatch(receiveScores(response))
+    }).then(() => {
+        parentResolver ? parentResolver() : null
+    }).catch(exception => {
+      throw Error(exception)
+    })
+  }
+
+export const fetchLists = () =>
+  dispatch => {
+    dispatch(fetchScores())
+    dispatch(fetchSubjects())
+    dispatch(fetchStudents())
   }
