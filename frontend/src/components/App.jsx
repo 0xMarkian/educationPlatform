@@ -14,12 +14,12 @@ import LoginPopup from './LoginPopup'
 import NewGroupPopup from './NewGroupPopup'
 import TopToolbar from './Header/index'
 import ScoresTable from './ScoresTable/index.jsx'
-import {setCuratorId} from 'actions/common'
 
 
 const store = createStore()
 
 //TMP:
+import {setCuratorId} from 'actions/common'
 store.dispatch(setCuratorId('576ea30282d3a8b863e5dc11'))
 
 class App extends React.Component {

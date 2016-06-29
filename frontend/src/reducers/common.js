@@ -13,7 +13,7 @@ import {
   requestScores,
   receiveScores,
   requestStudents,
-  receiveStudents
+  receiveStudents,
 } from 'actions/common'
 
 const initialState = {

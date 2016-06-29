@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
+    "fixed-data-table": "^0.6.1",
     "material-ui": "^0.15.0",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",
