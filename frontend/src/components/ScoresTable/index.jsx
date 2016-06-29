@@ -1,6 +1,7 @@
-import 'fixed-data-table/dist/fixed-data-table.css'
 import React from 'react'
 import {connect} from 'react-redux'
+
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui'
 
 import {
   fetchSubjects,

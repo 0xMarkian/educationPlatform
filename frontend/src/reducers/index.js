@@ -1,12 +1,12 @@
 import {combineReducers} from 'redux'
 import common from './common'
-import login from './login'
+import user from './user'
 import newGroupPopup from './newGroupPopup'
 
 
 const rootReducer = combineReducers({
   common,
-  login,
+  user,
   newGroupPopup
 })
 

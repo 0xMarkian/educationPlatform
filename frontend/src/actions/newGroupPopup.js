@@ -14,7 +14,7 @@ export const stopFetchingGroupName = createAction('STOP FETCHING GROUP NAME')
 export const setCurrentStep = createAction('SET CURRENT STEP')
 
 
-export const fetchGroupName = (method, curator, name) =>
+export const createGroup = (method, curator, name) =>
   dispatch => {
     dispatch(sendGroupName())
     fetch('http://localhost:8080/groups', {

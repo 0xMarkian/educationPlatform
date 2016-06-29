@@ -4,7 +4,6 @@ import {createReducer} from 'redux-act'
 import {
   setCuratorId,
   setGroupId,
-  setCourseId,
   requestSubjectsList,
   receiveSubjectsList,
   setChosenSubject,
@@ -17,9 +16,6 @@ import {
 } from 'actions/common'
 
 const initialState = {
-  curatorId: null,
-  groupId: null,
-  courseId: null,
   subjects: {
     fetchMethod: 'POST',
     isFetching: false,
@@ -44,10 +40,6 @@ export default createReducer({
   [setGroupId]: (state, payload) => ({
       ...state,
       groupId: payload
-  }),
-  [setCourseId]: (state, payload) => ({
-    ...state,
-    courseId: payload
   }),
 
   [requestSubjectsList]: state => ({

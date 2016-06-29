@@ -6,7 +6,7 @@ import {
   fieldInput,
   setFieldError,
   removeFieldError
-} from '../../actions/login'
+} from '../../actions/user'
 
 class Username extends React.Component {
   constructor(props) {

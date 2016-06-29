@@ -38,7 +38,6 @@ export const fetchChosenSubject = (method, subject, group) =>
       body: JSON.stringify({ subject, group })
     }).then(response => {
          dispatch(applyChosenSubject())
-         dispatch(setCourseId('576e93ddc1bc001b1c4ecb8d'))
          dispatch(stopFetchingSubjects())
          dispatch(setCurrentStep(2))
     }).catch(exception => {

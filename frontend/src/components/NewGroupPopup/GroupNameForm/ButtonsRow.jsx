@@ -4,7 +4,7 @@ import {FlatButton, RaisedButton, CircularProgress} from 'material-ui'
 
 import {
   hideNewGroupPopup,
-  fetchGroupName
+  createGroup
 } from 'actions/newGroupPopup'
 
 
@@ -21,10 +21,10 @@ class ButtonsRow extends React.Component {
   }
 
   nextStep() {
-    const {fetchGroupName, groupStore, commonStore} = this.props,
+    const {createGroup, groupStore, commonStore} = this.props,
           {fetchMethod, value} = groupStore.groupName,
           {curatorId} = commonStore
-    fetchGroupName(fetchMethod, curatorId, value)
+    createGroup(fetchMethod, curatorId, value)
   }
 
   render() {
@@ -57,5 +57,5 @@ export default connect( store => ({
   commonStore: store.common
 }), {
   hideNewGroupPopup,
-  fetchGroupName
+  createGroup
 })(ButtonsRow)

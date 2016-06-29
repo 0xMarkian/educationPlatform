@@ -7,8 +7,8 @@ import {fetchSubjects} from 'actions/common'
 
 class HeaderFields extends React.Component {
   componentWillMount() {
-    const {fetchSubjects, commonStore} = this.props,
-          {list} = commonStore.subjects
+    const { fetchSubjects, commonStore } = this.props,
+          { list } = commonStore.subjects
 
     if(list.length === 1) fetchSubjects()
   }
@@ -20,11 +20,11 @@ class HeaderFields extends React.Component {
       <TableRow>
         <TableHeaderColumn>Name</TableHeaderColumn>
         {
-          list.map((value, index, array) => {
+          list.map( (value, i) => {
             return (
               <TableHeaderColumn
                 tooltip={value.name}
-                key={index}
+                key={i}
               >
                 {value.name ? value.name.slice(0, 10) + '...' : null}
               </TableHeaderColumn>

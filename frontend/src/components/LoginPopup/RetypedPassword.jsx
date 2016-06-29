@@ -6,7 +6,7 @@ import {
   fieldInput,
   setFieldError,
   removeFieldError
-} from '../../actions/login'
+} from '../../actions/user'
 
 class RetypedPassword extends React.Component {
   constructor(props) {
