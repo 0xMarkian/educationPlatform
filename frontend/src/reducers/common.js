@@ -9,7 +9,11 @@ import {
   receiveSubjectsList,
   setChosenSubject,
   applyChosenSubject,
-  stopFetchingSubjects
+  stopFetchingSubjects,
+  requestScores,
+  receiveScores,
+  requestStudents,
+  receiveStudents
 } from 'actions/common'
 
 const initialState = {
@@ -20,6 +24,14 @@ const initialState = {
     fetchMethod: 'POST',
     isFetching: false,
     chosen: null,
+    list: [{}]
+  },
+  scores: {
+    isFetching: false,
+    list: [{}]
+  },
+  students: {
+    isFetching: false,
     list: [{}]
   }
 }
@@ -37,6 +49,7 @@ export default createReducer({
     ...state,
     courseId: payload
   }),
+
   [requestSubjectsList]: state => ({
     ...state,
     subjects: {
@@ -52,6 +65,7 @@ export default createReducer({
       list: payload
     }
   }),
+
   [setChosenSubject]: (state, payload) => ({
     ...state,
     subjects: {
@@ -72,6 +86,38 @@ export default createReducer({
       ...state.subjects,
       isFetching: false,
       fetchMethod: 'PATCH'
+    }
+  }),
+
+  [requestStudents]: state => ({
+    ...state,
+    students: {
+      ...state.students,
+      isFetching: true
+    }
+  }),
+  [receiveStudents]: (state, payload) => ({
+    ...state,
+    students: {
+      ...state.students,
+      isFetching: false,
+      list: payload
+    }
+  }),
+
+  [requestScores]: state => ({
+    ...state,
+    scores: {
+      ...state.scores,
+      isFetching: true
+    }
+  }),
+  [receiveScores]: (state, payload) => ({
+    ...state,
+    scores: {
+      ...state.scores,
+      isFetching: false,
+      list: payload
     }
   })
 }, initialState)
