@@ -2,7 +2,6 @@ import express from 'express'
 import mongoose from 'mongoose'
 
 import Group from '../models/group'
-import Teacher from '../models/teacher'
 
 import BasicCtrl from './index'
 

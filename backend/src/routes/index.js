@@ -6,16 +6,15 @@ import courseRoutes from '../controllers/course'
 import scoreRoutes from '../controllers/score'
 import student2CourseRoutes from '../controllers/student2Course'
 import subjectRoutes from '../controllers/subject'
+import userRoutes from '../controllers/user'
 
+import setupRoute from './setup'
+
+import config from '../config'
+import jwt from 'jsonwebtoken'
+import User from '../models/user'
 
 const router = express.Router()
-
-router.route('/').get( function(req, res, next){
-  res.json({
-    text: 'this is root'
-  })
-  next()
-})
 
 router.use('/groups', groupRoutes)
 router.use('/students', studentRoutes)
@@ -23,5 +22,8 @@ router.use('/courses', courseRoutes)
 router.use('/scores', scoreRoutes)
 router.use('/students2Courses', student2CourseRoutes)
 router.use('/subjects', subjectRoutes)
+router.use('/users', userRoutes)
+
+router.use('/setup', setupRoute)
 
 export default router

@@ -8,12 +8,16 @@ import BasicCtrl from './index'
 class StudentCtrl extends BasicCtrl{
   create(router){
     router.route('/').post( (req,res) => {
-      const { name, groupId } = req.body
+      const { name, group } = req.body
 
       Student.create({
         name,
-        groupId,
-      }, (err, newStudent) => res.json(newStudent) )
+        group,
+      }, (err, newEntity) => {
+        if(err) return next(err)
+
+        res.json(newEntity)
+      })
 
     })
   }

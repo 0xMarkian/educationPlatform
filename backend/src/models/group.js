@@ -5,7 +5,6 @@ import { basicSchemaCtrls, requiredObjectId } from './utils'
 
 const groupSchema = new mongoose.Schema({
   name: String,
-  curator: requiredObjectId,
 })
 
 groupSchema.statics = basicSchemaCtrls

@@ -10,11 +10,13 @@ import BasicCtrl from './index'
 class Student2CourseCtrl extends BasicCtrl {
   create(router){
     router.post('/', function(req,res, next){
-      const { student, course } = req.body
+      const { student, course } = req.body,
+        { group } = req.user._doc
 
       Student2Course.create({
         student,
         course,
+        group
       }, (err, newEntity) => {
         if(err) return next(err)
 
@@ -28,7 +30,8 @@ class Student2CourseCtrl extends BasicCtrl {
     router.route('/').get((req, res, next) => {
       // To embed resource representatio(show not only ref to id, but external resources too) use API with query.
       // For example /?embed=student&embed=course
-      const { embed ='', group } = req.query
+      const { embed ='' } = req.query,
+        { group } = req.user._doc
 
       this.Model
         .find(group ? {group} : '')
