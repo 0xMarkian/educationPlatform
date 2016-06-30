@@ -2,12 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {TextField} from 'material-ui'
 
-import {
-  groupNameInput,
-  setGroupNameError,
-  removeGroupNameError
-} from 'actions/newGroupPopup'
-
 
 class InputRow extends React.Component {
   constructor(props) {
@@ -24,24 +18,26 @@ class InputRow extends React.Component {
   handleInput(event) {
     const inputValue = event.target.value
     const {groupNamePattern, errorMessages} = this.staticData
-    const {groupNameInput, setGroupNameError, removeGroupNameError} = this.props
+    const {updateGroupNameInputData} = this.props
 
-    groupNameInput(inputValue)
-
-    if(!inputValue) setGroupNameError(null)
-    if(!groupNamePattern.test(inputValue)) setGroupNameError(errorMessages.invalidGroupName)
-    else removeGroupNameError()
+    if(!inputValue){
+      updateGroupNameInputData(inputValue, true, null)
+      return
+    }
+    if(!groupNamePattern.test(inputValue))
+      updateGroupNameInputData(inputValue, true, errorMessages.invalidGroupName)
+    else updateGroupNameInputData(inputValue, false, null)
   }
 
   render() {
-    const {groupStore} = this.props
+    const {inputData} = this.props
 
     return(
       <div>
         <label htmlFor='new-group-modal-name'>Group name:</label><br/>
         <TextField
-          defaultValue={groupStore.groupName.value}
-          errorText={groupStore.groupName.errorText}
+          defaultValue={inputData.value}
+          errorText={inputData.errorText}
           ref='new-group-modal-name'
           id='new-group-modal-name'
           hintText='Group name'
@@ -53,8 +49,4 @@ class InputRow extends React.Component {
   }
 }
 
-export default connect( store => ({ groupStore: store.newGroupPopup }), {
-  groupNameInput,
-  setGroupNameError,
-  removeGroupNameError
-})(InputRow)
+export default connect()(InputRow)

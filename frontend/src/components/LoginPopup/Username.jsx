@@ -2,11 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {TextField} from 'material-ui'
 
-import {
-  fieldInput,
-  setFieldError,
-  removeFieldError
-} from '../../actions/user'
 
 class Username extends React.Component {
   constructor(props) {
@@ -22,29 +17,28 @@ class Username extends React.Component {
   }
 
   handleInput(event) {
-    const {fieldInput, setFieldError, removeFieldError} = this.props
+    const inputValue = event.target.value
+    const {utils} = this.props
     const {usernamePattern, errorMessages} = this.staticData
-    const usernameInputValue = event.target.value
 
-    fieldInput({ name: 'username', value: usernameInputValue })
-    removeFieldError({ name: 'username' })
+    utils.setInputValue('username', inputValue)
 
-    if(!usernameInputValue){
-      setFieldError({ name: 'username', errorText: null })
+    if(!inputValue){
+      utils.setInputError('username', null)
       return
     }
-    if(!usernamePattern.test(usernameInputValue))
-      setFieldError({ name: 'username', errorText: errorMessages.invalidUsername })
+    if(!usernamePattern.test(inputValue)) utils.setInputError('username', errorMessages.invalidUsername)
+    else utils.removeInputError('username')
   }
 
   render() {
-    const {store} = this.props
+    const {inputsData} = this.props
 
     return(
       <div>
         <label htmlFor='login-modal-username'>Username:</label><br/>
         <TextField
-          errorText={store.username.errorText}
+          errorText={inputsData.username.errorText}
           id='login-modal-username'
           hintText='username'
           type='text'
@@ -55,8 +49,4 @@ class Username extends React.Component {
   }
 }
 
-export default connect( (store) => ({ store: store.login }), {
-  fieldInput,
-  setFieldError,
-  removeFieldError
-})(Username)
+export default connect()(Username)

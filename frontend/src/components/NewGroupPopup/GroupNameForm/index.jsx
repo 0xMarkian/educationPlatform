@@ -9,8 +9,14 @@ class GroupNameInput extends React.Component {
   render() {
     return(
       <div>
-        <InputRow />
-        <ButtonsRow />
+        <InputRow
+          inputData={this.props.inputData}
+          updateGroupNameInputData={this.props.updateGroupNameInputData}
+        />
+        <ButtonsRow
+          inputData={this.props.inputData}
+          handleClose={this.props.handleClose}
+        />
       </div>
     )
   }

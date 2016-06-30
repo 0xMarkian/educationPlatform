@@ -2,13 +2,13 @@ import { createReducer } from 'redux-act'
 
 import {
   requestCreateGroup,
-  receiveCreatedGroup,
+  receiveCreatedGroup
 } from 'actions/group'
 
 
 const initialState = {
   groupData: {},
-  isLoading: false,
+  isLoading: false
 }
 
 export default createReducer({
@@ -20,5 +20,5 @@ export default createReducer({
     ...state,
     isLoading: false,
     groupData: payload,
-  }),
+  })
 }, initialState)

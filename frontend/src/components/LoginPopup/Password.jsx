@@ -2,11 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {TextField} from 'material-ui'
 
-import {
-  fieldInput,
-  setFieldError,
-  removeFieldError
-} from '../../actions/user'
 
 class Password extends React.Component {
   constructor(props) {
@@ -15,40 +10,41 @@ class Password extends React.Component {
       passwordMinLength: 8,
       errorMessages: {
         shortPassword: 'It must contain at least 8 characters',
-        differentPasswords: 'Passwords do not match'
       }
     }
     this.handleInput = this.handleInput.bind(this)
   }
 
   handleInput(event) {
-    const {store, fieldInput, setFieldError, removeFieldError} = this.props
+    const {inputsData, utils, differentPasswordsError} = this.props
     const {passwordMinLength, errorMessages} = this.staticData
-    const passwordInputValue = event.target.value
+    const inputValue = event.target.value
 
-    fieldInput({ name: 'password', value: passwordInputValue })
-
-    if(!passwordInputValue){
-      setFieldError({ name: 'password', errorText: null })
+    if(!inputValue){
+      utils.setInputError('password', null)
       return
     }
-    if(passwordInputValue.length >= passwordMinLength) removeFieldError({ name: 'password' })
-    else setFieldError({ name: 'password', errorText: errorMessages.shortPassword })
-    if(passwordInputValue !== store.retypedPassword.value) { // Passwords don't match...
-      if(store.retypedPassword.value) { // ... and retyped password is not empty
-        setFieldError({ name: 'retypedPassword', errorText: errorMessages.differentPasswords })
+
+    if(inputValue.length >= passwordMinLength) utils.removeInputError('password')
+    else utils.setInputError('password', errorMessages.shortPassword)
+
+    if(inputValue !== inputsData.retypedPassword.value) { // Passwords don't match...
+      if(inputsData.retypedPassword.value) { // ... and retyped password is not empty
+        setInputError('retypedPassword', differentPasswordsError)
       }
-    } else removeFieldError({ name: 'retypedPassword' })
+    }
+    else utils.removeInputError('retypedPassword')
+    setTimeout(()=>{utils.setInputValue('password', inputValue)}, 0)
   }
 
   render() {
-    const {store} = this.props
+    const {inputsData} = this.props
 
     return(
       <div>
         <label htmlFor='login-modal-password'>Password:</label><br/>
         <TextField
-          errorText={store.password.errorText}
+          errorText={inputsData.password.errorText}
           id='login-modal-password'
           hintText='password'
           type='password'
@@ -59,8 +55,4 @@ class Password extends React.Component {
   }
 }
 
-export default connect( (store) => ({ store: store.login }), {
-  fieldInput,
-  setFieldError,
-  removeFieldError
-})(Password)
+export default connect()(Password)

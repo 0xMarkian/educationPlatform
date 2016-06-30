@@ -1,50 +1,42 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {FlatButton, RaisedButton, CircularProgress} from 'material-ui'
+import { connect } from 'react-redux'
+import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
-import {
-  hideNewGroupPopup,
-  createGroup
-} from 'actions/newGroupPopup'
+import { createGroup } from 'actions/group'
 
 
 class ButtonsRow extends React.Component {
   constructor(props) {
     super(props)
-    this.prevStep = this.prevStep.bind(this)
     this.nextStep = this.nextStep.bind(this)
   }
 
-  prevStep() {
-    const {hideNewGroupPopup} = this.props
-    hideNewGroupPopup()
-  }
-
   nextStep() {
-    const {createGroup, groupStore, commonStore} = this.props,
-          {fetchMethod, value} = groupStore.groupName,
-          {curatorId} = commonStore
-    createGroup(fetchMethod, curatorId, value)
+    const {createGroup, inputData} = this.props
+    const groupName = inputData.value
+
+    createGroup(groupName)
   }
 
   render() {
-    const {groupName} = this.props.groupStore
-    const {isFetching} = groupName
+    console.log(this.props)
+    const {isLoading} = this.props.groupState
+    const {inputData} = this.props
 
     return(
       <div>
         <FlatButton
           label='Back'
           style={{marginRight: 12}}
-          onTouchTap={this.prevStep}
+          onClick={this.props.handleClose}
         />
         <RaisedButton
           primary={true}
-          disabled={groupName.error || isFetching}
-          onTouchTap={this.nextStep}
+          disabled={inputData.error || isLoading}
+          onClick={this.nextStep}
           label='Next'
         />
-        {isFetching ? (
+        {isLoading ? (
           <CircularProgress size={0.5}/>
         ) : (null)}
       </div>
@@ -52,10 +44,4 @@ class ButtonsRow extends React.Component {
   }
 }
 
-export default connect( store => ({
-  groupStore: store.newGroupPopup,
-  commonStore: store.common
-}), {
-  hideNewGroupPopup,
-  createGroup
-})(ButtonsRow)
+export default connect( store => ({ groupState: store.group }), { createGroup })(ButtonsRow)
