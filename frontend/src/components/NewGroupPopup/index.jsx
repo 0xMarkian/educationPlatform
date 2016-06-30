@@ -45,7 +45,6 @@ class NewGroupPopup extends React.Component {
       ...this.state,
       popupOpen: false
     })
-    alert('asd')
   }
 
   render() {
@@ -55,7 +54,7 @@ class NewGroupPopup extends React.Component {
       <Dialog
         title='Create a new group'
         modal={true}
-        open={true/*popupOpen*/}
+        open={false/*popupOpen*/}
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >

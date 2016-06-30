@@ -16,27 +16,25 @@ class Password extends React.Component {
   }
 
   handleInput(event) {
-    const {inputsData, utils, differentPasswordsError} = this.props
+    const {inputsData, updateInputData, differentPasswordsError} = this.props
     const {passwordMinLength, errorMessages} = this.staticData
     const inputValue = event.target.value
 
     if(!inputValue){
-      utils.setInputError('password', null)
+      updateInputData('password', inputValue, true, null)
       return
     }
 
-    if(inputValue.length >= passwordMinLength) utils.removeInputError('password')
-    else utils.setInputError('password', errorMessages.shortPassword)
+    if(inputValue.length >= passwordMinLength) updateInputData('password', inputValue, false, null)
+    else updateInputData('password', inputValue, true, errorMessages.shortPassword)
 
     if(inputValue !== inputsData.retypedPassword.value) { // Passwords don't match...
       if(inputsData.retypedPassword.value) { // ... and retyped password is not empty
-        setInputError('retypedPassword', differentPasswordsError)
+        updateInputData('retypedPassword', undefined, true, differentPasswordsError)
       }
     }
-    else utils.removeInputError('retypedPassword')
-    setTimeout(()=>{utils.setInputValue('password', inputValue)}, 0)
-  }
-
+    else updateInputData('retypedPassword', undefined, false, null)
+}
   render() {
     const {inputsData} = this.props
 

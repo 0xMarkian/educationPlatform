@@ -18,17 +18,17 @@ class Username extends React.Component {
 
   handleInput(event) {
     const inputValue = event.target.value
-    const {utils} = this.props
+    const {updateInputData} = this.props
     const {usernamePattern, errorMessages} = this.staticData
 
-    utils.setInputValue('username', inputValue)
+    updateInputData('username', inputValue, false, null)
 
     if(!inputValue){
-      utils.setInputError('username', null)
+      updateInputData('username', inputValue, true, null)
       return
     }
-    if(!usernamePattern.test(inputValue)) utils.setInputError('username', errorMessages.invalidUsername)
-    else utils.removeInputError('username')
+    if(!usernamePattern.test(inputValue)) updateInputData('username', inputValue, true, errorMessages.invalidUsername)
+    else updateInputData('username', inputValue, false, null)
   }
 
   render() {

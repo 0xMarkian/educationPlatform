@@ -10,15 +10,15 @@ class RetypedPassword extends React.Component {
   }
 
   handleInput(event) {
-    const {inputsData, utils, differentPasswordsError} = this.props
+    const {inputsData, updateInputData, differentPasswordsError} = this.props
     const inputValue = event.target.value
 
     if(!inputValue){
-      utils.setInputError('retypedPassword', null)
+      updateInputData('retypedPassword', inputValue, true, null)
       return
     }
-    if(inputsData.password.value === inputValue) utils.removeInputError('retypedPassword')
-    else utils.setInputError('retypedPassword', differentPasswordsError)
+    if(inputsData.password.value === inputValue) updateInputData('retypedPassword', inputValue, false, null)
+    else updateInputData('retypedPassword', inputValue, true, differentPasswordsError)
   }
 
   render() {

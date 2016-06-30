@@ -23,47 +23,22 @@ class Popup extends React.Component{
       }
     }
     this.handleLogin = this.handleLogin.bind(this)
-    this.setInputValue = this.setInputValue.bind(this)
-    this.setInputError = this.setInputError.bind(this)
-    this.removeInputError = this.removeInputError.bind(this)
+    this.updateInputData = this.updateInputData.bind(this)
   }
 
-  setInputValue(input, value) {
+  updateInputData(input, value, error, errorText) {
+    if(!input) return
+
+    value = value === undefined ? this.state.inputsData[input].value : value
+    error = error === undefined ? this.state.inputsData[input].error : error
+    errorText = errorText === undefined ? this.state.inputsData[input].errorText : errorText
+
     this.setState({
       ...this.state,
       inputsData: {
         ...this.state.inputsData,
         [input]: {
-          ...this.state.inputsData[input],
-          value
-        }
-      }
-    })
-  }
-
-  setInputError(input, errorText) {
-    this.setState({
-      ...this.state,
-      inputsData: {
-        ...this.state.inputsData,
-        [input]: {
-          ...this.state.inputsData[input],
-          error: true,
-          errorText
-        }
-      }
-    })
-  }
-
-  removeInputError(input) {
-    this.setState({
-      ...this.state,
-      inputsData: {
-        ...this.state.inputsData,
-        [input]: {
-          ...this.state.inputsData[input],
-          error: false,
-          errorText: null
+          value, error, errorText
         }
       }
     })
@@ -76,11 +51,6 @@ class Popup extends React.Component{
   render() {
     const {inputsData} = this.state
     const {store} = this.props
-    const utils = {
-      setInputValue: this.setInputValue,
-      setInputError: this.setInputError,
-      removeInputError: this.removeInputError
-    }
     const buttonEnabled = (!this.state.inputsData.username.error &&      // If none of the inputs
                            !this.state.inputsData.password.error &&      // is filed in a wrong way,
                            !this.state.inputsData.retypedPassword.error) // the button will not be disabled
@@ -89,21 +59,21 @@ class Popup extends React.Component{
       <Dialog
         title='Sign up in a second'
         modal={false}
-        open={/*this.state.popupOpen*/false}
+        open={/*this.state.popupOpen*/true}
         titleClassName='login-modal-title'
         contentStyle={{ width: '40%' }}
       >
         <Username
-          utils={utils}
+          updateInputData={this.updateInputData}
           inputsData={inputsData}
         />
         <Password
-          utils={utils}
+          updateInputData={this.updateInputData}
           inputsData={inputsData}
           differentPasswordsError={this.staticData.messages.differentPasswords}
         />
         <RetypedPassword
-          utils={utils}
+          updateInputData={this.updateInputData}
           inputsData={inputsData}
           differentPasswordsError={this.staticData.messages.differentPasswords}
         />
