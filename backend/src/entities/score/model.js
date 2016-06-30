@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { basicSchemaCtrls, requiredObjectId } from './utils'
+import { requiredObjectId } from '../../lib/model'
 
 const scoreSchema = new mongoose.Schema({
   scoreValue: { type: Number, required: true},
@@ -9,6 +9,5 @@ const scoreSchema = new mongoose.Schema({
   course: { ...requiredObjectId, ref: 'Course'},
 })
 
-scoreSchema.statics = basicSchemaCtrls
 
 export default mongoose.model('Score', scoreSchema)

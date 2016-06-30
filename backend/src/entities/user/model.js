@@ -1,6 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
 
-import { basicSchemaCtrls, uniqueName, requiredObjectId } from './utils'
+import { uniqueName, requiredObjectId } from '../../lib/model'
 
 
 const userSchema = new mongoose.Schema({
@@ -8,8 +8,6 @@ const userSchema = new mongoose.Schema({
   password: String,
   group: { type: Schema.Types.ObjectId, default: null},
 })
-
-userSchema.statics = basicSchemaCtrls
 
 
 export default mongoose.model('User', userSchema)

@@ -3,7 +3,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const backendRoot = path.join(__dirname, '../../')
-const srcPath = path.join(backendRoot, './src/')
+const srcPath = path.join(backendRoot, './src/server')
 
 function configureExternals(){
   const nodeModules = {};

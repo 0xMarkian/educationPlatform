@@ -1,12 +1,10 @@
 import mongoose from 'mongoose'
 
-import { basicSchemaCtrls, uniqueName } from './utils'
+import { uniqueName } from '../../lib/model'
 
 
 const subjectSchema = new mongoose.Schema({
   name: uniqueName,
 })
-
-subjectSchema.statics = basicSchemaCtrls
 
 export default mongoose.model('Subject', subjectSchema)

@@ -2,43 +2,62 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import expressJWT from 'express-jwt'
-
 import config from './config'
 
-import routes from './routes'
-import mongoose from 'mongoose'
+import courseRoutes from './entities/course'
+import groupRoutes from './entities/group'
+import scoreRoutes from './entities/score'
+import studentRoutes from './entities/student'
+import student2CourseRoutes from './entities/student2Course'
+import subjectRoutes from './entities/subject'
+import userRoutes from './entities/user'
+
+import setupRoute from '../migrations/setupRouter'
+
 
 const app = express()
-function configurateExpress(app){
+
+function configureMiddelware(app){
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
 
   app.use(morgan('dev'))
 
-  app.use(expressJWT({secret: config.secret}).unless({ path: ['/users/signUp','/users/signIn'] }) )
-  
+  app.use(expressJWT({secret: config.secret}).unless({ path: ['/users/signUp','/users/signIn', '/setup'] }) )
+
   app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-}
-
-const connectDataBase = uri => {
-  mongoose.connect(uri)
-  mongoose.connection.on('error', () => {
-    throw new Error(`unable to connect to database: ...`);
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
   })
 }
 
-const startServer = (port) => app => {
-  app.listen(port, function(){
-    console.log(`Server is running on port ${port}`)
-  })
+const configureRoutes = app => {
+  app.use('/groups', groupRoutes)
+  app.use('/students', studentRoutes)
+  app.use('/course', courseRoutes)
+  app.use('/scores', scoreRoutes)
+  app.use('/students2Courses', student2CourseRoutes)
+  app.use('/subjects', subjectRoutes)
+  app.use('/users', userRoutes)
+
+  if(process.env.NODE_ENV !== 'production') app.use('/setup', setupRoute)
 }
 
-configurateExpress(app)
-connectDataBase(config.databaseURI)
-startServer(config.port)(app)
+configureMiddelware(app)
+configureRoutes(app)
 
-app.use('/', routes)
+export default app
+
+
+import fetch from 'node-fetch'
+const handleError = response => {
+  if(!response.ok) console.error(response)
+  return response
+}
+const parseJSON = response => response.json()
+
+fetch('https://na25.salesforce.com/v37.0/')
+  .then(handleError)
+  .then(parseJSON)
+  .then(response => console.log(response))
