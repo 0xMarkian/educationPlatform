@@ -1,14 +1,14 @@
 import mongoose from 'mongoose'
 
-import { handleError } from '../src/utils'
+import { handleError } from '../src/lib/utils'
 
-import Subject from '../src/models/subject'
-import Student from '../src/models/student'
-import Group from '../src/models/group'
-import Course from '../src/models/course'
-import Score from '../src/models/score'
-import Student2Course from '../src/models/student2Course'
-import User from '../src/models/user'
+import Subject from '../src/entities/subject/model'
+import Student from '../src/entities/student/model'
+import Group from '../src/entities/group/model'
+import Course from '../src/entities/course/model'
+import Score from '../src/entities/score/model'
+import Student2Course from '../src/entities/student2Course/model'
+import User from '../src/entities/user/model'
 
 const mode = 'prod'
 

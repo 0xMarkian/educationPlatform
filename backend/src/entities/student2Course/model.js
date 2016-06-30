@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { basicSchemaCtrls, requiredObjectId } from './utils'
+import { requiredObjectId } from '../../lib/model'
 
 
 const student2CourseSchema = new mongoose.Schema({
@@ -9,6 +9,5 @@ const student2CourseSchema = new mongoose.Schema({
   course: { ...requiredObjectId, ref: 'Course'},
 })
 
-student2CourseSchema.statics = basicSchemaCtrls
 
 export default mongoose.model('Student2Course', student2CourseSchema)
