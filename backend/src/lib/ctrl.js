@@ -1,11 +1,21 @@
 import express from 'express'
-
+import autobind from 'autobind-decorator'
 
 export default class BasicCtrl {
   constructor(Model){
     this.Model = Model
   }
 
+  @autobind
+  listAll(req, res, next){
+    this.Model.find({}, (err, entities) => {
+      if(err) return next(err)
+
+      res.json(entities)
+    })
+  }
+
+  @autobind
   getOne(req, res, next){
     const { id: _id } = req.params
     this.Model.findById(_id, (err, entity) => {
@@ -14,6 +24,7 @@ export default class BasicCtrl {
     })
   }
 
+  @autobind
   update(req,res, next){
     const { id: _id } = req.params
 

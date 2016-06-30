@@ -1,11 +1,11 @@
-import url from 'url'
-import express from 'express'
-import mongoose from 'mongoose'
+import autobind from 'autobind-decorator'
 
 import BasicCtrl from '../../lib/ctrl'
+import User from '../user/model'
 
 
 class Student2CourseCtrl extends BasicCtrl {
+  @autobind
   create(req,res, next){
     const { student, course } = req.body,
       { group } = req.user._doc
@@ -21,20 +21,29 @@ class Student2CourseCtrl extends BasicCtrl {
     })
   }
 
+  @autobind
   list(req, res, next){
     // To embed resource representatio(show not only ref to id, but external resources too) use API with query.
     // For example /?embed=student&embed=course
     const { embed ='' } = req.query,
-      { group } = req.user._doc
+      { _id: userId } = req.user
 
-    this.Model
-      .find({group})
-      .populate(embed)
-      .exec((err, entities) => {
-        if (err) return next(err)
+    User
+      .findById(userId)
+      .exec( (err,user) => {
+        if(err) return next(err)
+        const { group } = user
 
-        res.json(entities)
+        this.Model
+          .find({group})
+          .populate(embed)
+          .exec((err, entities) => {
+            if (err) return next(err)
+
+            res.json(entities)
+          })
       })
+
   }
 }
 

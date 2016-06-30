@@ -16,7 +16,6 @@ import userRoutes from './entities/user'
 
 import setupRoute from '../migrations/setupRouter'
 
-
 const app = express()
 
 function configureMiddelware(app){
@@ -41,7 +40,7 @@ function configureMiddelware(app){
 const configureRoutes = app => {
   app.use('/groups', groupRoutes)
   app.use('/students', studentRoutes)
-  app.use('/course', courseRoutes)
+  app.use('/courses', courseRoutes)
   app.use('/scores', scoreRoutes)
   app.use('/students2Courses', student2CourseRoutes)
   app.use('/subjects', subjectRoutes)

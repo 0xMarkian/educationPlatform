@@ -1,7 +1,9 @@
 import Student2CourseCtrl from '../student2Course/ctrl'
+import autobind from 'autobind-decorator'
 
 
 class ScoreCtrl extends Student2CourseCtrl {
+  @autobind
   create(req,res, next){
     const { scoreValue, student, course } = req.body,
       { group } = req.user._doc

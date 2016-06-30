@@ -8,6 +8,7 @@ const router = Router()
 
 router.route('/')
   .post(subjectCtrl.create)
+  .get(subjectCtrl.listAll)
 
 
 export default router
