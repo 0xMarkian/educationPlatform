@@ -29,15 +29,19 @@ class GroupCtrl extends BasicCtrl {
 
   @autobind
   list(req,res, next){
-    const { group }  = req.user._doc
+    const { _id: userId } = req.user
 
-    this.Model
-      .find({group})
-      .exec( (err, entity) => {
-        if(err) return next(err)
+    User.findById(userId, (err, user) => {
+      const { group } = user
 
-        res.json(entity)
-      })
+      this.Model
+        .find({_id: group})
+        .exec( (err, entity) => {
+          if(err) return next(err)
+
+          res.json(entity)
+        })
+    })
   }
 }
 

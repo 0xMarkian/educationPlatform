@@ -21,7 +21,6 @@ const connectDataBase = uri => {
 }
 // connectDataBase('mongodb://localhost/educationPlatform')
 
-
 const string2ObjectInArray = propName => valueArr => valueArr.map( value => ({ [propName] : value}))
 const generateName = baseName => mode === 'dev' ? baseName + Math.random() : baseName
 
@@ -31,7 +30,6 @@ export default () => {
   Subject.create( {name:generateName('Math')}, (err, subject) => {
     handleError(err)
     const subjectId = subject._id
-  
 
     Group.create( {name: '11-D'}, (err, group) => {
       handleError(err)

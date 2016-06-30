@@ -37,9 +37,8 @@ class UserCtrl extends BasicCtrl{
 
       const { _id } = user
       const token = jwt.sign({_id}, config.secret)
-      res.json({
+      res.cookie('access_token',token, {httpOnly: true,}).json({
         success: true,
-        token,
       })
     })
   }
