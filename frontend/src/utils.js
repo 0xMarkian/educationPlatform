@@ -1,1 +1,1 @@
-export const parseJSON = response => response.json()
+export const parseJSON = res => res.json()

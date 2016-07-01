@@ -5,14 +5,14 @@ import {
   setCuratorId,
   setGroupId,
   requestSubjectsList,
-  receiveSubjectsList,
+  receivedSubjectsList,
   setChosenSubject,
   applyChosenSubject,
   stopFetchingSubjects,
-  requestScores,
+  requestdScores,
   receiveScores,
   requestStudents,
-  receiveStudents,
+  receivedStudents,
 } from 'actions/common'
 
 const initialState = {
@@ -49,7 +49,7 @@ export default createReducer({
       isFetching: true
     }
   }),
-  [receiveSubjectsList]: (state, payload) => ({
+  [receivedSubjectsList]: (state, payload) => ({
     ...state,
     subjects: {
       ...state.subjects,
@@ -88,26 +88,10 @@ export default createReducer({
       isFetching: true
     }
   }),
-  [receiveStudents]: (state, payload) => ({
+  [receivedStudents]: (state, payload) => ({
     ...state,
     students: {
       ...state.students,
-      isFetching: false,
-      list: payload
-    }
-  }),
-
-  [requestScores]: state => ({
-    ...state,
-    scores: {
-      ...state.scores,
-      isFetching: true
-    }
-  }),
-  [receiveScores]: (state, payload) => ({
-    ...state,
-    scores: {
-      ...state.scores,
       isFetching: false,
       list: payload
     }

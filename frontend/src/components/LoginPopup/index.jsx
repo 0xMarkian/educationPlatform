@@ -59,7 +59,7 @@ class Popup extends React.Component{
       <Dialog
         title='Sign up in a second'
         modal={false}
-        open={/*this.state.popupOpen*/true}
+        open={/*this.state.popupOpen*/false}
         titleClassName='login-modal-title'
         contentStyle={{ width: '40%' }}
       >

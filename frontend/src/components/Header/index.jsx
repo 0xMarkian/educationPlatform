@@ -4,7 +4,7 @@ import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle, RaisedButton, Ava
 
 import {
   showNewGroupPopup
-} from '../../actions/newGroupPopup'
+} from 'actions/group'
 
 
 class TopToolbar extends React.Component {
@@ -29,4 +29,4 @@ class TopToolbar extends React.Component {
   }
 }
 
-export default connect( (store) => ({ store: store }), { showNewGroupPopup } )(TopToolbar)
+export default connect(null, { showNewGroupPopup })(TopToolbar)

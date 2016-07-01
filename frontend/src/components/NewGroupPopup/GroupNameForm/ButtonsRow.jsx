@@ -19,7 +19,6 @@ class ButtonsRow extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     const {isLoading} = this.props.groupState
     const {inputData} = this.props
 

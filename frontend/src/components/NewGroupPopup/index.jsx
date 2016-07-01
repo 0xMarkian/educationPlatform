@@ -12,8 +12,7 @@ class NewGroupPopup extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      popupOpen: false,
-      currentStep: 1,
+      currentStep: 0,
       groupName: {
         input: {
           value: null,
@@ -48,13 +47,14 @@ class NewGroupPopup extends React.Component {
   }
 
   render() {
-    const {popupOpen, currentStep} = this.state
+    const {newGroupPopupOpen} = this.props.groupStore
+    const {currentStep} = this.state
 
     return(
       <Dialog
         title='Create a new group'
         modal={true}
-        open={false/*popupOpen*/}
+        open={true/*newGroupPopupOpen*/}
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >
@@ -74,4 +74,4 @@ class NewGroupPopup extends React.Component {
   }
 }
 
-export default connect( store => ({ popupStore: store.newGroupPopup }))(NewGroupPopup)
+export default connect( store => ({ groupStore: store.group }))(NewGroupPopup)
