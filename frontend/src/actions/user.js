@@ -16,28 +16,16 @@ export const userSignedIn = createAction('LOG USER IN')
 export const rejectSigningIn = createAction('REJECT SIGNING IN')
 export const userSignIn = (name, password) => dispatch => {
   dispatch(requestUserSignIn())
+
   fetch(`${backend.protocol}://${backend.ip}:${backend.port}/users/signIn`, {
     ...defaultHeaders,
-    headers: {
-     ...defaultHeaders.headers,
-     'Access-Control-Allow-Methods': 'POST,GET,OPTIONS'
-    },
-    method: 'OPTIONS'
-  }).then(() => {
-  
-    fetch(`${backend.protocol}://${backend.ip}:${backend.port}/users/signIn`, {
-      headers: {
-        ...defaultHeaders.headers,
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true'
-      },
-      method: 'POST',
-      body: JSON.stringify({ name, password })
-    }).then(parseJSON)
-      .then(res => {
-        if(res.success) dispatch(userSignedIn())
-        else dispatch(rejectSigningIn())
-    })
-
+    mode:'cors',
+    credentials:'include',
+    method: 'POST',
+    body: JSON.stringify({ name, password })
+  }).then(parseJSON)
+    .then(res => {
+      if(res.success) dispatch(userSignedIn())
+      else dispatch(rejectSigningIn())
   })
 }

@@ -4,7 +4,6 @@ export const backend = {
   port: 8080,
 }
 export const defaultHeaders = {
-  mode: 'cors',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'

@@ -24,7 +24,7 @@ class UserCtrl extends BasicCtrl{
   @autobind
   signIn(req,res, next) {
     const {name, password} = req.body
-
+    console.log(name)
     this.Model.findOne({name}, (err, user) => {
       if (err) return next(err)
 
@@ -37,7 +37,7 @@ class UserCtrl extends BasicCtrl{
 
       const { _id } = user
       const token = jwt.sign({_id}, config.secret)
-      res.cookie('access_token',token, {httpOnly: true,}).json({
+      res.cookie('accessToken',token,{httpOnly:true}).json({
         success: true,
       })
     })
