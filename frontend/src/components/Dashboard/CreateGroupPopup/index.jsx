@@ -13,14 +13,13 @@ class NewGroupPopup extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      currentStep: 0,
       groupName: {
         input: {
           value: null,
           error: true,
           errorText: null,
-        }
-      }
+        },
+      },
     }
     this.handleClose = this.handleClose.bind(this)
     this.updateGroupNameInputData = this.updateGroupNameInputData.bind(this)
@@ -43,7 +42,7 @@ class NewGroupPopup extends React.Component {
 
   render() {
     const {newGroupPopupOpen} = this.props.groupStore
-    const {currentStep} = this.state
+    const {step} = this.props.groupStore.newGroupPopup
 
     return(
       <Dialog
@@ -53,15 +52,15 @@ class NewGroupPopup extends React.Component {
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >
-        <StepProgress />
+        <StepProgress currentStep={step} />
         {
-          currentStep === 0 ? <GroupNameForm
+          step === 0 ? <GroupNameForm
             handleClose={this.handleClose}
             inputData={this.state.groupName.input}
             updateGroupNameInputData={this.updateGroupNameInputData}
           /> :
-          currentStep === 1 ? <SubjectsForm /> :
-          currentStep === 2 ? <StudentsForm /> :
+          step === 1 ? <SubjectsForm /> :
+          step === 2 ? <StudentsForm /> :
           null
         }
       </Dialog>

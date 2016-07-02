@@ -9,7 +9,7 @@ class StepProgress extends React.Component {
   }
 
   render() {
-    const {currentStep} = this.props.popupStore
+    const {currentStep} = this.props
 
     return(
       <Stepper activeStep={currentStep}>
@@ -27,4 +27,4 @@ class StepProgress extends React.Component {
   }
 }
 
-export default connect( store => ({ popupStore: store.newGroupPopup }))(StepProgress)
+export default connect()(StepProgress)

@@ -35,8 +35,39 @@ export const fetchGroup = name => dispatch => {
     credentials: 'include',
   }).then(parseJSON)
     .then( res => {
-      console.log('Fetched group data:', res)
-      dispatch(receiveFetchedGroup(res))
+      dispatch(receiveFetchedGroup(res[0]))
   })
     .catch( err => {throw new Error(err)} )
+}
+
+export const requestSubjectsList = createAction('REQUEST SUBJECTS LIST')
+export const receiveSubjectsList = createAction('RECEIVE SUBJECTS LIST')
+export const fetchSubjectsList = () => dispatch => {
+  dispatch(requestSubjectsList())
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
+    ...defaultHeaders,
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'include',
+  }).then(parseJSON)
+    .then( res => {
+      dispatch(receiveSubjectsList(res))
+  }).catch( err => {throw new Error(err)} )
+}
+
+export const requestSetChosenSubject = createAction('REQUEST SEND CHOSEN SUBJECT')
+export const appliedChosenSubject = createAction('APPLIED CHOSEN SUBJECT')
+export const sendChosenSubject = subject => dispatch => {
+  dispatch(requestSetChosenSubject())
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
+    ...defaultHeaders,
+    method: 'POST',
+    mode: 'cors',
+    credentials: 'include',
+    body: JSON.stringify({ ...subject })
+  }).then( parseJSON )
+    .then( res => {
+      console.log(res)
+      dispatch(appliedChosenSubject(res))
+    })
 }

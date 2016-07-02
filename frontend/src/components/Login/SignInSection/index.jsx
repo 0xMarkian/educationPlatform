@@ -6,7 +6,7 @@ import Username from './Username'
 import Password from './Password'
 import RetypedPassword from './RetypedPassword'
 
-class Popup extends React.Component{
+class SignInPopup extends React.Component{
   constructor(props){
     super(props)
     this.state = {
@@ -82,4 +82,4 @@ class Popup extends React.Component{
   }
 }
 
-export default connect( (store) => ({ store: store.user }))(Popup)
+export default connect( (store) => ({ store: store.user }))(SignInPopup)

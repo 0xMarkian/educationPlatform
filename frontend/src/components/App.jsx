@@ -10,10 +10,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import createStore from '../store'
 
-import LoginPopup from './LoginPopup'
-import NewGroupPopup from './NewGroupPopup'
+import SignInPopup from './Login/SignInSection'
+import NewGroupPopup from './Dashboard/CreateGroupPopup'
 import Header from './Header/'
-import ScoresTable from './ScoresTable/'
+import ScoresTable from './Dashboard/ScoresTableSection/'
 
 
 const store = createStore()
@@ -29,7 +29,7 @@ class App extends React.Component {
       <Provider store={store}>
         <MuiThemeProvider muiTheme={getMuiTheme()}>
           <main>
-            <LoginPopup />
+            <SignInPopup />
             <NewGroupPopup />
             <Header />
             <ScoresTable />

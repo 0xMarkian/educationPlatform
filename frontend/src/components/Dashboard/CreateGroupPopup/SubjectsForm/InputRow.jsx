@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {DropDownMenu, MenuItem} from 'material-ui'
 
 import {
-  fetchSubjects,
-  setChosenSubject
-} from 'actions/common'
+  fetchSubjectsList,
+  sendChosenSubject
+} from 'actions/group'
 
 
 class InputRow extends React.Component {
@@ -15,34 +15,35 @@ class InputRow extends React.Component {
   }
 
   handleInput(event, index, value) {
-    const {setChosenSubject, commonStore} = this.props
-    setChosenSubject(commonStore.subjects.list[index])
+    const { sendChosenSubject, groupStore } = this.props
+    sendChosenSubject(groupStore.subjects.list[index])
   }
 
   componentWillMount() {
-    const {fetchSubjects} = this.props
-    fetchSubjects()
+    const {fetchSubjectsList} = this.props
+    fetchSubjectsList()
   }
 
   render() {
-    const {subjects} = this.props.commonStore
+    const {subjects} = this.props.groupStore
 
+    if(!subjects.list) return null // Waiting fetch to end
     return(
       <div>
         <label htmlFor='new-group-subject'>Pick a subject:</label><br/>
         <DropDownMenu
           maxHeight={300}
           autoWidth={true}
-          value={subjects.chosen ? subjects.chosen._id : subjects.list[0]._id}
+          value={subjects.list[0]._id}
           onChange={this.handleInput}
           menuStyle={{overflowX: 'hidden'}}
         >
           {
-            subjects.list.map((value, index) => {
+            subjects.list.map((subject, index) => {
               return (
                 <MenuItem
-                  value={value._id}
-                  primaryText={value.name}
+                  value={subject._id}
+                  primaryText={subject.name}
                   key={index}
                 ></MenuItem>)
             })
@@ -53,7 +54,7 @@ class InputRow extends React.Component {
   }
 }
 
-export default connect(store => ({ commonStore: store.common }), {
-  fetchSubjects,
-  setChosenSubject
+export default connect(store => ({ groupStore: store.group }), {
+  fetchSubjectsList,
+  sendChosenSubject
 })(InputRow)

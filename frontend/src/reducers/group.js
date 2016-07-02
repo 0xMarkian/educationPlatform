@@ -6,7 +6,11 @@ import {
   requestCreateGroup,
   receiveCreatedGroup,
   requestFetchGroup,
-  receiveFetchedGroup
+  receiveFetchedGroup,
+  requestSubjectsList,
+  receiveSubjectsList,
+  requestSetChosenSubject,
+  appliedChosenSubject,
 } from 'actions/group'
 
 
@@ -14,10 +18,15 @@ const initialState = {
   groupData: {},
   newGroupPopup: {
     open: false,
-    step: 0
+    step: 1
   },
   isCreating: false,
-  isFetching: false
+  isFetching: false,
+  subjects: {
+    list: null,
+    isFetching: false,
+    settingChosenSubject: false,
+  },
 }
 
 export default createReducer({
@@ -36,7 +45,11 @@ export default createReducer({
   [receiveCreatedGroup]: (state, payload) => ({
     ...state,
     isCreating: false,
-    groupData: payload
+    groupData: payload,
+    newGroupPopup: {
+      ...state.newGroupPopup,
+      step: 1,
+    },
   }),
   [requestFetchGroup]: (state, payload) => ({
     ...state,
@@ -45,6 +58,38 @@ export default createReducer({
   [receiveFetchedGroup]: (state, payload) => ({
     ...state,
     isFetching: false,
-    groupData: payload
+    groupData: payload,
+  }),
+  [requestSubjectsList]: state => ({
+    ...state,
+    subjects: {
+      ...state.subjects,
+      isFetchingList: true
+    },
+  }),
+  [receiveSubjectsList]: (state, payload) => ({
+    ...state,
+    subjects: {
+      list: payload,
+      isFetching: false,
+    }
+  }),
+  [requestSetChosenSubject]: state => ({
+    ...state,
+    subjects: {
+      ...state.subjects,
+      settingChosenSubject: true,
+    }
+  }),
+  [appliedChosenSubject]: state => ({
+    ...state,
+    newGroupPopup: {
+      ...state.newGroupPopup,
+      step: 2,
+    },
+    subjects: {
+      ...state.subjects,
+      settingChosenSubject: false,
+    },
   }),
 }, initialState)

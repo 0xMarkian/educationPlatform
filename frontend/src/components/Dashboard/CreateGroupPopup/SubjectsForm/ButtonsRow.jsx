@@ -2,9 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {FlatButton, RaisedButton, CircularProgress} from 'material-ui'
 
-import {fetchChosenSubject} from 'actions/common'
-import {setCurrentStep} from 'actions/newGroupPopup'
-
+import {sendChosenSubject} from 'actions/group'
 
 class ButtonsRow extends React.Component {
   constructor(props) {
@@ -51,6 +49,5 @@ export default connect( store => ({
   groupStore: store.newGroupPopup,
   commonStore: store.common
 }), {
-  fetchChosenSubject,
-  setCurrentStep
+  sendChosenSubject,
 })(ButtonsRow)
