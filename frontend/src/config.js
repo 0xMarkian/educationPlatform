@@ -1,6 +1,6 @@
 export const backend = {
   protocol: 'http',
-  ip: '127.0.0.1',
+  ip: 'localhost',
   port: 8080,
 }
 export const defaultHeaders = {

@@ -20,6 +20,7 @@ const store = createStore()
 
 //TMP:
 import {userSignIn} from 'actions/user'
+
 store.dispatch( userSignIn('Lesia', 'test') )
 
 class App extends React.Component {

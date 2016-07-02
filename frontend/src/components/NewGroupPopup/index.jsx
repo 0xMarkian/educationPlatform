@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Dialog} from 'material-ui'
 
+import {closeNewGroupPopup} from 'actions/group'
 import StepProgress from './StepProgress'
 import GroupNameForm from './GroupNameForm'
 import SubjectsForm from './SubjectsForm'
@@ -26,10 +27,6 @@ class NewGroupPopup extends React.Component {
   }
 
   updateGroupNameInputData(value, error, errorText) {
-    value = value === undefined ? this.state.groupName.input.value : value
-    error = error === undefined ? this.state.groupName.input.error : error
-    errorText = errorText === undefined ? this.state.groupName.input.errorText: errorText
-
     this.setState({
       ...this.state,
       groupName: {
@@ -40,10 +37,8 @@ class NewGroupPopup extends React.Component {
   }
 
   handleClose() {
-    this.setState({
-      ...this.state,
-      popupOpen: false
-    })
+    const {closeNewGroupPopup} = this.props
+    closeNewGroupPopup()
   }
 
   render() {
@@ -74,4 +69,4 @@ class NewGroupPopup extends React.Component {
   }
 }
 
-export default connect( store => ({ groupStore: store.group }))(NewGroupPopup)
+export default connect( store => ({ groupStore: store.group }), { closeNewGroupPopup })(NewGroupPopup)

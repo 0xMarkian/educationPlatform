@@ -2,7 +2,7 @@ import {createReducer} from 'redux-act'
 
 import {
   requestUserSignUp,
-  receivedSignedUpUser,
+  receiveSignedUpUser,
 
   requestUserSignIn,
   userSignedIn
@@ -11,8 +11,6 @@ import {
 
 const initialState = {
   name: null,
-  token: null,
-  groupId: null,
   signingUp: false,
   signingIn: true
 }
@@ -22,7 +20,7 @@ export default createReducer({
     ...state,
     signingUp: true
   }),
-  [receivedSignedUpUser]: state => ({
+  [receiveSignedUpUser]: state => ({
     ...state,
     signingUp: false
   }),

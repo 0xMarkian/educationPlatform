@@ -3,9 +3,11 @@ import { createAction } from 'redux-act'
 import {backend, defaultHeaders} from '../config'
 import {parseJSON} from '../utils'
 
+import {fetchGroup} from 'actions/group'
+
 
 export const requestUserSignUp = createAction('REGISTER NEW USER')
-export const receivedSignUpedUser = createAction('REGISTER NEW USER')
+export const receiveSignUpedUser = createAction('REGISTER NEW USER')
 export const userSignUp = (name, password) => dispatch => {
   dispatch(requestUserSignUp())
   dispatch(receivedSignedUpUser())
@@ -25,7 +27,10 @@ export const userSignIn = (name, password) => dispatch => {
     body: JSON.stringify({ name, password })
   }).then(parseJSON)
     .then(res => {
-      if(res.success) dispatch(userSignedIn())
+      if(res.success){
+        dispatch(userSignedIn())
+        dispatch(fetchGroup())
+      }
       else dispatch(rejectSigningIn())
   })
 }

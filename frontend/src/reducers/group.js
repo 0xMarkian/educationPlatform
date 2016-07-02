@@ -1,35 +1,50 @@
 import { createReducer } from 'redux-act'
 
 import {
-  showNewGroupPopup,
-  hideNewGroupPopup,
+  openNewGroupPopup,
+  closeNewGroupPopup,
   requestCreateGroup,
-  receiveCreatedGroup
+  receiveCreatedGroup,
+  requestFetchGroup,
+  receiveFetchedGroup
 } from 'actions/group'
 
 
 const initialState = {
   groupData: {},
-  newGroupPopupOpen: false,
-  isLoading: false,
+  newGroupPopup: {
+    open: false,
+    step: 0
+  },
+  isCreating: false,
+  isFetching: false
 }
 
 export default createReducer({
-  [showNewGroupPopup]: state => ({
+  [openNewGroupPopup]: state => ({
     ...state,
     newGroupPopupOpen: true
   }),
-  [hideNewGroupPopup]: state => ({
+  [closeNewGroupPopup]: state => ({
     ...state,
     newGroupPopupOpen: false
   }),
   [requestCreateGroup]: state => ({
     ...state,
-    isLoading: true,
+    isCreating: true,
   }),
   [receiveCreatedGroup]: (state, payload) => ({
     ...state,
-    isLoading: false,
-    groupData: payload,
-  })
+    isCreating: false,
+    groupData: payload
+  }),
+  [requestFetchGroup]: (state, payload) => ({
+    ...state,
+    isFetching: true,
+  }),
+  [receiveFetchedGroup]: (state, payload) => ({
+    ...state,
+    isFetching: false,
+    groupData: payload
+  }),
 }, initialState)
