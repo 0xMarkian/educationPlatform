@@ -10,7 +10,6 @@ class Popup extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      popupOpen: true,
       inputsData: {
         username: { error: true, errorText: null, value: null },
         password: { error: true, errorText: null, value: null },

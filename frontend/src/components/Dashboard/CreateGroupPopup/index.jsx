@@ -69,4 +69,5 @@ class NewGroupPopup extends React.Component {
   }
 }
 
+
 export default connect( store => ({ groupStore: store.group }), { closeNewGroupPopup })(NewGroupPopup)
