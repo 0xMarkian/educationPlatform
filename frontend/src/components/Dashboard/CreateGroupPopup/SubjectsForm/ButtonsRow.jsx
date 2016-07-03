@@ -1,8 +1,11 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {FlatButton, RaisedButton, CircularProgress} from 'material-ui'
+import { connect } from 'react-redux'
+import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
-import {sendChosenSubject} from 'actions/group'
+import {
+  setGroupPopupStep,
+  sendChosenSubject,
+} from 'actions/group'
 
 class ButtonsRow extends React.Component {
   constructor(props) {
@@ -12,29 +15,30 @@ class ButtonsRow extends React.Component {
   }
 
   prevStep() {
-    const {setCurrentStep} = this.props
-    setCurrentStep(0)
+    const {setGroupPopupStep} = this.props
+    setGroupPopupStep(0)
   }
 
   nextStep() {
-    const {fetchChosenSubject, commonStore} = this.props,
-          {fetchMethod, chosen} = commonStore.subjects
-    fetchChosenSubject(fetchMethod, chosen._id, commonStore.groupId)
+    const {sendChosenSubject, groupStore} = this.props,
+          { requestMethod } = groupStore.subjects
+    let { chosenSubject } = this.props
+    if(!chosenSubject) chosenSubject = groupStore.subjects.list[0]
+    sendChosenSubject(chosenSubject, requestMethod)
   }
 
   render() {
-    const {isFetching} = this.props.commonStore.subjects
-
+    const {isFetching} = this.props.groupStore.subjects
     return(
       <div>
         <FlatButton
           style={{marginRight: 12}}
-          onTouchTap={this.prevStep}
+          onClick={this.prevStep}
           label='Back'
         />
         <RaisedButton
           primary={true}
-          onTouchTap={this.nextStep}
+          onClick={this.nextStep}
           label='Next'
         />
         {isFetching ? (
@@ -46,8 +50,8 @@ class ButtonsRow extends React.Component {
 }
 
 export default connect( store => ({
-  groupStore: store.newGroupPopup,
-  commonStore: store.common
+  groupStore: store.group,
 }), {
+  setGroupPopupStep,
   sendChosenSubject,
 })(ButtonsRow)

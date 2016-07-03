@@ -6,15 +6,37 @@ import ButtonsRow from './ButtonsRow'
 
 
 class GroupNameInput extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      groupName: {
+        value: null,
+        error: true,
+        errorText: null,
+      },
+    }
+    this.updateGroupNameInputData = this.updateGroupNameInputData.bind(this)
+  }
+
+  updateGroupNameInputData(value, error, errorText) {
+    this.setState({
+      groupName: {
+        value, error, errorText
+      }
+    })
+  }
+
   render() {
+    const inputData = this.state.groupName
+
     return(
       <div>
         <InputRow
-          inputData={this.props.inputData}
-          updateGroupNameInputData={this.props.updateGroupNameInputData}
+          inputData={inputData}
+          updateGroupNameInputData={this.updateGroupNameInputData}
         />
         <ButtonsRow
-          inputData={this.props.inputData}
+          inputData={inputData}
           handleClose={this.props.handleClose}
         />
       </div>
@@ -23,4 +45,4 @@ class GroupNameInput extends React.Component {
 }
 
 
-export default connect(store => ({ store }))(GroupNameInput)
+export default connect()(GroupNameInput)

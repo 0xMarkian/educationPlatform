@@ -22,17 +22,6 @@ class NewGroupPopup extends React.Component {
       },
     }
     this.handleClose = this.handleClose.bind(this)
-    this.updateGroupNameInputData = this.updateGroupNameInputData.bind(this)
-  }
-
-  updateGroupNameInputData(value, error, errorText) {
-    this.setState({
-      ...this.state,
-      groupName: {
-        ...this.state.groupName,
-        input:{ value, error, errorText }
-      }
-    })
   }
 
   handleClose() {
@@ -41,14 +30,14 @@ class NewGroupPopup extends React.Component {
   }
 
   render() {
-    const {newGroupPopupOpen} = this.props.groupStore
-    const {step} = this.props.groupStore.newGroupPopup
+    const { newGroupPopup } = this.props.groupStore
+    const { step, open } = newGroupPopup
 
     return(
       <Dialog
         title='Create a new group'
         modal={true}
-        open={true/*newGroupPopupOpen*/}
+        open={open}
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >

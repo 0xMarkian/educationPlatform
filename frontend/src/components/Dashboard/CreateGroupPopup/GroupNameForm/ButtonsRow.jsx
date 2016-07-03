@@ -12,14 +12,14 @@ class ButtonsRow extends React.Component {
   }
 
   nextStep() {
-    const {createGroup, inputData} = this.props
+    const {groupStore, createGroup, inputData} = this.props
     const groupName = inputData.value
 
-    createGroup(groupName)
+    createGroup(groupName, groupStore.requestMethod)
   }
 
   render() {
-    const {isLoading} = this.props.groupState
+    const {isLoading} = this.props.groupStore
     const {inputData} = this.props
 
     return(
@@ -43,4 +43,4 @@ class ButtonsRow extends React.Component {
   }
 }
 
-export default connect( store => ({ groupState: store.group }), { createGroup })(ButtonsRow)
+export default connect( store => ({ groupStore: store.group }), { createGroup })(ButtonsRow)

@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {FlatButton, RaisedButton, CircularProgress} from 'material-ui'
 
-import {hideNewGroupPopup, setCurrentStep} from 'actions/newGroupPopup'
+import {closeNewGroupPopup, setGroupPopupStep} from 'actions/group'
 
 
 class ButtonsRow extends React.Component {
@@ -13,13 +13,13 @@ class ButtonsRow extends React.Component {
   }
 
   prevStep() {
-    const {setCurrentStep} = this.props
-    setCurrentStep(1)
+    const {setGroupPopupStep} = this.props
+    setGroupPopupStep(1)
   }
 
   nextStep() {
-    const {hideNewGroupPopup} = this.props
-    hideNewGroupPopup()
+    const {closeNewGroupPopup} = this.props
+    closeNewGroupPopup()
   }
 
   render() {
@@ -49,6 +49,6 @@ export default connect( store => ({
   groupStore: store.newGroupPopup,
   commonStore: store.common
 }), {
-  hideNewGroupPopup,
-  setCurrentStep
+  closeNewGroupPopup,
+  setGroupPopupStep
 })(ButtonsRow)

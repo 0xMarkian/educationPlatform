@@ -4,7 +4,6 @@ import {DropDownMenu, MenuItem} from 'material-ui'
 
 import {
   fetchSubjectsList,
-  sendChosenSubject
 } from 'actions/group'
 
 
@@ -15,8 +14,8 @@ class InputRow extends React.Component {
   }
 
   handleInput(event, index, value) {
-    const { sendChosenSubject, groupStore } = this.props
-    sendChosenSubject(groupStore.subjects.list[index])
+    const { groupStore, setChosenSubject } = this.props
+    setChosenSubject(groupStore.subjects.list[index])
   }
 
   componentWillMount() {
@@ -56,5 +55,4 @@ class InputRow extends React.Component {
 
 export default connect(store => ({ groupStore: store.group }), {
   fetchSubjectsList,
-  sendChosenSubject
 })(InputRow)

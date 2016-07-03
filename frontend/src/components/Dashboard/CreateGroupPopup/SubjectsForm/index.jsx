@@ -11,6 +11,13 @@ class SubjectsForm extends React.Component {
     this.state = {
       chosenSubject: null,
     }
+    this.setChosenSubject = this.setChosenSubject.bind(this)
+  }
+
+  setChosenSubject(subject) {
+    this.setState({
+      chosenSubject: subject
+    })
   }
 
   render() {
@@ -18,7 +25,10 @@ class SubjectsForm extends React.Component {
 
     return(
       <div>
-        <InputRow chosenSubject={chosenSubject} />
+        <InputRow
+          chosenSubject={chosenSubject}
+          setChosenSubject={this.setChosenSubject}
+        />
         <br/><br/>
         <ButtonsRow chosenSubject={chosenSubject} />
       </div>

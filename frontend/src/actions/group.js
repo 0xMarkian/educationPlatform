@@ -5,15 +5,16 @@ import { parseJSON } from '../utils'
 
 
 export const openNewGroupPopup = createAction('SHOW NEW GROUP POPUP')
-export const closeNewGroupPopup = createAction('HIDE NEW GROUP POPUP')
+export const closeNewGroupPopup = createAction('CLOSE NEW GROUP POPUP')
+export const setGroupPopupStep = createAction('SET GROUP POPUP STEP')
 
 export const requestCreateGroup = createAction('REQUEST CREATE GROUP')
 export const receiveCreatedGroup = createAction('RECEIVE CREATED GROUP')
-export const createGroup = name => dispatch => {
+export const createGroup = (name, method) => dispatch => {
   dispatch(requestCreateGroup())
   fetch(`${backend.protocol}://${backend.ip}:${backend.port}/groups`, {
     ...defaultHeaders,
-    method: 'POST',
+    method,
     mode: 'cors',
     credentials:'include',
     body: JSON.stringify({ name })
@@ -57,11 +58,11 @@ export const fetchSubjectsList = () => dispatch => {
 
 export const requestSetChosenSubject = createAction('REQUEST SEND CHOSEN SUBJECT')
 export const appliedChosenSubject = createAction('APPLIED CHOSEN SUBJECT')
-export const sendChosenSubject = subject => dispatch => {
+export const sendChosenSubject = (subject, method) => dispatch => {
   dispatch(requestSetChosenSubject())
   fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
     ...defaultHeaders,
-    method: 'POST',
+    method,
     mode: 'cors',
     credentials: 'include',
     body: JSON.stringify({ ...subject })

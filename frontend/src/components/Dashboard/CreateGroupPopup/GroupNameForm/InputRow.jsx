@@ -13,7 +13,7 @@ class InputRow extends React.Component {
 
   handleInput(event) {
     const inputValue = event.target.value
-    const {groupNamePattern, errorMessages} = this
+    const {groupNamePattern, invalidGroupNameError} = this
     const {updateGroupNameInputData} = this.props
 
     if(!inputValue){
@@ -21,7 +21,7 @@ class InputRow extends React.Component {
       return
     }
     if(!groupNamePattern.test(inputValue))
-      updateGroupNameInputData(inputValue, true, errorMessages.invalidGroupName)
+      updateGroupNameInputData(inputValue, true, invalidGroupNameError)
     else updateGroupNameInputData(inputValue, false, null)
   }
 
