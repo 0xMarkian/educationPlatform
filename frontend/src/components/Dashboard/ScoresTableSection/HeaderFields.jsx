@@ -2,31 +2,28 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {TableRow, TableHeaderColumn, TableRowColumn} from 'material-ui'
 
-import {fetchSubjects} from 'actions/common'
-
-
 class HeaderFields extends React.Component {
-  componentWillMount() {
-    const { fetchSubjects, commonStore } = this.props,
-          { list } = commonStore.subjects
-
-    if(list.length === 1) fetchSubjects()
-  }
-
   render() {
-    const {list} = this.props.commonStore.subjects
+    const subjectsList = this.props.groupStore.subjects.list
+
+    console.log('Subjects: ', subjectsList)
+
+    if(!subjectsList) return null
 
     return(
       <TableRow>
         <TableHeaderColumn>Name</TableHeaderColumn>
         {
-          list.map( (value, i) => {
+          subjectsList.map( (subject, i) => {
             return (
               <TableHeaderColumn
-                tooltip={value.name}
+                tooltip={subject.name}
                 key={i}
               >
-                {value.name ? value.name.slice(0, 10) + '...' : null}
+                {subject.name ?
+                  (subject.name.length >= 12 ? subject.name.slice(0, 10) + '...' : subject.name)
+                  : null
+                }
               </TableHeaderColumn>
             )
           })
@@ -37,7 +34,5 @@ class HeaderFields extends React.Component {
 }
 
 export default connect(store => ({
-  commonStore: store.common
-}), {
-  fetchSubjects
-})(HeaderFields)
+  groupStore: store.group
+}))(HeaderFields)

@@ -6,7 +6,7 @@ class App extends React.Component {
   componentWillMount() {
     const { children, push } = this.props
 
-    if(!children) push('/')
+    if(!children) push('/dashboard')
   }
 
   render() {

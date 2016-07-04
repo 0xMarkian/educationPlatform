@@ -12,6 +12,8 @@ import {
   requestSetChosenSubject,
   appliedChosenSubject,
   setGroupPopupStep,
+  requestStudentsList,
+  receiveStudentsList,
 } from 'actions/group'
 
 
@@ -29,6 +31,10 @@ const initialState = {
     isFetching: false,
     requestMethod: 'POST',
     settingChosenSubject: false,
+  },
+  students: {
+    list: null,
+    isFetching: false,
   },
 }
 
@@ -79,7 +85,7 @@ export default createReducer({
     ...state,
     subjects: {
       ...state.subjects,
-      isFetching: true
+      isFetching: true,
     },
   }),
   [receiveSubjectsList]: (state, payload) => ({
@@ -88,14 +94,14 @@ export default createReducer({
       ...state.subjects,
       list: payload,
       isFetching: false,
-    }
+    },
   }),
   [requestSetChosenSubject]: state => ({
     ...state,
     subjects: {
       ...state.subjects,
       settingChosenSubject: true,
-    }
+    },
   }),
   [appliedChosenSubject]: state => ({
     ...state,
@@ -107,6 +113,20 @@ export default createReducer({
       ...state.subjects,
       settingChosenSubject: false,
       requestMethod: 'PATCH'
+    },
+  }),
+  [requestStudentsList]: state => ({
+    ...state,
+    students: {
+      ...state.students,
+      isFetching: true,
+    },
+  }),
+  [receiveStudentsList]: (state, payload) => ({
+    ...state,
+    students: {
+      list: payload,
+      isFetching: false,
     },
   }),
 }, initialState)

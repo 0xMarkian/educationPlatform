@@ -72,3 +72,18 @@ export const sendChosenSubject = (subject, method) => dispatch => {
       dispatch(appliedChosenSubject(res))
     })
 }
+
+export const requestStudentsList = createAction('REQUEST STUDENTS LIST')
+export const receiveStudentsList = createAction('RECEIVE STUDENTS LIST')
+export const fetchStudentsList = () => dispatch => {
+  dispatch(requestStudentsList())
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/students`, {
+    ...defaultHeaders,
+    method: 'GET',
+    credentials: 'include',
+  }).then( parseJSON )
+    .then(res => {
+      console.log('RECIEVED STUDENTS LIST: ', res)
+      dispatch(receiveStudentsList(res))
+  }).catch( err => { throw new Error(err)} )
+}
