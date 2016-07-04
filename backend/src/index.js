@@ -43,7 +43,7 @@ function configureMiddelware(app){
   app.use(expressJWT({
     secret: config.secret,
     getToken: req => req.cookies.accessToken,
-  }).unless({ path: ['/users/signUp','/users/signIn', '/setup'] }) )
+  }).unless({ path: ['/users/register','/users/login', '/setup'] }) )
 
 
 }

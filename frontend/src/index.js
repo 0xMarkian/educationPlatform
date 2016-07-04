@@ -1,45 +1,44 @@
-import 'core-js/fn/object/assign'
 import 'normalize.css/normalize.css'
 import 'styles/App.styl'
+
 import React from 'react'
-import history from './appHistory'
-import ReactDOM from 'react-dom'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { getMuiTheme, MuiThemeProvider } from 'material-ui/styles/'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import { Router, Route, Link } from 'react-router'
+import { Router, Route } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
+import history from './appHistory'
 import createStore from './store'
-import App from './components/App'
-import Header from './components/Header/'
-import SignInPopup from './components/Login/SignInSection'
-import ScoresTable from './components/Dashboard/ScoresTableSection/'
-import NewGroupPopup from './components/Dashboard/CreateGroupPopup'
 
+import App from './components/App'
+  import Login from './components/Login/'
+  import Register from './components/Register'
+
+  import Dashboard from './components/Dashboard'
 
 const store = createStore()
 
-//TMP:
-import {userSignIn} from 'actions/user'
-store.dispatch(userSignIn('test', 'test'))
 
-
-ReactDOM.render(
+const Root = () => (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme()}>
       <main>
-        <Router history={syncHistoryWithStore(history, store)}>
+        <Router history={ syncHistoryWithStore(history, store) }>
           <Route path='/' component={App}>
-            <Route path='signIn' component={SignInPopup} />
-            <Route path='newGroup' component={NewGroupPopup} />
+            <Route path='login' component={Login} />
+            <Route path='register' component={Register} />
+
+            <Route path='dashboard' component={Dashboard} />
           </Route>
         </Router>
       </main>
     </MuiThemeProvider>
   </Provider>
-, document.getElementById('app'))
-injectTapEventPlugin()
+)
+
+render(<Root/>, document.getElementById('app'))
+
 
 if(module.hot) module.hot.accept()

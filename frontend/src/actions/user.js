@@ -19,7 +19,7 @@ export const rejectSigningIn = createAction('REJECT SIGNING IN')
 export const userSignIn = (name, password) => dispatch => {
   dispatch(requestUserSignIn())
 
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/users/signIn`, {
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/users/login`, {
     ...defaultHeaders,
     mode:'cors',
     credentials:'include',

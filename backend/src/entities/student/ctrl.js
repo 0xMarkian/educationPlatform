@@ -1,6 +1,10 @@
-import BasicCtrl from '../../lib/ctrl'
+import autobind from 'autobind-decorator'
 
-class StudentCtrl extends BasicCtrl{
+import Student2CourseCtrl from '../student2Course/ctrl'
+
+
+class StudentCtrl extends Student2CourseCtrl {
+  @autobind
   create(req,res,next){
     const { name, group } = req.body
 
