@@ -79,7 +79,7 @@ export default createReducer({
     ...state,
     subjects: {
       ...state.subjects,
-      isFetchingList: true
+      isFetching: true
     },
   }),
   [receiveSubjectsList]: (state, payload) => ({

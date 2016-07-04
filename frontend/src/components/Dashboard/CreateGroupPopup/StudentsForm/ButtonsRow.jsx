@@ -23,7 +23,7 @@ class ButtonsRow extends React.Component {
   }
 
   render() {
-    const {isFetching} = this.props.commonStore.subjects
+    const {isFetching} = false
 
     return(
       <div>
@@ -47,7 +47,6 @@ class ButtonsRow extends React.Component {
 
 export default connect( store => ({
   groupStore: store.newGroupPopup,
-  commonStore: store.common
 }), {
   closeNewGroupPopup,
   setGroupPopupStep

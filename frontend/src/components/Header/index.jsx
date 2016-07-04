@@ -7,7 +7,7 @@ import {
 } from 'actions/group'
 
 
-class TopToolbar extends React.Component {
+class Header extends React.Component {
   render() {
     const { showNewGroupPopup } = this.props
 
@@ -29,4 +29,4 @@ class TopToolbar extends React.Component {
   }
 }
 
-export default connect(null, { showNewGroupPopup })(TopToolbar)
+export default connect(null, { showNewGroupPopup })(Header)

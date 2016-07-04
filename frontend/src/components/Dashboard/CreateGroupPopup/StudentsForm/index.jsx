@@ -5,7 +5,7 @@ import InputRow from './InputRow'
 import ButtonsRow from './ButtonsRow'
 
 
-class SubjectsForm extends React.Component {
+class StudentsForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -44,4 +44,4 @@ class SubjectsForm extends React.Component {
   }
 }
 
-export default connect()(SubjectsForm)
+export default connect()(StudentsForm)

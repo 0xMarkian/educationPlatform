@@ -1,4 +1,5 @@
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 
 import common from './common'
 import user from './user'
@@ -7,10 +8,9 @@ import newGroupPopup from './newGroupPopup'
 
 
 const rootReducer = combineReducers({
-  common,
   user,
   group,
-  newGroupPopup
+  routing: routerReducer,
 })
 
 export default rootReducer
