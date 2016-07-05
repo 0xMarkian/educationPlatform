@@ -14,6 +14,8 @@ import {
   setGroupPopupStep,
   requestStudentsList,
   receiveStudentsList,
+  requestScoresList,
+  receiveScoresList,
 } from 'actions/group'
 
 
@@ -33,6 +35,10 @@ const initialState = {
     settingChosenSubject: false,
   },
   students: {
+    list: null,
+    isFetching: false,
+  },
+  scores: {
     list: null,
     isFetching: false,
   },
@@ -125,6 +131,20 @@ export default createReducer({
   [receiveStudentsList]: (state, payload) => ({
     ...state,
     students: {
+      list: payload,
+      isFetching: false,
+    },
+  }),
+  [requestScoresList]: state => ({
+    ...state,
+    scores: {
+      ...state.scores,
+      isFetching: true,
+    },
+  }),
+  [receiveScoresList]: (state, payload) => ({
+    ...state,
+    scores: {
       list: payload,
       isFetching: false,
     },

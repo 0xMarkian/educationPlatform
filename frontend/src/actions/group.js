@@ -76,12 +76,26 @@ export const requestStudentsList = createAction('REQUEST STUDENTS LIST')
 export const receiveStudentsList = createAction('RECEIVE STUDENTS LIST')
 export const fetchStudentsList = () => dispatch => {
   dispatch(requestStudentsList())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/students`, {
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/students2courses?embed=student&embed=course`, {
     ...defaultHeaders,
     method: 'GET',
     credentials: 'include',
   }).then( parseJSON )
     .then(res => {
       dispatch(receiveStudentsList(res))
+  }).catch( err => { throw new Error(err)} )
+}
+
+export const requestScoresList = createAction('REQUEST SCORES LIST')
+export const receiveScoresList = createAction('RECEIVE SCORES LIST')
+export const fetchScoresList = () => dispatch => {
+  dispatch(requestScoresList())
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/scores?embed=student&embed=course`, {
+    ...defaultHeaders,
+    method: 'GET',
+    credentials: 'include',
+  }).then( parseJSON )
+    .then(res => {
+      dispatch(receiveScoresList(res))
   }).catch( err => { throw new Error(err)} )
 }

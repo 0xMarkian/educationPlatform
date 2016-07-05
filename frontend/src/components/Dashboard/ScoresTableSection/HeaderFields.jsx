@@ -6,8 +6,6 @@ class HeaderFields extends React.Component {
   render() {
     const subjectsList = this.props.groupStore.subjects.list
 
-    console.log('Subjects: ', subjectsList)
-
     if(!subjectsList) return null
 
     return(
