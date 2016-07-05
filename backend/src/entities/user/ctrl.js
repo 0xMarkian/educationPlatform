@@ -8,7 +8,7 @@ import BasicCtrl from '../../lib/ctrl'
 
 class UserCtrl extends BasicCtrl{
   @autobind
-  signUp(req,res, next){
+  register(req, res, next){
     const { name, password } = req.body
 
     this.Model.create({
@@ -22,9 +22,8 @@ class UserCtrl extends BasicCtrl{
   }
 
   @autobind
-  signIn(req,res, next) {
+  login(req, res, next) {
     const {name, password} = req.body
-    console.log(name)
     this.Model.findOne({name}, (err, user) => {
       if (err) return next(err)
 

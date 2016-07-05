@@ -6,10 +6,10 @@ import Ctrl from './ctrl'
 const userCtrl = new Ctrl(User)
 const router = Router()
 
-router.route('/signUp')
-  .post(userCtrl.signUp)
+router.route('/register')
+  .post(userCtrl.register)
 
-router.route('/signIn')
-  .post(userCtrl.signIn)
+router.route('/login')
+  .post(userCtrl.login)
 
 export default router

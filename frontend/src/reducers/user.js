@@ -1,37 +1,38 @@
 import {createReducer} from 'redux-act'
 
 import {
-  requestUserSignUp,
-  receiveSignedUpUser,
+  requestUserRegister,
+  receiveRegisteredUser,
 
-  requestUserSignIn,
-  userSignedIn
+  requestUserLogin,
+  userLoggedIn
 } from 'actions/user'
 
 
 const initialState = {
   name: null,
-  signingUp: false,
-  signingIn: true
+  registering: false,
+  loggingIn: true
 }
 
 export default createReducer({
-  [requestUserSignUp]: state => ({
+  [requestUserRegister]: state => ({
     ...state,
-    signingUp: true
+    registering: true
   }),
-  [receiveSignedUpUser]: state => ({
+  [receiveRegisteredUser]: state => ({
     ...state,
-    signingUp: false
-  }),
-
-  [requestUserSignIn]: state => ({
-    ...state,
-    signingIn: true
+    registering: false
   }),
 
-  [userSignedIn]: state => ({
+  [requestUserLogin]: (state, payload) => ({
     ...state,
-    signingIn: false
+    name: payload,
+    loggingIn: true,
+  }),
+
+  [userLoggedIn]: state => ({
+    ...state,
+    loggingIn: false
   })
 }, initialState)

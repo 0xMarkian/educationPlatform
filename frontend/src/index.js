@@ -1,47 +1,48 @@
-import 'core-js/fn/object/assign'
 import 'normalize.css/normalize.css'
 import 'styles/App.styl'
 
 import React from 'react'
-import history from './appHistory'
 import { render } from 'react-dom'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { getMuiTheme, MuiThemeProvider } from 'material-ui/styles/'
 import { Provider } from 'react-redux'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Router, Route } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-
+import injectTapEventPlugin from 'react-tap-event-plugin'
+import history from './appHistory'
 import createStore from './store'
+
 import App from './components/App'
 import Header from './components/Header/'
 import Dashboard from './components/Dashboard'
-import SignInPopup from './components/Login/SignInSection'
 import ScoresTable from './components/Dashboard/ScoresTableSection/'
 import NewGroupPopup from './components/Dashboard/CreateGroupPopup'
+import Login from './components/Login/'
+import Register from './components/Register'
 
 const store = createStore()
 
-//TMP:
-import {userSignIn} from 'actions/user'
-store.dispatch(userSignIn('test', 'test'))
+//TMP (Do not remove until login form is finished)
+import { userLogin } from 'actions/user'
+store.dispatch(userLogin('Lesia', 'test'))
 
-
-render(
+const Root = () => (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme()}>
       <main>
-        <Router history={syncHistoryWithStore(history, store)}>
+        <Router history={ syncHistoryWithStore(history, store) }>
           <Route path='/' component={App}>
             <Route path='dashboard' component={Dashboard} />
-            <Route path='signIn' component={SignInPopup} />
             <Route path='newGroup' component={NewGroupPopup} />
+            <Route path='login' component={Login} />
+            <Route path='register' component={Register} />
           </Route>
         </Router>
       </main>
     </MuiThemeProvider>
   </Provider>
-, document.getElementById('app'))
-injectTapEventPlugin()
+)
+
+render(<Root/>, document.getElementById('app'))
+
 
 if(module.hot) module.hot.accept()

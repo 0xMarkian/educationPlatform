@@ -8,5 +8,6 @@ const router = Router()
 
 router.route('/')
   .post(studentCtrl.create)
+  .get(studentCtrl.list)
 
 export default router

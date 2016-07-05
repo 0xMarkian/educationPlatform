@@ -68,7 +68,6 @@ export const sendChosenSubject = (subject, method) => dispatch => {
     body: JSON.stringify({ ...subject })
   }).then( parseJSON )
     .then( res => {
-      console.log(res)
       dispatch(appliedChosenSubject(res))
     })
 }
@@ -83,7 +82,6 @@ export const fetchStudentsList = () => dispatch => {
     credentials: 'include',
   }).then( parseJSON )
     .then(res => {
-      console.log('RECIEVED STUDENTS LIST: ', res)
       dispatch(receiveStudentsList(res))
   }).catch( err => { throw new Error(err)} )
 }

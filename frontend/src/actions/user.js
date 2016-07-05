@@ -6,20 +6,19 @@ import {parseJSON} from '../utils'
 import {fetchGroup} from 'actions/group'
 
 
-export const requestUserSignUp = createAction('REGISTER NEW USER')
-export const receiveSignUpedUser = createAction('REGISTER NEW USER')
-export const userSignUp = (name, password) => dispatch => {
-  dispatch(requestUserSignUp())
-  dispatch(receivedSignedUpUser())
+export const requestUserRegister = createAction('REGISTER NEW USER')
+export const receiveRegisteredUser = createAction('REGISTER NEW USER')
+export const userRegister = (name, password) => dispatch => {
+  dispatch(requestUserRegister())
+  dispatch(receivedRegisteredUser())
 }
 
-export const requestUserSignIn = createAction('LOG USER IN')
-export const userSignedIn = createAction('LOG USER IN')
-export const rejectSigningIn = createAction('REJECT SIGNING IN')
-export const userSignIn = (name, password) => dispatch => {
-  dispatch(requestUserSignIn())
-
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/users/signIn`, {
+export const requestUserLogin = createAction('LOG USER IN')
+export const userLoggedIn = createAction('LOG USER IN')
+export const rejectLogin = createAction('REJECT SIGNING IN')
+export const userLogin = (name, password) => dispatch => {
+  dispatch(requestUserLogin(name))
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/users/login`, {
     ...defaultHeaders,
     mode:'cors',
     credentials:'include',
@@ -28,9 +27,9 @@ export const userSignIn = (name, password) => dispatch => {
   }).then(parseJSON)
     .then(res => {
       if(res.success){
-        dispatch(userSignedIn())
+        dispatch(userLoggedIn())
         dispatch(fetchGroup())
       }
-      else dispatch(rejectSigningIn())
+      else dispatch(rejectLogin())
   })
 }
