@@ -1,5 +1,4 @@
 {
-  "plugins": ["transform-object-rest-spread"],
   "presets": [
     "es2015",
     "react",
@@ -9,5 +8,6 @@
     "development": {
       "presets": ["react-hmre"]
     }
-  }
+  },
+  "plugins": ["babel-plugin-transform-decorators-legacy"]
 }

@@ -1,6 +1,6 @@
 import {createAction} from 'redux-act'
 
-import { backend, defaultHeaders } from '../config'
+import { backend, defaultFetchParams } from '../config'
 import { parseJSON } from '../utils'
 
 
@@ -12,8 +12,8 @@ export const requestCreateGroup = createAction('REQUEST CREATE GROUP')
 export const receiveCreatedGroup = createAction('RECEIVE CREATED GROUP')
 export const createGroup = (name, method) => dispatch => {
   dispatch(requestCreateGroup())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/groups`, {
-    ...defaultHeaders,
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
+    ...defaultFetchParams,
     method,
     mode: 'cors',
     credentials:'include',
@@ -29,8 +29,8 @@ export const requestFetchGroup = createAction('REQUEST FETCH GROUP')
 export const receiveFetchedGroup = createAction('RECEIVE FETCHED GROUP')
 export const fetchGroup = name => dispatch => {
   dispatch(requestFetchGroup())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/groups`, {
-    ...defaultHeaders,
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
+    ...defaultFetchParams,
     method: 'GET',
     mode: 'cors',
     credentials: 'include',
@@ -45,8 +45,8 @@ export const requestSubjectsList = createAction('REQUEST SUBJECTS LIST')
 export const receiveSubjectsList = createAction('RECEIVE SUBJECTS LIST')
 export const fetchSubjectsList = () => dispatch => {
   dispatch(requestSubjectsList())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
-    ...defaultHeaders,
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
+    ...defaultFetchParams,
     method: 'GET',
     mode: 'cors',
     credentials: 'include',
@@ -60,8 +60,8 @@ export const requestSetChosenSubject = createAction('REQUEST SEND CHOSEN SUBJECT
 export const appliedChosenSubject = createAction('APPLIED CHOSEN SUBJECT')
 export const sendChosenSubject = (subject, method) => dispatch => {
   dispatch(requestSetChosenSubject())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
-    ...defaultHeaders,
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
+    ...defaultFetchParams,
     method,
     mode: 'cors',
     credentials: 'include',
@@ -76,8 +76,8 @@ export const requestStudentsList = createAction('REQUEST STUDENTS LIST')
 export const receiveStudentsList = createAction('RECEIVE STUDENTS LIST')
 export const fetchStudentsList = () => dispatch => {
   dispatch(requestStudentsList())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/students`, {
-    ...defaultHeaders,
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students`, {
+    ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
   }).then( parseJSON )

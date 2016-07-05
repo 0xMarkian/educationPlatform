@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
+import autobind from 'autobind-decorator'
 import {connect} from 'react-redux'
 import {TextField} from 'material-ui'
 
@@ -6,51 +7,138 @@ import {TextField} from 'material-ui'
 class Password extends React.Component {
   constructor(props) {
     super(props)
-    this.staticData = {
-      passwordMinLength: 8,
-      errorMessages: {
-        shortPassword: 'It must contain at least 8 characters',
-      }
+
+    this.passwordMinLength =  4
+    this.errorMessages = {
+      short: `It must contain at least ${this.passwordMinLength} characters`,
+      empty: 'The password field can\'t be empty',
     }
-    this.handleInput = this.handleInput.bind(this)
+
+    this.state = {
+      value: null,
+      errorText: null,
+    }
   }
 
-  handleInput(event) {
-    const {inputsData, updateInputData, differentPasswordsError} = this.props
-    const {passwordMinLength, errorMessages} = this.staticData
-    const inputValue = event.target.value
+  @autobind
+  handleInput(e) {
+    const { updateUnConfirmedPassword } = this.props
+    const { errorMessages, passwordMinLength } = this
 
-    if(!inputValue){
-      updateInputData('password', inputValue, true, null)
-      return
-    }
+    const password = e.target.value
 
-    if(inputValue.length >= passwordMinLength) updateInputData('password', inputValue, false, null)
-    else updateInputData('password', inputValue, true, errorMessages.shortPassword)
+    if(!password) return this.setState({ errorText: errorMessages.empty })
+    if(password.length < passwordMinLength) return this.setState({ errorText: errorMessages.short} )
 
-    if(inputValue !== inputsData.retypedPassword.value) { // Passwords don't match...
-      if(inputsData.retypedPassword.value) { // ... and retyped password is not empty
-        updateInputData('retypedPassword', undefined, true, differentPasswordsError)
-      }
-    }
-    else updateInputData('retypedPassword', undefined, false, null)
-}
+    this.setState({ errorText: null })
+    updateUnConfirmedPassword(password)
+  }
+
+  @autobind
+  enableEditMode(){
+    const { updateUnConfirmedPassword } = this.props
+
+    this.setState({
+      errorText: null,
+    })
+    updateUnConfirmedPassword(null)
+  }
   render() {
-    const {inputsData} = this.props
+    const { errorText } = this.state
 
     return(
       <div>
         <label htmlFor='login-modal-password'>Password:</label><br/>
         <TextField
-          errorText={inputsData.password.errorText}
+          onFocus={this.enableEditMode}
+          onBlur={this.handleInput}
+          errorText={errorText}
           id='login-modal-password'
           hintText='password'
           type='password'
-          onChange={this.handleInput}
         /><br/><br/>
       </div>
     )
   }
 }
 
-export default connect()(Password)
+class ConfirmePassword extends Component {
+  constructor(props) {
+    super(props)
+
+    this.errorMessages = {
+      noMatch: 'The passwords don\'t match'
+    }
+
+    this.state = {
+      errorText: null,
+    }
+  }
+
+  @autobind
+  handleInput(e){
+    const { updatePasswordState, unConfirmedPassword } = this.props
+    const { errorMessages } = this
+
+    const password = e.target.value
+    if(!password || password !== unConfirmedPassword) return this.setState({ errorText: errorMessages.noMatch })
+
+    this.setState({ errorText: null })
+    updatePasswordState(password)
+  }
+
+  @autobind
+  enableEditMode(){
+    const { updatePasswordState } = this.props
+
+    this.setState({
+      errorText: null,
+    })
+
+    updatePasswordState(null)
+  }
+
+  render() {
+    const { errorText } = this.state
+
+    return(
+      <div>
+        <label htmlFor='login-modal-retyped-password'>Retype password:</label><br/>
+        <TextField
+          onFocus={this.enableEditMode}
+          onBlur={this.handleInput}
+          errorText={errorText}
+          id='login-modal-retyped-password'
+          hintText='Retype password'
+          type='password'
+        /><br/><br/>
+      </div>
+    )
+  }
+}
+
+export default class PasswordSection extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      unConfirmedPassword: null,
+    }
+  }
+
+  @autobind
+  updateUnConfirmedPassword(password){
+    this.setState({
+      unConfirmedPassword: password,
+    })
+  }
+  render(){
+    const { unConfirmedPassword } = this.state
+    return (
+      <div>
+        <Password updateUnConfirmedPassword={this.updateUnConfirmedPassword} />
+        <ConfirmePassword unConfirmedPassword={unConfirmedPassword} updatePasswordState={this.props.updatePasswordState}/>
+      </div>
+    )
+  }
+}
