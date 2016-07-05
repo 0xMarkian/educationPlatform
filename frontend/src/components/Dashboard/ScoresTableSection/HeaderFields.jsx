@@ -1,32 +1,32 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {TableRow, TableHeaderColumn, TableRowColumn} from 'material-ui'
+import { connect } from 'react-redux'
+import { TableRow, TableHeaderColumn } from 'material-ui'
 
 class HeaderFields extends React.Component {
   render() {
     const subjectsList = this.props.groupStore.subjects.list
-
-    if(!subjectsList) return null
-
+    const { usedSubjects } = this.props
     return(
-      <TableRow>
-        <TableHeaderColumn>Name</TableHeaderColumn>
-        {
-          subjectsList.map( (subject, i) => {
-            return (
+      <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+        <TableRow>
+          <TableHeaderColumn>Name</TableHeaderColumn>
+            {
+              Object.keys(usedSubjects).map( (subject, i) => (
               <TableHeaderColumn
-                tooltip={subject.name}
+                tooltip={usedSubjects[subject]}
                 key={i}
               >
-                {subject.name ?
-                  (subject.name.length >= 12 ? subject.name.slice(0, 10) + '...' : subject.name)
-                  : null
-                }
+              {
+                usedSubjects[subject] ?
+                  (usedSubjects[subject].length >= 12 ?
+                    usedSubjects[subject].slice(0, 10) + '...' : usedSubjects[subject]
+                  ): null
+              }
               </TableHeaderColumn>
-            )
-          })
-        }
-      </TableRow>
+            ))
+          }
+        </TableRow>
+      </TableHeader>
     )
   }
 }

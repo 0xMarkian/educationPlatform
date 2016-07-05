@@ -41,21 +41,6 @@ export const fetchGroup = name => dispatch => {
     .catch( err => {throw new Error(err)} )
 }
 
-export const requestSubjectsList = createAction('REQUEST SUBJECTS LIST')
-export const receiveSubjectsList = createAction('RECEIVE SUBJECTS LIST')
-export const fetchSubjectsList = () => dispatch => {
-  dispatch(requestSubjectsList())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
-    ...defaultHeaders,
-    method: 'GET',
-    mode: 'cors',
-    credentials: 'include',
-  }).then(parseJSON)
-    .then( res => {
-      dispatch(receiveSubjectsList(res))
-  }).catch( err => {throw new Error(err)} )
-}
-
 export const requestSetChosenSubject = createAction('REQUEST SEND CHOSEN SUBJECT')
 export const appliedChosenSubject = createAction('APPLIED CHOSEN SUBJECT')
 export const sendChosenSubject = (subject, method) => dispatch => {
@@ -72,9 +57,28 @@ export const sendChosenSubject = (subject, method) => dispatch => {
     })
 }
 
+export const requestSubjectsList = createAction('REQUEST SUBJECTS LIST')
+export const receiveSubjectsList = createAction('RECEIVE SUBJECTS LIST')
+export const fetchSubjectsList = (parentResolve, parentReject) => dispatch => {
+  dispatch(requestSubjectsList())
+  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
+    ...defaultHeaders,
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'include',
+  }).then(parseJSON)
+    .then( res => {
+      parentResolve && parentResolve()
+      dispatch(receiveSubjectsList(res))
+  }).catch( err => {
+      parentReject && parentReject()
+      throw new Error(err)
+  })
+}
+
 export const requestStudentsList = createAction('REQUEST STUDENTS LIST')
 export const receiveStudentsList = createAction('RECEIVE STUDENTS LIST')
-export const fetchStudentsList = () => dispatch => {
+export const fetchStudentsList = (parentResolve, parentReject) => dispatch => {
   dispatch(requestStudentsList())
   fetch(`${backend.protocol}://${backend.ip}:${backend.port}/students2courses?embed=student&embed=course`, {
     ...defaultHeaders,
@@ -82,13 +86,17 @@ export const fetchStudentsList = () => dispatch => {
     credentials: 'include',
   }).then( parseJSON )
     .then(res => {
+      parentResolve && parentResolve()
       dispatch(receiveStudentsList(res))
-  }).catch( err => { throw new Error(err)} )
+  }).catch(err => {
+      parentReject && parentReject()
+      throw new Error(err)
+  })
 }
 
 export const requestScoresList = createAction('REQUEST SCORES LIST')
 export const receiveScoresList = createAction('RECEIVE SCORES LIST')
-export const fetchScoresList = () => dispatch => {
+export const fetchScoresList = (parentResolve, parentReject) => dispatch => {
   dispatch(requestScoresList())
   fetch(`${backend.protocol}://${backend.ip}:${backend.port}/scores?embed=student&embed=course`, {
     ...defaultHeaders,
@@ -96,6 +104,10 @@ export const fetchScoresList = () => dispatch => {
     credentials: 'include',
   }).then( parseJSON )
     .then(res => {
+      parentResolve && parentResolve()
       dispatch(receiveScoresList(res))
-  }).catch( err => { throw new Error(err)} )
+  }).catch(err => {
+      parentReject && parentReject()
+      throw new Error(err)
+    })
 }
