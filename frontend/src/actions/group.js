@@ -15,7 +15,6 @@ export const createGroup = (name, method) => dispatch => {
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
     ...defaultFetchParams,
     method,
-    mode: 'cors',
     credentials:'include',
     body: JSON.stringify({ name })
   }).then(parseJSON)
@@ -32,7 +31,6 @@ export const fetchGroup = name => dispatch => {
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
     ...defaultFetchParams,
     method: 'GET',
-    mode: 'cors',
     credentials: 'include',
   }).then(parseJSON)
     .then( res => {
@@ -48,7 +46,6 @@ export const sendChosenSubject = (subject, method) => dispatch => {
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
     ...defaultFetchParams,
     method,
-    mode: 'cors',
     credentials: 'include',
     body: JSON.stringify({ ...subject })
   }).then( parseJSON )
@@ -64,7 +61,6 @@ export const fetchSubjectsList = (parentResolve, parentReject) => dispatch => {
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
     ...defaultFetchParams,
     method: 'GET',
-    mode: 'cors',
     credentials: 'include',
   }).then(parseJSON)
     .then( res => {
@@ -110,4 +106,18 @@ export const fetchScoresList = (parentResolve, parentReject) => dispatch => {
       parentReject && parentReject()
       throw new Error(err)
     })
+}
+
+export const applyNewScore = (student, course, scoreValue) => dispatch => {
+  console.log(scoreValue)
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/scores`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'POST',
+    body: JSON.stringify({ student, course, scoreValue })
+  }).then(res => {
+    console.log('A new score has been successfully applied!')
+  }).catch(err => {
+    throw new Error(err)
+  })
 }

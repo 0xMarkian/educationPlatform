@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import autobind from 'autobind-decorator'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TextField } from 'material-ui'
 
-import { fetchSubjectsList, fetchStudentsList, fetchScoresList } from 'actions/group'
+import { fetchSubjectsList, fetchStudentsList, fetchScoresList, applyNewScore } from 'actions/group'
 
 
 class ScoresTable extends React.Component {
@@ -15,10 +14,10 @@ class ScoresTable extends React.Component {
     }
   }
 
-  @autobind
-  handleInput(event){
+  handleInput(studentId, courseId, event){
+    const { applyNewScore } = this.props
     const inputValue = event.target.value
-    console.log(`Got an input: ${inputValue}`)
+    applyNewScore(studentId, courseId, inputValue)
   }
 
   componentWillMount() {
@@ -51,7 +50,10 @@ class ScoresTable extends React.Component {
         rebuiltStudentsList[score.student._id] = {
           ...rebuiltStudentsList[score.student._id],
           studentName: score.student.name,
-          [score.course.subject]: score.scoreValue,
+          [score.course.subject]: {
+            courseId: score.course._id,
+            scoreValue: score.scoreValue,
+          }
         }
       })
 
@@ -65,7 +67,7 @@ class ScoresTable extends React.Component {
 
     // Do not render until required lists are loaded
     if(!groupSubjectsList || !rebuiltStudentsList) return(<div>Loading in progress...</div>)
-
+    console.log(rebuiltStudentsList)
     return (
       <Table selectable={false}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -101,8 +103,10 @@ class ScoresTable extends React.Component {
                       id={subjectId + '/' + studentId}
                       type='text'
                       underlineShow={false}
-                      defaultValue={rebuiltStudentsList[studentId][subjectId]}
-                      onBlur={this.handleInput}
+                      defaultValue={rebuiltStudentsList[studentId][subjectId].scoreValue}
+                      onBlur={
+                        this.handleInput.bind(this, studentId, rebuiltStudentsList[studentId][subjectId].courseId)
+                      }
                     />
                   </TableRowColumn>
                 ))
@@ -119,5 +123,6 @@ class ScoresTable extends React.Component {
 export default connect(store => ({ groupStore: store.group }), {
   fetchSubjectsList,
   fetchStudentsList,
-  fetchScoresList
+  fetchScoresList,
+  applyNewScore,
 })(ScoresTable)
