@@ -22,8 +22,8 @@ import Register from './components/Register'
 const store = createStore()
 
 //TMP (Do not remove until login form is finished)
-import { userLogin } from 'actions/user'
-store.dispatch(userLogin('Lesia', 'test'))
+// import { userLogin } from 'actions/user'
+// store.dispatch(userLogin('Lesia', 'test'))
 
 const Root = () => (
   <Provider store={store}>

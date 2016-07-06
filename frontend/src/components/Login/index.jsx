@@ -1,23 +1,69 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Dialog, RaisedButton } from 'material-ui'
+import autobind from 'autobind-decorator'
 
-import { Dialog } from 'material-ui'
+import history from 'appHistory'
+import { userLogin } from 'actions/user'
+import Username from './Username'
+import Password from './Password'
 
-class Login extends Component {
-  handleLogin(){
-    
+
+class LoginSection extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      username: null,
+      password: null,
+    }
   }
+
+  @autobind
+  updateUsernameState(username){
+    this.setState({ username })
+  }
+
+  @autobind
+  updatePasswordState(password){
+    this.setState({ password })
+  }
+
+  @autobind
+  handleLogin() {
+    const { userLogin } = this.props
+    const { username, password } = this.state
+
+    userLogin(username, password)
+  }
+
+  componentWillMount() {
+    if(userStore.loggedIn) history.push('dashboard')
+  }
+
   render() {
-    return (
+    const { password, username } = this.state
+    const { userStore } = this.props
+    const submitButtonDisabled = !(password && username)
+
+    return(
       <Dialog
-        title='Login a second'
+        title='Sign in in a second'
+        modal={true}
         open={true}
         titleClassName='login-modal-title'
-        contentStyle={{ width: '40%' }}
+        contentStyle={{ textAlign:'center' }}
+        autoScrollBodyContent={true}
       >
-        hi
+        <Username
+          updateUsernameState={this.updateUsernameState}
+        />
+        <Password
+          updatePasswordState={this.updatePasswordState}
+        />
+        <RaisedButton label="Login" primary={true} disabled={submitButtonDisabled} onClick={this.handleLogin} />
       </Dialog>
     )
   }
 }
-export default Login
+
+export default connect(store => ({userStore: store.user}), { userLogin })(LoginSection)

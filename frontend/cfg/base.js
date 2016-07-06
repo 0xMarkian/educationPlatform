@@ -30,6 +30,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
+      appHistory: `${defaultSettings.srcPath}/appHistory/`,
       actions: `${defaultSettings.srcPath}/actions/`,
       components: `${defaultSettings.srcPath}/components/`,
       sources: `${defaultSettings.srcPath}/sources/`,
