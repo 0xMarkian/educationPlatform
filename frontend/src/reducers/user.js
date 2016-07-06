@@ -21,10 +21,9 @@ export default createReducer({
     ...state,
     registering: true
   }),
-  [receiveRegisteredUser]: state => ({
+  [receiveRegisteredUser]: (state, payload) => ({
     ...state,
     registering: false,
-    loggedIn: true,
   }),
 
   [requestUserLogin]: state => ({

@@ -82,6 +82,7 @@ export const fetchStudentsList = (parentResolve, parentReject) => dispatch => {
     credentials: 'include',
   }).then( parseJSON )
     .then(res => {
+      console.log(res)
       parentResolve && parentResolve()
       dispatch(receiveStudentsList(res))
   }).catch(err => {

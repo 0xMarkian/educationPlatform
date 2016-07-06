@@ -18,12 +18,13 @@ export const userRegister = (name, password) => dispatch => {
   }).then(parseJSON)
     .then(res => {
       dispatch(receiveRegisteredUser())
+      dispatch(userLogin(name, password))
   }).catch(err => {
     throw new Error(err)
   })
 }
 
-//Logination
+// Logging in
 export const requestUserLogin = createAction('LOG USER IN')
 export const userLoggedIn = createAction('LOG USER IN')
 export const rejectLogin = createAction('REJECT SIGNING IN')
