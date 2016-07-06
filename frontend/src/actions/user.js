@@ -7,7 +7,7 @@ import { fetchGroup } from 'actions/group'
 
 // Registration
 export const requestUserRegistration = createAction('REQUEST USER REGISTRATION')
-export const receivedRegisteredUser = createAction('RECEIVED REGISTERED USER')
+export const receiveRegisteredUser = createAction('RECEIVED REGISTERED USER')
 export const userRegister = (name, password) => dispatch => {
   dispatch(requestUserRegistration())
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/users/register`, {
@@ -17,10 +17,10 @@ export const userRegister = (name, password) => dispatch => {
     body: JSON.stringify({ name, password })
   }).then(parseJSON)
     .then(res => {
-      if(res.success){
-        dispatch(receivedRegisteredUser())
-      }
-    })
+      dispatch(receiveRegisteredUser())
+  }).catch(err => {
+    throw new Error(err)
+  })
 }
 
 //Logination

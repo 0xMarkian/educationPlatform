@@ -12,7 +12,7 @@ import {
 const initialState = {
   name: null,
   registering: false,
-  loggingIn: true,
+  loggingIn: false,
   loggedIn: false,
 }
 
@@ -23,7 +23,8 @@ export default createReducer({
   }),
   [receiveRegisteredUser]: state => ({
     ...state,
-    registering: false
+    registering: false,
+    loggedIn: true,
   }),
 
   [requestUserLogin]: state => ({
