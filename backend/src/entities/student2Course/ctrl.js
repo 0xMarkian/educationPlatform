@@ -1,7 +1,7 @@
 import autobind from 'autobind-decorator'
 
 import BasicCtrl from '../../lib/ctrl'
-import User from '../user/model'
+import { findCurrUserGroup } from '../user/utils'
 
 
 class Student2CourseCtrl extends BasicCtrl {
@@ -25,25 +25,19 @@ class Student2CourseCtrl extends BasicCtrl {
   list(req, res, next){
     // To embed resource representatio(show not only ref to id, but external resources too) use API with query.
     // For example /?embed=student&embed=course
-    const { embed ='' } = req.query,
+    const { embed = '' } = req.query,
       { _id: userId } = req.user
 
-    User
-      .findById(userId)
-      .exec( (err,user) => {
-        if(err) return next(err)
-        const { group } = user
+    findCurrUserGroup(userId).then( group => {
+      this.Model
+        .find({group})
+        .populate(embed)
+        .exec((err, entities) => {
+          if (err) return next(err)
 
-        this.Model
-          .find({group})
-          .populate(embed)
-          .exec((err, entities) => {
-            if (err) return next(err)
-
-            res.json(entities)
-          })
-      })
-
+          res.json(entities)
+        })
+    })
   }
 }
 

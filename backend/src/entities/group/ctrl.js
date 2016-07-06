@@ -1,6 +1,7 @@
 import autobind from 'autobind-decorator'
 
 import User from '../user/model'
+import { findCurrUserGroup } from '../user/utils'
 import BasicCtrl from '../../lib/ctrl'
 
 class GroupCtrl extends BasicCtrl {
@@ -31,9 +32,7 @@ class GroupCtrl extends BasicCtrl {
   list(req,res, next){
     const { _id: userId } = req.user
 
-    User.findById(userId, (err, user) => {
-      const { group } = user
-
+    findCurrUserGroup(userId).then( group => {
       this.Model
         .find({_id: group})
         .exec( (err, entity) => {
