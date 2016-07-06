@@ -7,6 +7,6 @@ export const defaultFetchParams = {
   mode: 'cors',
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
 }
