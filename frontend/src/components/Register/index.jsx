@@ -1,7 +1,10 @@
+import { styles } from './styles'
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dialog, RaisedButton } from 'material-ui'
 import autobind from 'autobind-decorator'
+import { css } from 'aphrodite'
 
 import { userRegister } from 'actions/user'
 import Username from './Username'
@@ -43,8 +46,7 @@ class RegisterSection extends Component{
         title='Sign up in a second'
         modal={true}
         open={true}
-        titleClassName='login-modal-title'
-        contentStyle={{ textAlign:'center' }}
+        titleClassName={css(styles.popupHeader)}
         autoScrollBodyContent={true}
       >
         <Username

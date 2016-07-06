@@ -1,7 +1,10 @@
+import { styles } from './styles'
+
 import React, { Component } from 'react'
+import autobind from 'autobind-decorator'
 import { connect } from 'react-redux'
 import { Dialog, RaisedButton } from 'material-ui'
-import autobind from 'autobind-decorator'
+import { css } from 'aphrodite'
 
 import history from 'appHistory'
 import { userLogin } from 'actions/user'
@@ -36,13 +39,13 @@ class LoginSection extends Component{
     userLogin(username, password)
   }
 
-  componentWillMount() {
+  componentDidUpdate() {
+    const { userStore } = this.props
     if(userStore.loggedIn) history.push('dashboard')
   }
 
   render() {
     const { password, username } = this.state
-    const { userStore } = this.props
     const submitButtonDisabled = !(password && username)
 
     return(
@@ -50,8 +53,7 @@ class LoginSection extends Component{
         title='Sign in in a second'
         modal={true}
         open={true}
-        titleClassName='login-modal-title'
-        contentStyle={{ textAlign:'center' }}
+        titleClassName={css(styles.popupHeader)}
         autoScrollBodyContent={true}
       >
         <Username
@@ -66,4 +68,4 @@ class LoginSection extends Component{
   }
 }
 
-export default connect(store => ({userStore: store.user}), { userLogin })(LoginSection)
+export default connect(store => ({ userStore: store.user }), { userLogin })(LoginSection)
