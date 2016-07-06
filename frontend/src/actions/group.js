@@ -61,7 +61,7 @@ export const requestSubjectsList = createAction('REQUEST SUBJECTS LIST')
 export const receiveSubjectsList = createAction('RECEIVE SUBJECTS LIST')
 export const fetchSubjectsList = (parentResolve, parentReject) => dispatch => {
   dispatch(requestSubjectsList())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/subjects`, {
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
     ...defaultFetchParams,
     method: 'GET',
     mode: 'cors',
@@ -98,7 +98,7 @@ export const requestScoresList = createAction('REQUEST SCORES LIST')
 export const receiveScoresList = createAction('RECEIVE SCORES LIST')
 export const fetchScoresList = (parentResolve, parentReject) => dispatch => {
   dispatch(requestScoresList())
-  fetch(`${backend.protocol}://${backend.ip}:${backend.port}/scores?embed=student&embed=course`, {
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/scores?embed=student&embed=course`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',

@@ -12,7 +12,7 @@ class ScoresTable extends React.Component {
       subjectsList: null,
       studentsList: null,
       scoresList: null,
-      neededSubjects: null,
+      groupSubjects: null,
       rebuiltStudentsList: null,
     }
     this.handleInput = this.handleInput.bind(this)
@@ -35,9 +35,20 @@ class ScoresTable extends React.Component {
             scoresList = this.props.groupStore.scores.list
 
       // Creating a list of needed subjects, formatted like {subjectId: subjectName}
-      const neededSubjects = {}
+      const rebuiltSubjectsList = subjectsArr => {
+        const subjectsObj = {}
+        subjectsArr.map(subject => {
+          subjectsObj[subject._id] = subject.name
+        })
+        return subjectsObj
+      }
+
+      console.log(rebuiltSubjectsList)
+
+
+      const groupSubjects = {}
       studentsList.forEach((student) => {
-        neededSubjects[student.course.subject] = subjectsList.filter(s => (s._id === student.course.subject))[0].name
+        groupSubjects[student.course.subject] = subjectsList.filter(s => (s._id === student.course.subject))[0].name
       })
 
       // Flattering [{name: 'foo', _id: 'bar', scoreValue: 'baz'}] to {foo: {bar: 'baz'}}
@@ -49,16 +60,16 @@ class ScoresTable extends React.Component {
         }
       })
 
-      this.setState({ subjectsList, studentsList, scoresList, neededSubjects, rebuiltStudentsList })
+      this.setState({ subjectsList, studentsList, scoresList, groupSubjects, rebuiltStudentsList })
     }).catch(err => {throw new Error(err)})
   }
 
 
   render() {
-    const { neededSubjects, studentsList, rebuiltStudentsList } = this.state
+    const { groupSubjects, studentsList, rebuiltStudentsList } = this.state
 
     // Do not render until all of the required lists are loaded
-    if(!neededSubjects || !studentsList || !rebuiltStudentsList) return(<div>Loading in progress...</div>)
+    if(!groupSubjects || !studentsList || !rebuiltStudentsList) return(<div>Loading in progress...</div>)
 
     return (
       <Table selectable={false}>
@@ -66,14 +77,14 @@ class ScoresTable extends React.Component {
           <TableRow>
             <TableHeaderColumn>Name</TableHeaderColumn>
             {
-              Object.keys(neededSubjects).map( (subject, i) => (
+              Object.keys(groupSubjects).map( (subject, i) => (
                 <TableHeaderColumn
-                  tooltip={neededSubjects[subject]}
+                  tooltip={groupSubjects[subject]}
                   key={i}
                 >
-                  {neededSubjects[subject] ?
-                    (neededSubjects[subject].length >= 12 ?
-                      neededSubjects[subject].slice(0, 10) + '...' : neededSubjects[subject]
+                  {groupSubjects[subject] ?
+                    (groupSubjects[subject].length >= 12 ?
+                      groupSubjects[subject].slice(0, 10) + '...' : groupSubjects[subject]
                     ): null
                   }
                 </TableHeaderColumn>
@@ -87,7 +98,7 @@ class ScoresTable extends React.Component {
             <TableRow key={studentIndex}>
               <TableRowColumn>{studentInstance.student.name}</TableRowColumn>
               {
-                Object.keys(neededSubjects).map((subjectId, subjectIndex) => (
+                Object.keys(groupSubjects).map((subjectId, subjectIndex) => (
                   <TableRowColumn key={subjectIndex}>
                     <TextField
                       id={studentInstance._id + '/' + subjectId}
