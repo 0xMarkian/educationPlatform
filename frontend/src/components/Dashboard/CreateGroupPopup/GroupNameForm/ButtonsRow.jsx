@@ -1,5 +1,8 @@
+import { styles } from './styles'
+
 import React from 'react'
 import { connect } from 'react-redux'
+import { css } from 'aphrodite'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
 import { createGroup } from 'actions/group'
@@ -26,7 +29,7 @@ class ButtonsRow extends React.Component {
       <div>
         <FlatButton
           label='Back'
-          style={{marginRight: 12}}
+          className={css(styles.buttonMargin)}
           onClick={this.props.handleClose}
         />
         <RaisedButton

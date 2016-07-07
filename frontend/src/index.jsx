@@ -19,11 +19,10 @@ import NewGroupPopup from './components/Dashboard/CreateGroupPopup'
 import Login from './components/Login/'
 import Register from './components/Register'
 
-const store = createStore()
 
-//TMP (Do not remove until login form is finished)
-// import { userLogin } from 'actions/user'
-// store.dispatch(userLogin('Lesia', 'test'))
+injectTapEventPlugin()
+
+const store = createStore()
 
 const Root = () => (
   <Provider store={store}>
@@ -43,6 +42,5 @@ const Root = () => (
 )
 
 render(<Root/>, document.getElementById('app'))
-
 
 if(module.hot) module.hot.accept()

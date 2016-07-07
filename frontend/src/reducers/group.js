@@ -1,8 +1,6 @@
 import { createReducer } from 'redux-act'
 
 import {
-  openNewGroupPopup,
-  closeNewGroupPopup,
   requestCreateGroup,
   receiveCreatedGroup,
   requestFetchGroup,
@@ -22,8 +20,7 @@ import {
 const initialState = {
   groupData: {},
   newGroupPopup: {
-    open: true,
-    step: 0
+    step: 0,
   },
   requestMethod: 'POST',
   isCreating: false,
@@ -45,18 +42,6 @@ const initialState = {
 }
 
 export default createReducer({
-  [openNewGroupPopup]: state => ({
-    ...state,
-    newGroupPopup: {
-      open: true,
-    },
-  }),
-  [closeNewGroupPopup]: (state, payload) => ({
-    ...state,
-    newGroupPopup: {
-      open: false,
-    },
-  }),
   [setGroupPopupStep]: (state, payload) => ({
     ...state,
     newGroupPopup: {

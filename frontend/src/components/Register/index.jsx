@@ -1,6 +1,7 @@
 import { styles } from './styles'
 
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { Dialog, RaisedButton } from 'material-ui'
 import autobind from 'autobind-decorator'
@@ -55,6 +56,7 @@ class RegisterSection extends Component{
         titleClassName={css(styles.popupHeader)}
         autoScrollBodyContent={true}
       >
+        <br/>
         <Username
           updateUsernameState={this.updateUsernameState}
         />
@@ -62,6 +64,7 @@ class RegisterSection extends Component{
           updatePasswordState={this.updatePasswordState}
         />
         <RaisedButton label="Register me" primary={true} disabled={submitButtonDisabled} onClick={this.handleLogin} />
+        <p>Already have an account? <Link to='/login'>Sign in</Link></p>
       </Dialog>
     )
   }

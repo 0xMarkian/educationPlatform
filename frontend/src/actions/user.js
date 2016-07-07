@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
-import { parseJSON } from '../utils'
+import { handleResponse } from '../utils'
 
 import { fetchGroup } from 'actions/group'
 
@@ -15,7 +15,7 @@ export const userRegister = (name, password) => dispatch => {
     credentials:'include',
     method: 'POST',
     body: JSON.stringify({ name, password })
-  }).then(parseJSON)
+  }).then(handleResponse)
     .then(res => {
       dispatch(receiveRegisteredUser())
       dispatch(userLogin(name, password))
@@ -35,11 +35,10 @@ export const userLogin = (name, password) => dispatch => {
     credentials:'include',
     method: 'POST',
     body: JSON.stringify({ name, password })
-  }).then(parseJSON)
+  }).then(handleResponse)
     .then(res => {
       if(res.success){
         dispatch(userLoggedIn(name))
-        dispatch(fetchGroup())
       }
       else dispatch(rejectLogin())
   }).catch(err => {
@@ -47,3 +46,7 @@ export const userLogin = (name, password) => dispatch => {
     throw new Error(err)
   })
 }
+
+
+// Logging out
+export const userLogout = createAction('LOG USER OUT')

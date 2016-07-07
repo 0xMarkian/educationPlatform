@@ -1,11 +1,9 @@
 import {createAction} from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
-import { parseJSON } from '../utils'
+import { handleResponse } from '../utils'
 
 
-export const openNewGroupPopup = createAction('SHOW NEW GROUP POPUP')
-export const closeNewGroupPopup = createAction('CLOSE NEW GROUP POPUP')
 export const setGroupPopupStep = createAction('SET GROUP POPUP STEP')
 
 export const requestCreateGroup = createAction('REQUEST CREATE GROUP')
@@ -17,23 +15,23 @@ export const createGroup = (name, method) => dispatch => {
     method,
     credentials:'include',
     body: JSON.stringify({ name })
-  }).then(parseJSON)
+  }).then(handleResponse)
     .then(res => {
-      console.log('New-created group data: ', res)
       dispatch(receiveCreatedGroup(res))
   }).catch( err => {throw new Error(err)} )
 }
 
 export const requestFetchGroup = createAction('REQUEST FETCH GROUP')
 export const receiveFetchedGroup = createAction('RECEIVE FETCHED GROUP')
-export const fetchGroup = name => dispatch => {
+export const fetchGroup = () => dispatch => {
   dispatch(requestFetchGroup())
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
-  }).then(parseJSON)
+  }).then(handleResponse)
     .then( res => {
+      alert('fu')
       dispatch(receiveFetchedGroup(res[0]))
   })
     .catch( err => {throw new Error(err)} )
@@ -48,7 +46,7 @@ export const sendChosenSubject = (subject, method) => dispatch => {
     method,
     credentials: 'include',
     body: JSON.stringify({ ...subject })
-  }).then( parseJSON )
+  }).then( handleResponse )
     .then( res => {
       dispatch(appliedChosenSubject(res))
     })
@@ -62,7 +60,7 @@ export const fetchSubjectsList = (parentResolve, parentReject) => dispatch => {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
-  }).then(parseJSON)
+  }).then(handleResponse)
     .then( res => {
       parentResolve && parentResolve()
       dispatch(receiveSubjectsList(res))
@@ -80,9 +78,8 @@ export const fetchStudentsList = (parentResolve, parentReject) => dispatch => {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
-  }).then( parseJSON )
+  }).then( handleResponse )
     .then(res => {
-      console.log(res)
       parentResolve && parentResolve()
       dispatch(receiveStudentsList(res))
   }).catch(err => {
@@ -99,7 +96,7 @@ export const fetchScoresList = (parentResolve, parentReject) => dispatch => {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
-  }).then( parseJSON )
+  }).then( handleResponse )
     .then(res => {
       parentResolve && parentResolve()
       dispatch(receiveScoresList(res))
@@ -110,7 +107,6 @@ export const fetchScoresList = (parentResolve, parentReject) => dispatch => {
 }
 
 export const applyNewScore = (student, course, scoreValue) => dispatch => {
-  console.log(scoreValue)
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/scores`, {
     ...defaultFetchParams,
     credentials: 'include',

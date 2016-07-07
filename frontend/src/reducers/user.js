@@ -5,7 +5,9 @@ import {
   receiveRegisteredUser,
 
   requestUserLogin,
-  userLoggedIn
+  userLoggedIn,
+
+  userLogout,
 } from 'actions/user'
 
 
@@ -37,5 +39,10 @@ export default createReducer({
     name: payload,
     loggedIn: true,
     loggingIn: false,
+  }),
+
+  [userLogout]: state => ({
+    ...state,
+    loggedIn: false,
   }),
 }, initialState)

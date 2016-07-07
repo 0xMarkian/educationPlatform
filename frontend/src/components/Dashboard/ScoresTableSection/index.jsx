@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TextField } from 'material-ui'
 
 import { fetchSubjectsList, fetchStudentsList, fetchScoresList, applyNewScore } from 'actions/group'
@@ -9,6 +10,7 @@ class ScoresTable extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      noGroupError: false,
       groupSubjectsList: null,
       rebuiltSubjectsList: null,
     }
@@ -25,12 +27,13 @@ class ScoresTable extends React.Component {
     const subjectsPromise = new Promise((resolve, reject) => { fetchSubjectsList(resolve, reject) }),
           studentsPromise = new Promise((resolve, reject) => { fetchStudentsList(resolve, reject) }),
           scoresPromise = new Promise((resolve, reject) => { fetchScoresList(resolve, reject) })
-
     Promise.all([subjectsPromise, studentsPromise, scoresPromise]).then(() => {
       const { groupStore } = this.props
       const subjectsList = groupStore.subjects.list,
             studentsList = groupStore.students.list,
             scoresList = groupStore.scores.list
+
+      if(!studentsList || !studentsList.length) return this.setState({ noGroupError: true })
 
       // Creating a list of all subjects, formatted like {subjectId: subjectName}
       const rebuiltSubjectsList = {}
@@ -63,11 +66,18 @@ class ScoresTable extends React.Component {
 
 
   render() {
-    const { groupSubjectsList, rebuiltStudentsList } = this.state
+    const { groupSubjectsList, rebuiltStudentsList, noGroupError } = this.state
+
+    if(noGroupError) return(
+      <p>
+        It seems you do not have any group linked to your account.
+        Would you like to <Link to='/newGroup'>create one</Link>?
+      </p>
+    )
 
     // Do not render until required lists are loaded
     if(!groupSubjectsList || !rebuiltStudentsList) return(<div>Loading in progress...</div>)
-    console.log(rebuiltStudentsList)
+
     return (
       <Table selectable={false}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>

@@ -2,7 +2,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Dialog} from 'material-ui'
 
-import {closeNewGroupPopup} from 'actions/group'
 import StepProgress from './StepProgress'
 import GroupNameForm from './GroupNameForm'
 import SubjectsForm from './SubjectsForm'
@@ -25,23 +24,23 @@ class NewGroupPopup extends React.Component {
   }
 
   handleClose() {
-    const {closeNewGroupPopup} = this.props
-    closeNewGroupPopup()
+    // const {closeNewGroupPopup} = this.props
+    // closeNewGroupPopup()
   }
 
   render() {
     const { newGroupPopup } = this.props.groupStore
-    const { step, open } = newGroupPopup
+    const { step } = newGroupPopup
 
     return(
       <Dialog
         title='Create a new group'
         modal={true}
-        open={open}
+        open={true}
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >
-        <StepProgress currentStep={step} />
+        <StepProgress step={step} />
         {
           step === 0 ? <GroupNameForm
             handleClose={this.handleClose}
@@ -58,4 +57,4 @@ class NewGroupPopup extends React.Component {
 }
 
 
-export default connect( store => ({ groupStore: store.group }), { closeNewGroupPopup })(NewGroupPopup)
+export default connect( store => ({ groupStore: store.group }) )(NewGroupPopup)

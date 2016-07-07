@@ -1,8 +1,11 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {FlatButton, RaisedButton, CircularProgress} from 'material-ui'
+import { styles } from './styles'
 
-import {closeNewGroupPopup, setGroupPopupStep} from 'actions/group'
+import React from 'react'
+import { connect } from 'react-redux'
+import { css } from 'aphrodite'
+import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
+
+import { closeNewGroupPopup, setGroupPopupStep } from 'actions/group'
 
 
 class ButtonsRow extends React.Component {
@@ -13,22 +16,22 @@ class ButtonsRow extends React.Component {
   }
 
   prevStep() {
-    const {setGroupPopupStep} = this.props
+    const { setGroupPopupStep } = this.props
     setGroupPopupStep(1)
   }
 
   nextStep() {
-    const {closeNewGroupPopup} = this.props
+    const { closeNewGroupPopup } = this.props
     closeNewGroupPopup()
   }
 
   render() {
-    const {isFetching} = false
+    const { isFetching } = false
 
     return(
       <div>
         <FlatButton
-          style={{marginRight: 12}}
+          className={css(styles.buttonMargin)}
           onTouchTap={this.prevStep}
           label='Back'
         />

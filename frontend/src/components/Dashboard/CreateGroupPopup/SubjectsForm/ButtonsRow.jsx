@@ -1,4 +1,7 @@
+import { styles } from './styles'
+
 import React from 'react'
+import { css } from 'aphrodite'
 import { connect } from 'react-redux'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
@@ -6,6 +9,7 @@ import {
   setGroupPopupStep,
   sendChosenSubject,
 } from 'actions/group'
+
 
 class ButtonsRow extends React.Component {
   constructor(props) {
@@ -32,7 +36,7 @@ class ButtonsRow extends React.Component {
     return(
       <div>
         <FlatButton
-          style={{marginRight: 12}}
+          className={css(styles.buttonMargin)}
           onClick={this.prevStep}
           label='Back'
         />

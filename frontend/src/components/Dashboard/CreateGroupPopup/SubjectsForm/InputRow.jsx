@@ -1,6 +1,6 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {DropDownMenu, MenuItem} from 'material-ui'
+import { connect } from 'react-redux'
+import { DropDownMenu, MenuItem } from 'material-ui'
 
 import {
   fetchSubjectsList,
@@ -19,14 +19,15 @@ class InputRow extends React.Component {
   }
 
   componentWillMount() {
-    const {fetchSubjectsList} = this.props
+    const { fetchSubjectsList } = this.props
     fetchSubjectsList()
   }
 
   render() {
-    const {subjects} = this.props.groupStore
+    const { subjects } = this.props.groupStore
 
     if(!subjects.list) return null // Waiting fetch to end
+
     return(
       <div>
         <label htmlFor='new-group-subject'>Pick a subject:</label><br/>
@@ -38,14 +39,13 @@ class InputRow extends React.Component {
           menuStyle={{overflowX: 'hidden'}}
         >
           {
-            subjects.list.map((subject, index) => {
-              return (
-                <MenuItem
-                  value={subject._id}
-                  primaryText={subject.name}
-                  key={index}
-                ></MenuItem>)
-            })
+            subjects.list.map((subject, index) => (
+              <MenuItem
+                value={subject._id}
+                primaryText={subject.name}
+                key={index}
+              ></MenuItem>
+            ))
           }
         </DropDownMenu>
       </div>
