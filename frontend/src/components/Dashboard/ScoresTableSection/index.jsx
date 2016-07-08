@@ -32,7 +32,7 @@ class ScoresTable extends React.Component {
       const subjectsList = groupStore.subjects.list,
             studentsList = groupStore.students.list,
             scoresList = groupStore.scores.list
-
+      // student2cou to header go over - an empty table
       if(!studentsList || !studentsList.length) return this.setState({ noGroupError: true })
 
       // Creating a list of all subjects, formatted like {subjectId: subjectName}
@@ -58,6 +58,7 @@ class ScoresTable extends React.Component {
             scoreValue: score.scoreValue,
           }
         }
+        console.log(rebuiltStudentsList)
       })
 
       this.setState({ groupSubjectsList, rebuiltStudentsList })

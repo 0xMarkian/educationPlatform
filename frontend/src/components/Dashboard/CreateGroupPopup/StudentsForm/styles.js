@@ -9,9 +9,9 @@ export const styles = StyleSheet.create({
     marginLeft: 12,
   },
   listMaxHeight: {
-     maxHeight: 150,
+    maxHeight: 150,
   },
   listOverflowY: {
-     overflowY: 'auto',
-  }
+    overflowY: 'auto',
+  },
 })

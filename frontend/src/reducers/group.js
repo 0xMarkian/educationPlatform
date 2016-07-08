@@ -47,7 +47,7 @@ export default createReducer({
     newGroupPopup: {
       ...state.newGroupPopup,
       step: payload,
-    }
+    },
   }),
   [requestCreateGroup]: state => ({
     ...state,
@@ -63,7 +63,7 @@ export default createReducer({
       step: 1,
     },
   }),
-  [requestFetchGroup]: (state, payload) => ({
+  [requestFetchGroup]: state => ({
     ...state,
     isFetching: true,
   }),
@@ -103,7 +103,7 @@ export default createReducer({
     subjects: {
       ...state.subjects,
       settingChosenSubject: false,
-      requestMethod: 'PATCH'
+      requestMethod: 'PATCH',
     },
   }),
   [requestStudentsList]: state => ({

@@ -1,4 +1,4 @@
-import {createAction} from 'redux-act'
+import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
 import { handleResponse } from '../utils'
@@ -13,12 +13,14 @@ export const createGroup = (name, method) => dispatch => {
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
     ...defaultFetchParams,
     method,
-    credentials:'include',
-    body: JSON.stringify({ name })
-  }).then(handleResponse)
-    .then(res => {
-      dispatch(receiveCreatedGroup(res))
-  }).catch( err => {throw new Error(err)} )
+    credentials: 'include',
+    body: JSON.stringify({ name }),
+  })
+  .then(handleResponse)
+  .then(res => {
+    dispatch(receiveCreatedGroup(res))
+  })
+  .catch(err => { throw new Error(err) })
 }
 
 export const requestFetchGroup = createAction('REQUEST FETCH GROUP')
@@ -29,12 +31,12 @@ export const fetchGroup = () => dispatch => {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
-  }).then(handleResponse)
-    .then( res => {
-      alert('fu')
-      dispatch(receiveFetchedGroup(res[0]))
   })
-    .catch( err => {throw new Error(err)} )
+  .then(handleResponse)
+  .then(res => {
+    dispatch(receiveFetchedGroup(res[0]))
+  })
+  .catch(err => { throw new Error(err) })
 }
 
 export const requestSetChosenSubject = createAction('REQUEST SEND CHOSEN SUBJECT')
@@ -45,11 +47,28 @@ export const sendChosenSubject = (subject, method) => dispatch => {
     ...defaultFetchParams,
     method,
     credentials: 'include',
-    body: JSON.stringify({ ...subject })
-  }).then( handleResponse )
-    .then( res => {
-      dispatch(appliedChosenSubject(res))
-    })
+    body: JSON.stringify({ ...subject }),
+  })
+  .then(handleResponse)
+  .then(res => {
+    dispatch(appliedChosenSubject(res))
+  })
+}
+
+export const addNewStudent = name => () => {
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'POST',
+    body: JSON.stringify({ name }),
+  })
+  .then(handleResponse)
+  .then(() => {
+    // console.log(res)
+  })
+  .catch(err => {
+    throw new Error(err)
+  })
 }
 
 export const requestSubjectsList = createAction('REQUEST SUBJECTS LIST')
@@ -60,13 +79,15 @@ export const fetchSubjectsList = (parentResolve, parentReject) => dispatch => {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
-  }).then(handleResponse)
-    .then( res => {
-      parentResolve && parentResolve()
-      dispatch(receiveSubjectsList(res))
-  }).catch( err => {
-      parentReject && parentReject()
-      throw new Error(err)
+  })
+  .then(handleResponse)
+  .then(res => {
+    if (parentResolve) parentResolve()
+    dispatch(receiveSubjectsList(res))
+  })
+  .catch(err => {
+    if (parentReject) parentReject()
+    throw new Error(err)
   })
 }
 
@@ -74,17 +95,20 @@ export const requestStudentsList = createAction('REQUEST STUDENTS LIST')
 export const receiveStudentsList = createAction('RECEIVE STUDENTS LIST')
 export const fetchStudentsList = (parentResolve, parentReject) => dispatch => {
   dispatch(requestStudentsList())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students2courses?embed=student&embed=course`, {
-    ...defaultFetchParams,
-    method: 'GET',
-    credentials: 'include',
-  }).then( handleResponse )
-    .then(res => {
-      parentResolve && parentResolve()
-      dispatch(receiveStudentsList(res))
-  }).catch(err => {
-      parentReject && parentReject()
-      throw new Error(err)
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students2courses?embed=student&embed=course`,
+    {
+      ...defaultFetchParams,
+      method: 'GET',
+      credentials: 'include',
+    })
+  .then(handleResponse)
+  .then(res => {
+    if (parentResolve) parentResolve()
+    dispatch(receiveStudentsList(res))
+  })
+  .catch(err => {
+    if (parentReject) parentReject()
+    throw new Error(err)
   })
 }
 
@@ -96,25 +120,29 @@ export const fetchScoresList = (parentResolve, parentReject) => dispatch => {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
-  }).then( handleResponse )
-    .then(res => {
-      parentResolve && parentResolve()
-      dispatch(receiveScoresList(res))
-  }).catch(err => {
-      parentReject && parentReject()
-      throw new Error(err)
-    })
+  })
+  .then(handleResponse)
+  .then(res => {
+    if (parentResolve) parentResolve()
+    dispatch(receiveScoresList(res))
+  })
+  .catch(err => {
+    if (parentReject) parentReject()
+    throw new Error(err)
+  })
 }
 
-export const applyNewScore = (student, course, scoreValue) => dispatch => {
+export const applyNewScore = (student, course, scoreValue) => () => {
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/scores`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
-    body: JSON.stringify({ student, course, scoreValue })
-  }).then(res => {
-    console.log('A new score has been successfully applied!')
-  }).catch(err => {
+    body: JSON.stringify({ student, course, scoreValue }),
+  })
+  .then(() => {
+    // console.log('A new score has been successfully applied!')
+  })
+  .catch(err => {
     throw new Error(err)
   })
 }

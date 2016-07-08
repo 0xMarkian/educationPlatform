@@ -3,9 +3,9 @@ import { StyleSheet } from 'aphrodite'
 
 export const styles = StyleSheet.create({
   avatar: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   toolbarTitle: {
-    marginLeft: 24
-  }
+    marginLeft: 24,
+  },
 })
