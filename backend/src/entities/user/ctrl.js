@@ -14,10 +14,10 @@ class UserCtrl extends BasicCtrl{
     this.Model.create({
       name,
       password,
-    }, (err, newEntity) => {
+    }, err => {
       if(err) return next(err)
 
-      res.json(newEntity)
+      this.login(req, res, next)
     })
   }
 
@@ -36,9 +36,7 @@ class UserCtrl extends BasicCtrl{
 
       const { _id } = user
       const token = jwt.sign({_id}, config.secret)
-      res.cookie('accessToken',token,{httpOnly:true}).json({
-        success: true,
-      })
+      res.cookie('accessToken',token,{httpOnly:true}).json(user)
     })
   }
 }
