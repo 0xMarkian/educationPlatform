@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { DropDownMenu, MenuItem } from 'material-ui'
 
 import {
-  fetchSubjectsList,
-} from 'actions/group'
+  fetchSubjects,
+} from 'actions/subjects'
 
 
 class InputRow extends React.Component {
@@ -14,19 +14,19 @@ class InputRow extends React.Component {
   }
 
   handleInput(event, index, value) {
-    const { groupStore, setChosenSubject } = this.props
-    setChosenSubject(groupStore.subjects.list[index])
+    const { subjectsStore, setChosenSubject } = this.props
+    setChosenSubject(subjectsStore.data[index])
   }
 
   componentWillMount() {
-    const { fetchSubjectsList } = this.props
-    fetchSubjectsList()
+    const { fetchSubjects } = this.props
+    fetchSubjects()
   }
 
   render() {
-    const { subjects } = this.props.groupStore
+    const subjects = this.props.subjectsStore.data
 
-    if(!subjects.list) return null // Waiting fetch to end
+    if(!subjects) return null // Waiting fetch to end
 
     return(
       <div>
@@ -34,12 +34,12 @@ class InputRow extends React.Component {
         <DropDownMenu
           maxHeight={300}
           autoWidth={true}
-          value={subjects.list[0]._id}
+          value={subjects[0]._id}
           onChange={this.handleInput}
           menuStyle={{overflowX: 'hidden'}}
         >
           {
-            subjects.list.map((subject, index) => (
+            subjects.map((subject, index) => (
               <MenuItem
                 value={subject._id}
                 primaryText={subject.name}
@@ -53,6 +53,6 @@ class InputRow extends React.Component {
   }
 }
 
-export default connect(store => ({ groupStore: store.group }), {
-  fetchSubjectsList,
+export default connect(store => ({ subjectsStore: store.subjects }), {
+  fetchSubjects,
 })(InputRow)

@@ -3,7 +3,7 @@ import { styles } from './styles'
 import React from 'react'
 import {connect} from 'react-redux'
 import { css } from 'aphrodite'
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle, RaisedButton, Avatar} from 'material-ui'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle, RaisedButton, Avatar } from 'material-ui'
 
 import history from 'appHistory'
 
@@ -13,7 +13,11 @@ class Header extends React.Component {
     return(
       <Toolbar>
         <ToolbarGroup>
-          <Avatar className={css(styles.avatar)}>A</Avatar>
+          <Avatar className={css(styles.avatar)}>
+          {
+            this.props.userStore.name ? this.props.userStore.name[0].toUpperCase() : 'U'
+          }
+          </Avatar>
           <ToolbarTitle text="Manage your groups" className={css(styles.toolbarTitle)} />
         </ToolbarGroup>
         <ToolbarGroup>
@@ -28,4 +32,4 @@ class Header extends React.Component {
   }
 }
 
-export default connect()(Header)
+export default connect(store => ({ userStore: store.user }))(Header)

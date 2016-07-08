@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Dialog} from 'material-ui'
 
+import history from 'appHistory'
 import StepProgress from './StepProgress'
 import GroupNameForm from './GroupNameForm'
 import SubjectsForm from './SubjectsForm'
@@ -24,13 +25,11 @@ class NewGroupPopup extends React.Component {
   }
 
   handleClose() {
-    // const {closeNewGroupPopup} = this.props
-    // closeNewGroupPopup()
+    history.push('/dashboard')
   }
 
   render() {
-    const { newGroupPopup } = this.props.groupStore
-    const { step } = newGroupPopup
+    const { newGroupPopupStep } = this.props.groupStore
 
     return(
       <Dialog
@@ -40,15 +39,15 @@ class NewGroupPopup extends React.Component {
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >
-        <StepProgress step={step} />
+        <StepProgress step={newGroupPopupStep} />
         {
-          step === 0 ? <GroupNameForm
+          newGroupPopupStep === 0 ? <GroupNameForm
             handleClose={this.handleClose}
             inputData={this.state.groupName.input}
             updateGroupNameInputData={this.updateGroupNameInputData}
           /> :
-          step === 1 ? <SubjectsForm /> :
-          step === 2 ? <StudentsForm /> :
+          newGroupPopupStep === 1 ? <SubjectsForm /> :
+          newGroupPopupStep === 2 ? <StudentsForm /> :
           null
         }
       </Dialog>

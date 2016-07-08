@@ -5,10 +5,8 @@ import { css } from 'aphrodite'
 import { connect } from 'react-redux'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
-import {
-  setGroupPopupStep,
-  sendChosenSubject,
-} from 'actions/group'
+import { setGroupPopupStep } from 'actions/group'
+import { sendChosenSubject } from 'actions/subjects'
 
 
 class ButtonsRow extends React.Component {
@@ -19,20 +17,21 @@ class ButtonsRow extends React.Component {
   }
 
   prevStep() {
-    const {setGroupPopupStep} = this.props
+    const { setGroupPopupStep } = this.props
     setGroupPopupStep(0)
   }
 
   nextStep() {
-    const {sendChosenSubject, groupStore} = this.props,
-          { requestMethod } = groupStore.subjects
+    const { sendChosenSubject, subjectsStore } = this.props,
+          { requestMethod } = subjectsStore
     let { chosenSubject } = this.props
-    if(!chosenSubject) chosenSubject = groupStore.subjects.list[0]
+    if(!chosenSubject) chosenSubject = subjectsStore.data[0]
     sendChosenSubject(chosenSubject, requestMethod)
   }
 
   render() {
-    const {isFetching} = this.props.groupStore.subjects
+    const {isFetching} = this.props.subjectsStore
+
     return(
       <div>
         <FlatButton
@@ -54,7 +53,7 @@ class ButtonsRow extends React.Component {
 }
 
 export default connect( store => ({
-  groupStore: store.group,
+  subjectsStore: store.subjects,
 }), {
   setGroupPopupStep,
   sendChosenSubject,

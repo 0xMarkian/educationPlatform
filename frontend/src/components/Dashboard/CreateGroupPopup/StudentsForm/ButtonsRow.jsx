@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import { css } from 'aphrodite'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
-import { closeNewGroupPopup, setGroupPopupStep } from 'actions/group'
-
+import history from 'appHistory'
+import { setGroupPopupStep } from 'actions/group'
 
 class ButtonsRow extends React.Component {
   constructor(props) {
@@ -21,8 +21,7 @@ class ButtonsRow extends React.Component {
   }
 
   nextStep() {
-    const { closeNewGroupPopup } = this.props
-    closeNewGroupPopup()
+    history.push('/dashboard')
   }
 
   render() {
@@ -51,6 +50,5 @@ class ButtonsRow extends React.Component {
 export default connect( store => ({
   groupStore: store.newGroupPopup,
 }), {
-  closeNewGroupPopup,
   setGroupPopupStep
 })(ButtonsRow)

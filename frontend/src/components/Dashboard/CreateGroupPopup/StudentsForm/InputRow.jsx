@@ -23,7 +23,6 @@ class InputRow extends React.Component {
 
   render() {
   const { studentsList, removeStudent } = this.props
-  console.log(styles)
 
     return(
       <div>
@@ -54,4 +53,4 @@ class InputRow extends React.Component {
   }
 }
 
-export default connect(store => ({ commonStore: store.common }))(InputRow)
+export default connect()(InputRow)

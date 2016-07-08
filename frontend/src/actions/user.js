@@ -29,7 +29,7 @@ export const userLogin = (name, password) => dispatch => {
 
 // Registration
 export const requestUserRegistration = createAction('REQUEST USER REGISTRATION')
-export const receiveRegisteredUser = createAction('RECEIVED REGISTERED USER')
+export const receiveRegisteredUser = createAction('RECEIVE REGISTERED USER')
 export const userRegister = (name, password) => dispatch => {
   dispatch(requestUserRegistration())
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/users/register`, {
