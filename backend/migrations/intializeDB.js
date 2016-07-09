@@ -43,7 +43,7 @@ export default () => {
           handleError(err)
           const studentId = student._id
   
-          Course.create( { subject,}, (err, course) => {
+          Course.create( { subject, group}, (err, course) => {
             handleError(err)
             const courseId = course._id
             

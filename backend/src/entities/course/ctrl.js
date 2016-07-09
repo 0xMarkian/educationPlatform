@@ -4,34 +4,35 @@ import Student2Course from '../student2Course/model'
 import Student from '../student/model'
 import { findCurrUserGroup } from '../user/utils'
 
-import BasicCtrl from '../../lib/ctrl'
+import Studets2CourseCtrl from '../student2Course/ctrl'
 
 
-class CourseCtrl extends BasicCtrl {
+class CourseCtrl extends Studets2CourseCtrl {
   @autobind
   create(req, res, next){
-    const { subject } = req.body,
-      { _id: userId } = req.user
+    const { subject } = req.body
+    const { _id: userId } = req.user
 
-    this.Model.create({
-      subject,
-    }, (err, newCourse) => {
-      if(err) return next(err)
+    findCurrUserGroup(userId).then( group => {
+      this.Model.create({
+        subject,
+        group,
+      }, (err, newCourse) => {
+        if (err) return next(err)
 
-      findCurrUserGroup(userId).then( group => {
         Student
           .find({group})
           .select('_id')
-          .exec( (err, findedStudents) => {
-            if(err) return next(err)
+          .exec((err, findedStudents) => {
+            if (err) return next(err)
 
-            findedStudents.forEach( student => {
+            findedStudents.forEach(student => {
               Student2Course.create({
                 group,
                 student: student._id,
                 course: newCourse._id,
               }, err => {
-                if(err) return next(err)
+                if (err) return next(err)
                 res.status(201).json(newCourse)
               })
             })

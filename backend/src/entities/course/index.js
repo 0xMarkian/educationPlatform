@@ -9,6 +9,7 @@ const router = Router()
 
 router.route('/')
   .post(courseCtrl.create)
+  .get(courseCtrl.list)
 
 
 

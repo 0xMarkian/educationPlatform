@@ -5,8 +5,9 @@ export const findCurrUserGroup = userId => new Promise( (resolve, reject) => {
   User
     .findById(userId)
     .exec( (err,user) => {
-      if (err) return console.error(err)
+      if (err || !user) return console.error(err)
       
       resolve(user.group)
     })
 })
+1
