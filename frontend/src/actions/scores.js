@@ -20,7 +20,7 @@ export const fetchScores = () => dispatch => {
       studentsScores[scoreObj.student._id] = {
         ...studentsScores[scoreObj.student._id],
         [scoreObj.course.subject]: {
-          courseId: scoreObj.course._id,
+          scoreId: scoreObj._id,
           scoreValue: scoreObj.scoreValue,
         },
       }
@@ -29,12 +29,25 @@ export const fetchScores = () => dispatch => {
   })
 }
 
-export const applyNewScore = (student, course, scoreValue) => () => {
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/scores`, {
+export const applyNewScore = (student, course, scoreValue, scoreToUpdateId) => () => {
+  let fetchParams, requestURL
+  if (scoreToUpdateId) {
+    requestURL = `scores/${scoreToUpdateId}`
+    fetchParams = {
+      method: 'PATCH',
+      body: JSON.stringify({ student, course, scoreValue }),
+    }
+  } else {
+    requestURL = 'scores'
+    fetchParams = {
+      method: 'POST',
+      body: JSON.stringify({ student, course, scoreValue }),
+    }
+  }
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/${requestURL}`, {
     ...defaultFetchParams,
+    ...fetchParams,
     credentials: 'include',
-    method: 'POST',
-    body: JSON.stringify({ student, course, scoreValue }),
   })
   .then(() => {
     // console.log('A new score has been successfully applied!')

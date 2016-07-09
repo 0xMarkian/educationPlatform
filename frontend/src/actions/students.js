@@ -18,13 +18,7 @@ export const fetchStudents = () => dispatch => {
   .then(res => {
     const students = {}
     res.forEach(studentObj => {
-      students[studentObj.student._id] = {
-        ...students[studentObj.student._id],
-        studentName: studentObj.student.name,
-        course: {
-          ...studentObj.course
-        }
-      }
+      students[studentObj.student._id] = studentObj.student.name
     })
     console.log(students)
     dispatch(receiveStudents(students))

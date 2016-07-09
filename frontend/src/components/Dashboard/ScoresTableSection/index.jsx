@@ -9,6 +9,7 @@ import {
 
 import { fetchStudents } from 'actions/students'
 import { fetchSubjects } from 'actions/subjects'
+import { fetchCourses } from 'actions/courses'
 import { fetchScores, applyNewScore } from 'actions/scores'
 
 
@@ -20,34 +21,45 @@ class ScoresTable extends React.Component {
     }
   }
 
-  handleInput(studentId, courseId, event){
+  handleInput(studentId, courseId, prevScore, event){
     const { applyNewScore } = this.props
     const inputValue = event.target.value
-    applyNewScore(studentId, courseId, inputValue)
+    let scoreToUpdateId
+
+    if(!prevScore) scoreToUpdateId = null // The score does not exist in the DB yet
+    else scoreToUpdateId = prevScore.scoreId
+
+
+    applyNewScore(studentId, courseId, inputValue, scoreToUpdateId)
   }
 
   componentWillMount() {
-    const { fetchSubjects, fetchStudents, fetchScores } = this.props
+    const { fetchSubjects, fetchStudents, fetchScores, fetchCourses } = this.props
     fetchStudents()
     fetchScores()
+    fetchCourses()
     fetchSubjects()
   }
 
   componentWillReceiveProps(nextProps) {
-    const { groupStore, studentsStore, subjectsStore, scoresStore } = nextProps
+    const { groupStore, studentsStore, subjectsStore, scoresStore, coursesStore } = nextProps
     const subjects = subjectsStore.data,
-          students = studentsStore.data
+          students = studentsStore.data,
+          courses = coursesStore.data
 
-    if(!subjects || !students) return null
+    if(!subjects || !students || !courses) return null
 
-    // Creating a list of all subjects, formatted like { subjectId: subjectName }
+    // Creating a list of ALL subjects, formatted like { subjectId: subjectName }
     const rebuiltSubjects = {}
     subjects.forEach(subject => { rebuiltSubjects[subject._id] = subject.name })
 
+    // Creating a list of NEEDED subjects, formatted like { subjectId: subjectName }
     const subjectsToRender = {}
-    Object.keys(students).forEach(studentId => {
-      subjectsToRender[students[studentId].course.subject] =
-       rebuiltSubjects[students[studentId].course.subject]
+    courses.map(course => {
+      subjectsToRender[course.subject] = {
+        courseId: course._id,
+        name: rebuiltSubjects[course.subject]
+      }
     })
 
     this.setState({ subjectsToRender })
@@ -55,11 +67,11 @@ class ScoresTable extends React.Component {
 
   render() {
     const { subjectsToRender } = this.state
-    const studentsScores = this.props.scoresStore.data
+    const scores = this.props.scoresStore.data
     const students = this.props.studentsStore.data
 
     // Do not render until required lists are loaded
-    if(!studentsScores || !subjectsToRender) return(<div>Loading in progress...</div>)
+    if(!subjectsToRender || !scores || !students) return(<div>Loading in progress...</div>)
 
     return (
       <Table selectable={false}>
@@ -67,14 +79,14 @@ class ScoresTable extends React.Component {
           <TableRow>
             <TableHeaderColumn>Name</TableHeaderColumn>
             {
-              Object.keys(subjectsToRender).map( (subject, i) => (
+              Object.keys(subjectsToRender).map((subject, i) => (
                 <TableHeaderColumn
-                  tooltip={subjectsToRender[subject]}
+                  tooltip={subjectsToRender[subject].name}
                   key={i}
                 >
-                  {subjectsToRender[subject] ?
-                    (subjectsToRender[subject].length >= 12 ?
-                      subjectsToRender[subject].slice(0, 10) + '...' : subjectsToRender[subject]
+                  {subjectsToRender[subject].name ?
+                    (subjectsToRender[subject].name.length >= 12 ?
+                      subjectsToRender[subject].name.slice(0, 10) + '...' : subjectsToRender[subject].name
                     ): null
                   }
                 </TableHeaderColumn>
@@ -89,7 +101,7 @@ class ScoresTable extends React.Component {
           // scores is being taken from the scores object as long as the students object does not provide any.
           Object.keys(students).map((studentId, studentIndex) => (
             <TableRow key={studentIndex}>
-              <TableRowColumn>{students[studentId].studentName}</TableRowColumn>
+              <TableRowColumn>{students[studentId]}</TableRowColumn>
               {
                 // Going over subjects
                 Object.keys(subjectsToRender).map((subjectId, subjectIndex) => (
@@ -98,9 +110,14 @@ class ScoresTable extends React.Component {
                       type='text'
                       underlineShow={false}
                       id={subjectId + '/' + studentId}
-                      defaultValue={studentsScores[studentId][subjectId].scoreValue}
+                      defaultValue={scores[studentId][subjectId].scoreValue}
                       onBlur={
-                        this.handleInput.bind(this, studentId, studentsScores[studentId][subjectId].courseId)
+                        this.handleInput.bind(
+                          this,
+                          studentId,
+                          subjectsToRender[subjectId].courseId,
+                          scores[studentId][subjectId]
+                        )
                       }
                     />
                   </TableRowColumn>
@@ -120,9 +137,11 @@ export default connect(store => ({
   studentsStore: store.students,
   subjectsStore: store.subjects,
   scoresStore: store.scores,
+  coursesStore: store.courses,
 }), {
   fetchSubjects,
   fetchStudents,
   fetchScores,
+  fetchCourses,
   applyNewScore,
 })(ScoresTable)

@@ -1,9 +1,9 @@
 import { createReducer } from 'redux-act'
 
 import {
-  requestScores,
-  receiveScores,
-} from 'actions/scores'
+  requestCourses,
+  receiveCourses,
+} from 'actions/courses'
 
 
 const initialState = {
@@ -12,11 +12,12 @@ const initialState = {
 }
 
 export default createReducer({
-  [requestScores]: state => ({
+  [requestCourses]: state => ({
     ...state,
     isFetching: true,
   }),
-  [receiveScores]: (state, payload) => ({
+  [receiveCourses]: (state, payload) => ({
+    ...state,
     data: payload,
     isFetching: false,
   }),
