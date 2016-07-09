@@ -53,25 +53,17 @@ class ScoresTable extends React.Component {
     const rebuiltSubjects = {}
     subjects.forEach(subject => { rebuiltSubjects[subject._id] = subject.name })
 
-    // Creating a list of NEEDED subjects, formatted like { subjectId: subjectName }
-    const subjectsToRender = {}
-    courses.map(course => {
-      subjectsToRender[course.subject] = {
-        courseId: course._id,
-        name: rebuiltSubjects[course.subject]
-      }
-    })
-
-    this.setState({ subjectsToRender })
+    this.rebuiltSubjects = rebuiltSubjects
   }
 
   render() {
-    const { subjectsToRender } = this.state
     const scores = this.props.scoresStore.data
     const students = this.props.studentsStore.data
+    const courses = this.props.coursesStore.data
+    const { rebuiltSubjects } = this
 
     // Do not render until required lists are loaded
-    if(!subjectsToRender || !scores || !students) return(<div>Loading in progress...</div>)
+    if(!scores || !students || !courses || !rebuiltSubjects) return(<div>Loading in progress...</div>)
 
     return (
       <Table selectable={false}>
@@ -79,14 +71,14 @@ class ScoresTable extends React.Component {
           <TableRow>
             <TableHeaderColumn>Name</TableHeaderColumn>
             {
-              Object.keys(subjectsToRender).map((subject, i) => (
+              courses.map((course, i) => (
                 <TableHeaderColumn
-                  tooltip={subjectsToRender[subject].name}
+                  tooltip={rebuiltSubjects[course.subject]}
                   key={i}
                 >
-                  {subjectsToRender[subject].name ?
-                    (subjectsToRender[subject].name.length >= 12 ?
-                      subjectsToRender[subject].name.slice(0, 10) + '...' : subjectsToRender[subject].name
+                  {rebuiltSubjects[course.subject] ?
+                    (rebuiltSubjects[course.subject].length >= 12 ?
+                      rebuiltSubjects[course.subject].slice(0, 10) + '...' : rebuiltSubjects[course.subject]
                     ): null
                   }
                 </TableHeaderColumn>
@@ -104,19 +96,19 @@ class ScoresTable extends React.Component {
               <TableRowColumn>{students[studentId]}</TableRowColumn>
               {
                 // Going over subjects
-                Object.keys(subjectsToRender).map((subjectId, subjectIndex) => (
+                courses.map((course, subjectIndex) => (
                   <TableRowColumn key={subjectIndex}>
                     <TextField
                       type='text'
                       underlineShow={false}
-                      id={subjectId + '/' + studentId}
-                      defaultValue={scores[studentId][subjectId].scoreValue}
+                      id={course.subject + '/' + studentId}
+                      defaultValue={scores[studentId][course.subject].scoreValue}
                       onBlur={
                         this.handleInput.bind(
                           this,
                           studentId,
-                          subjectsToRender[subjectId].courseId,
-                          scores[studentId][subjectId]
+                          courses[course.subject],
+                          scores[studentId][course.subject]
                         )
                       }
                     />

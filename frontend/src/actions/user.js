@@ -18,8 +18,7 @@ export const userLogin = (name, password) => dispatch => {
   })
   .then(parseResponse)
   .then(res => {
-    if (res.success) dispatch(userLoggedIn(name))
-    else dispatch(rejectLogin())
+    dispatch(userLoggedIn(name))
   })
   .catch(err => {
     dispatch(rejectLogin())
@@ -41,7 +40,6 @@ export const userRegister = (name, password) => dispatch => {
   .then(parseResponse)
   .then(() => {
     dispatch(receiveRegisteredUser())
-    dispatch(userLogin(name, password))
   })
   .catch(err => {
     throw new Error(err)
