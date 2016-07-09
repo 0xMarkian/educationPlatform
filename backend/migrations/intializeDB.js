@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import { spawn } from 'child_process'
+
 
 import { handleError } from '../src/lib/utils'
 
@@ -12,7 +14,6 @@ import User from '../src/entities/user/model'
 
 const mode = 'prod'
 
-
 const connectDataBase = uri => {
   mongoose.connect(uri)
   mongoose.connection.on('error', () => {
@@ -25,8 +26,10 @@ const string2ObjectInArray = propName => valueArr => valueArr.map( value => ({ [
 const generateName = baseName => mode === 'dev' ? baseName + Math.random() : baseName
 
 const createEntities = Entity => entitieConfigs => entitieConfigs.forEach( config => Entity.create(config)( err => err))
-
 export default () => {
+  //dropDatabase before setuping
+  spawn('mongo', ['educationPlatform','--eval', 'db.dropDatabase();'])
+
   Subject.create( {name:generateName('Math')}, (err, subject) => {
     handleError(err)
     const subjectId = subject._id
