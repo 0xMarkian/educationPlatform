@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
-import { handleResponse } from '../utils'
+import { parseResponse } from '../utils'
 import { setGroupPopupStep } from './group'
 
 export const requestSetChosenSubject = createAction('REQUEST SEND CHOSEN SUBJECT')
@@ -14,7 +14,7 @@ export const sendChosenSubject = (subject, method) => dispatch => {
     credentials: 'include',
     body: JSON.stringify({ ...subject }),
   })
-  .then(handleResponse)
+  .then(parseResponse)
   .then(res => {
     dispatch(appliedChosenSubject(res))
     dispatch(setGroupPopupStep(2))
@@ -30,7 +30,7 @@ export const fetchSubjects = () => dispatch => {
     method: 'GET',
     credentials: 'include',
   })
-  .then(handleResponse)
+  .then(parseResponse)
   .then(res => {
     dispatch(receiveSubjects(res))
   })

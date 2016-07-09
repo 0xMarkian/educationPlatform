@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
-import { handleResponse } from '../utils'
+import { parseResponse } from '../utils'
 
 
 export const requestCourses = createAction('REQUEST COURSES')
@@ -14,7 +14,7 @@ export const fetchCourses = () => dispatch => {
       method: 'GET',
       credentials: 'include',
     })
-  .then(handleResponse)
+  .then(parseResponse)
   .then(res => {
     dispatch(receiveCourses(res))
   })

@@ -47,7 +47,7 @@ class ScoresTable extends React.Component {
           students = studentsStore.data,
           courses = coursesStore.data
 
-    if(!subjects || !students || !courses) return null
+    if(!subjects || !students || !courses) return false
 
     // Creating a list of ALL subjects, formatted like { subjectId: subjectName }
     const rebuiltSubjects = {}

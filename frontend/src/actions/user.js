@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
-import { handleResponse } from '../utils'
+import { parseResponse } from '../utils'
 
 
 // Logging in
@@ -16,7 +16,7 @@ export const userLogin = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-  .then(handleResponse)
+  .then(parseResponse)
   .then(res => {
     if (res.success) dispatch(userLoggedIn(name))
     else dispatch(rejectLogin())
@@ -38,7 +38,7 @@ export const userRegister = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-  .then(handleResponse)
+  .then(parseResponse)
   .then(() => {
     dispatch(receiveRegisteredUser())
     dispatch(userLogin(name, password))

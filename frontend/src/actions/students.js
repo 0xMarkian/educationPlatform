@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
-import { handleResponse } from '../utils'
+import { parseResponse } from '../utils'
 
 
 export const requestStudents = createAction('REQUEST STUDENTS')
@@ -14,7 +14,7 @@ export const fetchStudents = () => dispatch => {
       method: 'GET',
       credentials: 'include',
     })
-  .then(handleResponse)
+  .then(parseResponse)
   .then(res => {
     const students = {}
     res.forEach(studentObj => {
@@ -32,7 +32,7 @@ export const addNewStudent = name => () => {
     method: 'POST',
     body: JSON.stringify({ name }),
   })
-  .then(handleResponse)
+  .then(parseResponse)
   .then(() => {
     // console.log(res)
   })
