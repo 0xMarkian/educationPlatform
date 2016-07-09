@@ -7,24 +7,24 @@ import { fetchGroup } from 'actions/group'
 
 // Registration
 export const requestUserRegistration = createAction('REQUEST USER REGISTRATION')
-export const receivedRegisteredUser = createAction('RECEIVED REGISTERED USER')
-export const userRegister = (username, password) => dispatch => {
+export const receiveRegisteredUser = createAction('RECEIVED REGISTERED USER')
+export const userRegister = (name, password) => dispatch => {
   dispatch(requestUserRegistration())
-  console.log(JSON.stringify({ name: username, password }))
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/users/register`, {
     ...defaultFetchParams,
     credentials:'include',
     method: 'POST',
-    body: JSON.stringify({ name: username, password })
+    body: JSON.stringify({ name, password })
   }).then(parseJSON)
     .then(res => {
-      if(res.success){
-        dispatch(receivedRegisteredUser())
-      }
-    })
+      dispatch(receiveRegisteredUser())
+      dispatch(userLogin(name, password))
+  }).catch(err => {
+    throw new Error(err)
+  })
 }
 
-//Logination
+// Logging in
 export const requestUserLogin = createAction('LOG USER IN')
 export const userLoggedIn = createAction('LOG USER IN')
 export const rejectLogin = createAction('REJECT SIGNING IN')
@@ -38,9 +38,12 @@ export const userLogin = (name, password) => dispatch => {
   }).then(parseJSON)
     .then(res => {
       if(res.success){
-        dispatch(userLoggedIn())
+        dispatch(userLoggedIn(name))
         dispatch(fetchGroup())
       }
       else dispatch(rejectLogin())
+  }).catch(err => {
+    dispatch(rejectLogin())
+    throw new Error(err)
   })
 }

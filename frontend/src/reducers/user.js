@@ -12,7 +12,8 @@ import {
 const initialState = {
   name: null,
   registering: false,
-  loggingIn: true
+  loggingIn: false,
+  loggedIn: false,
 }
 
 export default createReducer({
@@ -20,19 +21,21 @@ export default createReducer({
     ...state,
     registering: true
   }),
-  [receiveRegisteredUser]: state => ({
+  [receiveRegisteredUser]: (state, payload) => ({
     ...state,
-    registering: false
+    registering: false,
   }),
 
-  [requestUserLogin]: (state, payload) => ({
+  [requestUserLogin]: state => ({
     ...state,
-    name: payload,
+    loggedIn: false,
     loggingIn: true,
   }),
 
-  [userLoggedIn]: state => ({
+  [userLoggedIn]: (state, payload) => ({
     ...state,
-    loggingIn: false
-  })
+    name: payload,
+    loggedIn: true,
+    loggingIn: false,
+  }),
 }, initialState)
