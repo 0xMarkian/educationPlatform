@@ -26,40 +26,44 @@ const string2ObjectInArray = propName => valueArr => valueArr.map( value => ({ [
 const generateName = baseName => mode === 'dev' ? baseName + Math.random() : baseName
 
 const createEntities = Entity => entitieConfigs => entitieConfigs.forEach( config => Entity.create(config)( err => err))
+
 export default () => {
-  //dropDatabase before setuping
+  //dropDb
   spawn('mongo', ['educationPlatform','--eval', 'db.dropDatabase();'])
 
-  Subject.create( {name:generateName('Math')}, (err, subject) => {
-    handleError(err)
-    const subjectId = subject._id
-
-    Group.create( {name: '11-D'}, (err, group) => {
+  setTimeout( () => {
+    Subject.create( {name:generateName('Math')}, (err, subject) => {
       handleError(err)
-      const groupId = group._id
+      const subjectId = subject._id
 
-      User.create( {name: generateName('Lesia'), password: 'test', group: groupId}, (err, user) => {
+      Group.create( {name: '11-D'}, (err, group) => {
         handleError(err)
-        const userId = user._id
+        const groupId = group._id
 
-        Student.create({name: generateName('Stuart'), group}, (err, student) => {
+        User.create( {name: generateName('Lesia'), password: 'test', group: groupId}, (err, user) => {
           handleError(err)
-          const studentId = student._id
-  
-          Course.create( { subject, group}, (err, course) => {
+          const userId = user._id
+
+          Student.create({name: generateName('Stuart'), group}, (err, student) => {
             handleError(err)
-            const courseId = course._id
-            
-            Student2Course.create( {group: groupId, student: studentId, course: courseId,}, (err) => {
+            const studentId = student._id
+
+            Course.create( { subject, group}, (err, course) => {
               handleError(err)
-            })
-  
-            Score.create({ scoreValue: 10, group: groupId, student:studentId, course}, (err) => {
-              handleError(err)
+              const courseId = course._id
+
+              Student2Course.create( {group: groupId, student: studentId, course: courseId,}, (err) => {
+                handleError(err)
+              })
+
+              Score.create({ scoreValue: 10, group: groupId, student:studentId, course}, (err) => {
+                handleError(err)
+              })
             })
           })
         })
       })
     })
-  })
+  }, 1000)
+
 }
