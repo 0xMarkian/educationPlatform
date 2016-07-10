@@ -1,23 +1,18 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Step, Stepper, StepLabel} from 'material-ui'
+import { Step, Stepper, StepLabel } from 'material-ui'
 
 
 class StepProgress extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
-    const {currentStep} = this.props
+    const {step} = this.props
 
     return(
-      <Stepper activeStep={currentStep}>
+      <Stepper activeStep={step}>
         <Step>
           <StepLabel>Enter a group name</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Pick a subject</StepLabel>
+          <StepLabel>Pick some subjects</StepLabel>
         </Step>
         <Step>
           <StepLabel>{'Enter students\' names'}</StepLabel>
@@ -27,4 +22,4 @@ class StepProgress extends React.Component {
   }
 }
 
-export default connect()(StepProgress)
+export default StepProgress

@@ -1,12 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Dialog} from 'material-ui'
+import autobind from 'autobind-decorator'
 
-import {closeNewGroupPopup} from 'actions/group'
+import history from 'appHistory'
 import StepProgress from './StepProgress'
-import GroupNameForm from './GroupNameForm'
-import SubjectsForm from './SubjectsForm'
-import StudentsForm from './StudentsForm'
+import GroupNameSection from './GroupNameSection'
+import SubjectsSection from './SubjectsSection'
+import StudentsSection from './StudentsSection'
 
 
 class NewGroupPopup extends React.Component {
@@ -21,35 +22,29 @@ class NewGroupPopup extends React.Component {
         },
       },
     }
-    this.handleClose = this.handleClose.bind(this)
   }
 
+  @autobind
   handleClose() {
-    const {closeNewGroupPopup} = this.props
-    closeNewGroupPopup()
+    history.push('/dashboard')
   }
 
   render() {
-    const { newGroupPopup } = this.props.groupStore
-    const { step, open } = newGroupPopup
+    const { newGroupPopupStep } = this.props.groupStore
 
     return(
       <Dialog
         title='Create a new group'
         modal={true}
-        open={open}
+        open={true}
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >
-        <StepProgress currentStep={step} />
+        <StepProgress step={newGroupPopupStep} />
         {
-          step === 0 ? <GroupNameForm
-            handleClose={this.handleClose}
-            inputData={this.state.groupName.input}
-            updateGroupNameInputData={this.updateGroupNameInputData}
-          /> :
-          step === 1 ? <SubjectsForm /> :
-          step === 2 ? <StudentsForm /> :
+          newGroupPopupStep === 0 ? <GroupNameSection /> :
+          newGroupPopupStep === 1 ? <SubjectsSection /> :
+          newGroupPopupStep === 2 ? <StudentsSection /> :
           null
         }
       </Dialog>
@@ -58,4 +53,4 @@ class NewGroupPopup extends React.Component {
 }
 
 
-export default connect( store => ({ groupStore: store.group }), { closeNewGroupPopup })(NewGroupPopup)
+export default connect( store => ({ groupStore: store.group }) )(NewGroupPopup)
