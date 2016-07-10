@@ -39,5 +39,12 @@ export const addNewStudent = name => dispatch => {
 
 export const removedAddedStudent = createAction('removedAddedStudent')
 export const removeAddedStudent = studentId => dispatch => {
-  dispatch(removedAddedStudent(studentId))
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students/${studentId}`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'DELETE',
+  })
+  .then(() => {
+    dispatch(removedAddedStudent(studentId))
+  })
 }

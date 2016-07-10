@@ -6,7 +6,7 @@ import {
 
   requestAddingNewCourse,
   addedNewCourse,
-  removeAddedCourse,
+  removedAddedCourse,
 } from 'actions/courses'
 
 
@@ -15,7 +15,7 @@ const initialState = {
   isFetching: false,
 
   addingNewCourse: false,
-  initiallyCreatedCourses: [],
+  initiallyCreatedCourses: {},
 }
 
 export default createReducer({
@@ -35,13 +35,18 @@ export default createReducer({
   [addedNewCourse]: (state, payload) => ({
     ...state,
     addingNewCourse: false,
-    initiallyCreatedCourses: [...state.initiallyCreatedCourses, payload],
+    initiallyCreatedCourses: {
+      ...state.initiallyCreatedCourses,
+      [payload.subject]: payload._id
+    },
   }),
-  [removeAddedCourse]: (state, payload) => ({
-    ...state,
-    initiallyCreatedCourses: [
-      ...state.initiallyCreatedCourses.slice(0, state.initiallyCreatedCourses.indexOf(payload)),
-      ...state.initiallyCreatedCourses.slice(state.initiallyCreatedCourses.indexOf(payload) + 1)
-    ]
-  }),
+  [removedAddedCourse]: (state, payload) => {
+    const initiallyCreatedCourses = { ...state.initiallyCreatedCourses }
+
+    delete initiallyCreatedCourses[payload]
+    return {
+      ...state,
+      initiallyCreatedCourses,
+    }
+  },
 }, initialState)

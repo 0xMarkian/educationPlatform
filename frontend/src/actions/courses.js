@@ -31,9 +31,18 @@ export const addCourseToGroup = subject => dispatch => {
   })
   .then(parseResponse)
   .then((res) => {
-    console.log(res)
-    //dispatch(addedNewCourse(subject._id))
+    dispatch(addedNewCourse(res))
   })
 }
 
-export const removeAddedSubject = createAction('null')
+export const removedAddedCourse = createAction('REMOVED ADDED COURSE')
+export const removeAddedCourse = (courseId, subjectId) => dispatch => {
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/courses/${courseId}`, {
+    ...defaultFetchParams,
+    method: 'DELETE',
+    credentials: 'include',
+  })
+  .then(() => {
+    dispatch(removedAddedCourse(subjectId))
+  })
+}

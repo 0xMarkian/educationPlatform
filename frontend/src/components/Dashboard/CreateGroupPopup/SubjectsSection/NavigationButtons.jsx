@@ -5,6 +5,7 @@ import { css } from 'aphrodite'
 import { connect } from 'react-redux'
 import autobind from 'autobind-decorator'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
+import { push } from 'react-router-redux'
 
 import { setGroupPopupStep } from 'actions/group'
 import { sendChosenSubject } from 'actions/subjects'
@@ -19,11 +20,9 @@ class NavigationButtons extends React.Component {
 
   @autobind
   nextStep() {
-    const { sendChosenSubject, subjectsStore } = this.props,
-          { requestMethod } = subjectsStore
-    let { chosenSubject } = this.props
-    if(!chosenSubject) chosenSubject = subjectsStore.data[0]
-    sendChosenSubject(chosenSubject, requestMethod)
+    const { push } = this.props
+    console.log('pushing')
+    push('dashboard')
   }
 
   render() {
@@ -52,6 +51,7 @@ class NavigationButtons extends React.Component {
 export default connect( store => ({
   subjectsStore: store.subjects,
 }), {
+  push,
   setGroupPopupStep,
   sendChosenSubject,
 })(NavigationButtons)

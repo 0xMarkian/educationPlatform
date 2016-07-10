@@ -9,7 +9,7 @@ import Remove from 'material-ui/svg-icons/content/backspace'
 import { DropDownMenu, MenuItem, List, ListItem } from 'material-ui'
 
 import { fetchSubjects } from 'actions/subjects'
-import { removeAddedSubject, addCourseToGroup } from 'actions/courses'
+import { removeAddedCourse, addCourseToGroup } from 'actions/courses'
 
 
 class InputSection extends React.Component {
@@ -23,14 +23,16 @@ class InputSection extends React.Component {
   @autobind
   handleInput(event, index, value) {
     const { subjectsStore, addCourseToGroup } = this.props
-    console.log('ADDING: ', subjectsStore.data[index]._id)
+
     addCourseToGroup(subjectsStore.data[index]._id)
   }
 
   @autobind
-  removeAddedSubject(subjectId) {
-    const { removeAddedSubject } = this.props
-    removeAddedSubject(subjectId)
+  removeAddedCourse(subjectId) {
+    const { removeAddedCourse, coursesStore } = this.props
+    const { initiallyCreatedCourses } = coursesStore
+
+    removeAddedCourse(initiallyCreatedCourses[subjectId], subjectId)
   }
 
   componentWillMount() {
@@ -56,9 +58,9 @@ class InputSection extends React.Component {
     return(
       <div>
         {
-          (subjects.length === initiallyCreatedCourses.length) ? null :
+          (subjects.length === Object.keys(initiallyCreatedCourses).length) ? null :
           <div>
-            <label htmlFor='new-group-subject'>Pick a subject:</label><br/>
+            <label htmlFor='new-group-subject'>Pick some subjects:</label><br/>
             <DropDownMenu
               maxHeight={300}
               autoWidth={true}
@@ -68,7 +70,7 @@ class InputSection extends React.Component {
             >
               {
                 subjects.map((subject, i) => {
-                  if(!initiallyCreatedCourses.includes(subject._id)) return(
+                  if(!initiallyCreatedCourses[subject._id]) return(
                     <MenuItem
                       value={subject._id}
                       primaryText={subject.name}
@@ -82,12 +84,12 @@ class InputSection extends React.Component {
         }
         <List className={css(styles.subjectsList)}>
           {
-            initiallyCreatedCourses.map((subjectId, index) => (
+            Object.keys(initiallyCreatedCourses).map((subjectId, index) => (
               <ListItem
                 key={index}
                 primaryText={rebuiltSubjects[subjectId]}
                 rightIcon={<Remove />}
-                onClick={() => {this.removeAddedSubject(subjectId)}}
+                onClick={() => {this.removeAddedCourse(subjectId)}}
               />
             ))
           }
@@ -103,4 +105,5 @@ export default connect(store => ({
 }), {
   fetchSubjects,
   addCourseToGroup,
+  removeAddedCourse,
 })(InputSection)

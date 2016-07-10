@@ -6,7 +6,6 @@ import { css } from 'aphrodite'
 import autobind from 'autobind-decorator'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
-import history from 'appHistory'
 import { setGroupPopupStep } from 'actions/group'
 
 class NavigationButtons extends React.Component {
@@ -18,7 +17,9 @@ class NavigationButtons extends React.Component {
 
   @autobind
   nextStep() {
-    history.push('/dashboard')
+    const { setGroupPopupStep } = this.props
+
+    setGroupPopupStep(2)
   }
 
   render() {
@@ -34,7 +35,7 @@ class NavigationButtons extends React.Component {
         <RaisedButton
           primary={true}
           onTouchTap={this.nextStep}
-          label='Finish'
+          label='Next'
         />
         {isFetching ? (
           <CircularProgress size={muiStyles.progress.size}/>
