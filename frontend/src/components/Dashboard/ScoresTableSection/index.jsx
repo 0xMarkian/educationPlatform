@@ -1,16 +1,17 @@
+import { muiStyles } from './styles'
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import {
   Table, TableBody, TableHeader,
   TableHeaderColumn, TableRow, TableRowColumn,
-  TextField
+  TextField, Snackbar
 } from 'material-ui'
 
 import { fetchStudents } from 'actions/students'
 import { fetchSubjects } from 'actions/subjects'
 import { fetchCourses } from 'actions/courses'
-import { fetchScores, applyNewScore } from 'actions/scores'
+import { fetchScores, applyNewScore, closeScoreAppliedMsg } from 'actions/scores'
 
 
 class ScoresTable extends React.Component {
@@ -18,16 +19,11 @@ class ScoresTable extends React.Component {
     super(props)
   }
 
-  handleInput(studentId, courseId, prevScore, event){
+  handleInput(studentId, courseId, scoreToUpdateId, event){
     const { applyNewScore } = this.props
     const inputValue = event.target.value
-    let scoreToUpdateId
 
-    if(!prevScore) scoreToUpdateId = null // The score does not exist in the DB yet
-    else scoreToUpdateId = prevScore.scoreId
-
-
-    applyNewScore(studentId, courseId, inputValue, scoreToUpdateId)
+    applyNewScore(scoreToUpdateId, studentId, courseId, inputValue)
   }
 
   componentWillMount() {
@@ -53,81 +49,89 @@ class ScoresTable extends React.Component {
   }
 
   render() {
-    const scores = this.props.scoresStore.data
-    const students = this.props.studentsStore.data
-    const courses = this.props.coursesStore.data
+    const { scoresStore, studentsStore, coursesStore, closeScoreAppliedMsg } = this.props
     const { rebuiltSubjects } = this
+    const { IsShownScoreAppliedMsg } = scoresStore
+    const scores = scoresStore.data
+    const students = studentsStore.data
+    const courses = coursesStore.data
 
     // Do not render until required lists are loaded
     if(!scores || !students || !courses || !rebuiltSubjects) return(<div>Loading in progress...</div>)
 
     return (
-      <Table selectable={false}>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-          <TableRow>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            {
-              courses.map((course, i) => (
-                <TableHeaderColumn
-                  tooltip={rebuiltSubjects[course.subject]}
-                  key={i}
-                >
-                  {rebuiltSubjects[course.subject] ?
-                    (rebuiltSubjects[course.subject].length >= 12 ?
-                      rebuiltSubjects[course.subject].slice(0, 10) + '...' : rebuiltSubjects[course.subject]
-                    ): null
-                  }
-                </TableHeaderColumn>
-              ))
-            }
-          </TableRow>
-        </TableHeader>
-        <TableBody displayRowCheckbox={false}>
-        {
-          // Iterating over all of the students including the ones who have any scores.
-          // This object is ONLY used to build the frame of the table, all of the data about students'
-          // scores is being taken from the scores object as long as the students object does not provide any.
-          students.map((student, studentIndex) => (
-            <TableRow key={studentIndex}>
-              <TableRowColumn>{student.name}</TableRowColumn>
+      <div>
+        <Table selectable={false}>
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn>Name</TableHeaderColumn>
               {
-                // Going over subjects
-                courses.map((course, subjectIndex) => {
-                  let currentScoreValue, currentScoreObj
-                  if(scores[student._id]){ // If the student exists in scores collection ...
-                    if(scores[student._id][course.subject]){ // ... and has a subject linked to him
-                      currentScoreObj = scores[student._id][course.subject]
-                      currentScoreValue = currentScoreObj.scoreValue
+                courses.map((course, i) => (
+                  <TableHeaderColumn
+                    tooltip={rebuiltSubjects[course.subject]}
+                    key={i}
+                  >
+                    {rebuiltSubjects[course.subject] ?
+                      (rebuiltSubjects[course.subject].length >= 12 ?
+                        rebuiltSubjects[course.subject].slice(0, 10) + '...' : rebuiltSubjects[course.subject]
+                      ): null
                     }
-                  } else{
-                    currentScoreObj = null
-                    currentScoreValue = null
-                  }
-                  return(
-                    <TableRowColumn key={subjectIndex}>
-                      <TextField
-                        type='text'
-                        underlineShow={false}
-                        id={course.subject + '/' + student._id}
-                        defaultValue={currentScoreValue}
-                        onBlur={
-                          this.handleInput.bind(
-                            this,
-                            student._id,
-                            courses[course.subject],
-                            currentScoreObj
-                          )
-                        }
-                      />
-                    </TableRowColumn>
-                  )
-                })
+                  </TableHeaderColumn>
+                ))
               }
             </TableRow>
-          ))
-        }
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
+          {
+            // Iterating over all of the students including the ones who have any scores.
+            // This object is ONLY used to build the frame of the table, all of the data about students'
+            // scores is being taken from the scores object as long as the students object does not provide any.
+            students.map((student, studentIndex) => (
+              <TableRow key={studentIndex}>
+                <TableRowColumn>{student.name}</TableRowColumn>
+                {
+                  // Going over subjects
+                  courses.map((course, subjectIndex) => {
+                    let currentScoreObj
+                    if(scores[student._id]){
+                      if(scores[student._id][course.subject])
+                        currentScoreObj = scores[student._id][course.subject]
+                    } else{
+                      currentScoreObj = { scoreId: null, scoreValue: null }
+                    }
+
+                    return(
+                      <TableRowColumn key={subjectIndex}>
+                        <TextField
+                          type='text'
+                          underlineShow={false}
+                          id={course.subject + '/' + student._id}
+                          defaultValue={currentScoreObj.scoreValue}
+                          onBlur={
+                            this.handleInput.bind(
+                              this,
+                              student._id,
+                              course._id,
+                              currentScoreObj.scoreId
+                            )
+                          }
+                        />
+                      </TableRowColumn>
+                    )
+                  })
+                }
+              </TableRow>
+            ))
+          }
+          </TableBody>
+        </Table>
+        <Snackbar
+          open={IsShownScoreAppliedMsg}
+          message='New score has been successfully applied'
+          autoHideDuration={muiStyles.snackbar.hideDuration}
+          onRequestClose={closeScoreAppliedMsg}
+        />
+      </div>
     )
   }
 }
@@ -144,4 +148,5 @@ export default connect(store => ({
   fetchScores,
   fetchCourses,
   applyNewScore,
+  closeScoreAppliedMsg,
 })(ScoresTable)
