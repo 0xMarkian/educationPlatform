@@ -12,6 +12,9 @@ router.route('/register')
 router.route('/login')
   .post(userCtrl.login)
 
+router.route('/logout')
+  .post(userCtrl.logout)
+
 router.route('/me')
   .get(userCtrl.getMe)
   .patch(userCtrl.update)
