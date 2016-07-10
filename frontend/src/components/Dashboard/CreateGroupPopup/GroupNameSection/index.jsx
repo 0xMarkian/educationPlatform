@@ -17,7 +17,7 @@ class GroupNameSection extends React.Component {
   }
 
   @autobind
-  updateGroupNameInputData(value, error, errorText) {
+  updateGroupNameInputData(value, error) {
     this.setState({
       groupName: { value, error, },
     })
