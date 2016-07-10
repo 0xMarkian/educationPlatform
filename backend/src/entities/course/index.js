@@ -11,6 +11,9 @@ router.route('/')
   .post(courseCtrl.create)
   .get(courseCtrl.list)
 
+router.route('/:id')
+  .delete(courseCtrl.deleteById)
+
 
 
 export default router

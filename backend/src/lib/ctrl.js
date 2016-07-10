@@ -37,7 +37,7 @@ export default class BasicCtrl {
     })
   }
 
-  deleteOneById(req,res, next){
+  deleteById(req, res, next){
     const { id: _id } = req.params
 
     this.Model.remove( {_id}, err => {
