@@ -18,6 +18,8 @@
     "react/no-multi-comp":[1],
     "react/jsx-no-bind":[0],
     "react/prefer-stateless-function":[0],
-    "no-multi-str":[0]
+    "no-multi-str":[0],
+    "import/no-unresolved":[0],
+    "no-underscore-dangle":[0],
   }
 }

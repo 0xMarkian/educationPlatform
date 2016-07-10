@@ -1,11 +1,11 @@
-import {createReducer} from 'redux-act'
+import { createReducer } from 'redux-act'
 
 import {
   requestUserRegister,
   receiveRegisteredUser,
-
   requestUserLogin,
-  userLoggedIn
+  userLoggedIn,
+  userLogout,
 } from 'actions/user'
 
 
@@ -19,9 +19,9 @@ const initialState = {
 export default createReducer({
   [requestUserRegister]: state => ({
     ...state,
-    registering: true
+    registering: true,
   }),
-  [receiveRegisteredUser]: (state, payload) => ({
+  [receiveRegisteredUser]: state => ({
     ...state,
     registering: false,
   }),
@@ -37,5 +37,10 @@ export default createReducer({
     name: payload,
     loggedIn: true,
     loggingIn: false,
+  }),
+
+  [userLogout]: state => ({
+    ...state,
+    loggedIn: false,
   }),
 }, initialState)

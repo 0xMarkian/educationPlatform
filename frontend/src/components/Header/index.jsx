@@ -1,32 +1,28 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle, RaisedButton, Avatar} from 'material-ui'
+import { styles } from './styles'
 
-import {
-  showNewGroupPopup
-} from 'actions/group'
+import React from 'react'
+import { connect } from 'react-redux'
+import { css } from 'aphrodite'
+import { Toolbar, ToolbarGroup, ToolbarTitle, Avatar } from 'material-ui'
 
 
 class Header extends React.Component {
   render() {
-    const { showNewGroupPopup } = this.props
-
     return(
       <Toolbar>
         <ToolbarGroup>
-          <Avatar style={{ alignSelf: 'center' }} >A</Avatar>
-          <ToolbarTitle text="Manage your groups" style={{ marginLeft: '24px' }}/>
-        </ToolbarGroup>
-        <ToolbarGroup>
-          <ToolbarSeparator />
-          <RaisedButton
-            label="Create new group"
-            primary={true}
-            onClick={showNewGroupPopup} />
+          <Avatar className={css(styles.avatar)}>
+          {
+            this.props.userStore.name ? this.props.userStore.name[0].toUpperCase() : 'U'
+          }
+          </Avatar>
+          <ToolbarTitle text="Manage your groups" className={css(styles.headerTitle)} />
         </ToolbarGroup>
       </Toolbar>
     )
   }
 }
 
-export default connect(null, { showNewGroupPopup })(Header)
+export default connect(store => ({
+  userStore: store.user,
+}))(Header)

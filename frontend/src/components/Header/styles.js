@@ -2,7 +2,10 @@ import { StyleSheet } from 'aphrodite'
 
 
 export const styles = StyleSheet.create({
-  popupHeader: {
-    textAlign: 'center',
+  avatar: {
+    alignSelf: 'center',
+  },
+  headerTitle: {
+    marginLeft: 24,
   },
 })

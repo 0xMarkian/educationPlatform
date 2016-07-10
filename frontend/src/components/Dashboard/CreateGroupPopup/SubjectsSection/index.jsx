@@ -1,19 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import autobind from 'autobind-decorator'
 
-import InputRow from './InputRow'
-import ButtonsRow from './ButtonsRow'
+import InputSection from './InputSection'
+import NavigationButtons from './NavigationButtons'
 
 
-class SubjectsForm extends React.Component {
+class SubjectsSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       chosenSubject: null,
     }
-    this.setChosenSubject = this.setChosenSubject.bind(this)
   }
 
+  @autobind
   setChosenSubject(subject) {
     this.setState({
       chosenSubject: subject
@@ -25,15 +26,15 @@ class SubjectsForm extends React.Component {
 
     return(
       <div>
-        <InputRow
+        <InputSection
           chosenSubject={chosenSubject}
           setChosenSubject={this.setChosenSubject}
         />
         <br/><br/>
-        <ButtonsRow chosenSubject={chosenSubject} />
+        <NavigationButtons chosenSubject={chosenSubject} />
       </div>
     )
   }
 }
 
-export default connect( store => ({ groupStore: store.group }))(SubjectsForm)
+export default connect( store => ({ groupStore: store.group }))(SubjectsSection)

@@ -1,87 +1,84 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TextField } from 'material-ui'
+import { Link } from 'react-router'
+import {
+  Table, TableBody, TableHeader,
+  TableHeaderColumn, TableRow, TableRowColumn,
+  TextField
+} from 'material-ui'
 
-import { fetchSubjectsList, fetchStudentsList, fetchScoresList, applyNewScore } from 'actions/group'
+import { fetchStudents } from 'actions/students'
+import { fetchSubjects } from 'actions/subjects'
+import { fetchCourses } from 'actions/courses'
+import { fetchScores, applyNewScore } from 'actions/scores'
 
 
 class ScoresTable extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      groupSubjectsList: null,
-      rebuiltSubjectsList: null,
+      subjectsToRender: null,
     }
   }
 
-  handleInput(studentId, courseId, event){
+  handleInput(studentId, courseId, prevScore, event){
     const { applyNewScore } = this.props
     const inputValue = event.target.value
-    applyNewScore(studentId, courseId, inputValue)
+    let scoreToUpdateId
+
+    if(!prevScore) scoreToUpdateId = null // The score does not exist in the DB yet
+    else scoreToUpdateId = prevScore.scoreId
+
+
+    applyNewScore(studentId, courseId, inputValue, scoreToUpdateId)
   }
 
   componentWillMount() {
-    const { fetchSubjectsList, fetchStudentsList, fetchScoresList } = this.props
-    const subjectsPromise = new Promise((resolve, reject) => { fetchSubjectsList(resolve, reject) }),
-          studentsPromise = new Promise((resolve, reject) => { fetchStudentsList(resolve, reject) }),
-          scoresPromise = new Promise((resolve, reject) => { fetchScoresList(resolve, reject) })
-
-    Promise.all([subjectsPromise, studentsPromise, scoresPromise]).then(() => {
-      const { groupStore } = this.props
-      const subjectsList = groupStore.subjects.list,
-            studentsList = groupStore.students.list,
-            scoresList = groupStore.scores.list
-
-      // Creating a list of all subjects, formatted like {subjectId: subjectName}
-      const rebuiltSubjectsList = {}
-      subjectsList.forEach(subject => {
-        rebuiltSubjectsList[subject._id] = subject.name
-      })
-
-      // Creating a list of needed subjects, formatted like {subjectId: subjectName}
-      const groupSubjectsList = {}
-      studentsList.forEach((student) => {
-        groupSubjectsList[student.course.subject] = rebuiltSubjectsList[student.course.subject]
-      })
-
-      // Flattering [{name: 'foo', _id: 'bar', scoreValue: 'baz'}] to {foo: {bar: 'baz'}}
-      const rebuiltStudentsList = {}
-      scoresList.forEach((score, i) => {
-        rebuiltStudentsList[score.student._id] = {
-          ...rebuiltStudentsList[score.student._id],
-          studentName: score.student.name,
-          [score.course.subject]: {
-            courseId: score.course._id,
-            scoreValue: score.scoreValue,
-          }
-        }
-      })
-
-      this.setState({ groupSubjectsList, rebuiltStudentsList })
-    }).catch(err => {throw new Error(err)})
+    const { fetchSubjects, fetchStudents, fetchScores, fetchCourses } = this.props
+    fetchStudents()
+    fetchScores()
+    fetchCourses()
+    fetchSubjects()
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { groupStore, studentsStore, subjectsStore, scoresStore, coursesStore } = nextProps
+    const subjects = subjectsStore.data,
+          students = studentsStore.data,
+          courses = coursesStore.data
+
+    if(!subjects || !students || !courses) return false
+
+    // Creating a list of ALL subjects, formatted like { subjectId: subjectName }
+    const rebuiltSubjects = {}
+    subjects.forEach(subject => { rebuiltSubjects[subject._id] = subject.name })
+
+    this.rebuiltSubjects = rebuiltSubjects
+  }
 
   render() {
-    const { groupSubjectsList, rebuiltStudentsList } = this.state
+    const scores = this.props.scoresStore.data
+    const students = this.props.studentsStore.data
+    const courses = this.props.coursesStore.data
+    const { rebuiltSubjects } = this
 
     // Do not render until required lists are loaded
-    if(!groupSubjectsList || !rebuiltStudentsList) return(<div>Loading in progress...</div>)
-    console.log(rebuiltStudentsList)
+    if(!scores || !students || !courses || !rebuiltSubjects) return(<div>Loading in progress...</div>)
+
     return (
       <Table selectable={false}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
             <TableHeaderColumn>Name</TableHeaderColumn>
             {
-              Object.keys(groupSubjectsList).map( (subject, i) => (
+              courses.map((course, i) => (
                 <TableHeaderColumn
-                  tooltip={groupSubjectsList[subject]}
+                  tooltip={rebuiltSubjects[course.subject]}
                   key={i}
                 >
-                  {groupSubjectsList[subject] ?
-                    (groupSubjectsList[subject].length >= 12 ?
-                      groupSubjectsList[subject].slice(0, 10) + '...' : groupSubjectsList[subject]
+                  {rebuiltSubjects[course.subject] ?
+                    (rebuiltSubjects[course.subject].length >= 12 ?
+                      rebuiltSubjects[course.subject].slice(0, 10) + '...' : rebuiltSubjects[course.subject]
                     ): null
                   }
                 </TableHeaderColumn>
@@ -91,21 +88,28 @@ class ScoresTable extends React.Component {
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
         {
-          // Going over students
-          Object.keys(rebuiltStudentsList).map((studentId, studentIndex) => (
+          // Iterating over all of the students including the ones who have any scores.
+          // This object is ONLY used to build the frame of the table, all of the data about students'
+          // scores is being taken from the scores object as long as the students object does not provide any.
+          Object.keys(students).map((studentId, studentIndex) => (
             <TableRow key={studentIndex}>
-              <TableRowColumn>{rebuiltStudentsList[studentId].studentName}</TableRowColumn>
+              <TableRowColumn>{students[studentId]}</TableRowColumn>
               {
                 // Going over subjects
-                Object.keys(groupSubjectsList).map((subjectId, subjectIndex) => (
+                courses.map((course, subjectIndex) => (
                   <TableRowColumn key={subjectIndex}>
                     <TextField
-                      id={subjectId + '/' + studentId}
                       type='text'
                       underlineShow={false}
-                      defaultValue={rebuiltStudentsList[studentId][subjectId].scoreValue}
+                      id={course.subject + '/' + studentId}
+                      defaultValue={scores[studentId][course.subject].scoreValue}
                       onBlur={
-                        this.handleInput.bind(this, studentId, rebuiltStudentsList[studentId][subjectId].courseId)
+                        this.handleInput.bind(
+                          this,
+                          studentId,
+                          courses[course.subject],
+                          scores[studentId][course.subject]
+                        )
                       }
                     />
                   </TableRowColumn>
@@ -120,9 +124,16 @@ class ScoresTable extends React.Component {
   }
 }
 
-export default connect(store => ({ groupStore: store.group }), {
-  fetchSubjectsList,
-  fetchStudentsList,
-  fetchScoresList,
+export default connect(store => ({
+  groupStore: store.group,
+  studentsStore: store.students,
+  subjectsStore: store.subjects,
+  scoresStore: store.scores,
+  coursesStore: store.courses,
+}), {
+  fetchSubjects,
+  fetchStudents,
+  fetchScores,
+  fetchCourses,
   applyNewScore,
 })(ScoresTable)

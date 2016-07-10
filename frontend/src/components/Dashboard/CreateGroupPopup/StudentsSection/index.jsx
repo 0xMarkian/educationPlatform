@@ -1,26 +1,26 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import autobind from 'autobind-decorator'
 
-import InputRow from './InputRow'
-import ButtonsRow from './ButtonsRow'
+import InputSection from './InputSection'
+import NavigationButtons from './NavigationButtons'
 
 
-class StudentsForm extends React.Component {
+class StudentsSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       students: [],
     }
-    this.addStudent = this.addStudent.bind(this)
-    this.removeStudent = this.removeStudent.bind(this)
   }
 
+  @autobind
   addStudent(studentName) {
     this.setState({
       students: [ ...this.state.students, studentName]
     })
   }
 
+  @autobind
   removeStudent(index) {
      this.setState({
       students: [ ...this.state.students.slice(0, index), ...this.state.students.slice(index + 1) ]
@@ -30,13 +30,13 @@ class StudentsForm extends React.Component {
   render() {
     return(
       <div>
-        <InputRow
+        <InputSection
           studentsList={this.state.students}
           addStudent={this.addStudent}
           removeStudent={this.removeStudent}
         />
         <br/>
-        <ButtonsRow
+        <NavigationButtons
           studentsList={this.state.students}
         />
       </div>
@@ -44,4 +44,4 @@ class StudentsForm extends React.Component {
   }
 }
 
-export default connect()(StudentsForm)
+export default StudentsSection

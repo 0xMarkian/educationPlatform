@@ -1,16 +1,15 @@
+import { styles } from '../styles'
+
 import React from 'react'
-import {connect} from 'react-redux'
-import {List, ListItem, TextField, RaisedButton} from 'material-ui'
+import { css } from 'aphrodite'
 import Remove from 'material-ui/svg-icons/content/backspace'
 import Person from 'material-ui/svg-icons/social/person'
+import autobind from 'autobind-decorator'
+import {List, ListItem, TextField, RaisedButton} from 'material-ui'
 
 
-class InputRow extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleInput = this.handleInput.bind(this)
-  }
-
+class InputSection extends React.Component {
+  @autobind
   handleInput() {
     const studentName = this.refs['new-group-modal-students'].input.value
     this.refs['new-group-modal-students'].input.value = null
@@ -30,12 +29,12 @@ class InputRow extends React.Component {
           type='text'
         />
         <RaisedButton
-          label={'ADD'}
-          style={{marginLeft: 12}}
+          label='ADD'
+          className={css(styles.addButton)}
           primary={true}
           onClick={this.handleInput}
         />
-        <List style={{maxHeight: 150, overflowY: 'auto'}}>
+        <List className={css(styles.studentsList)}>
           {studentsList ? studentsList.map((value, index) => (
             <ListItem
               key={index}
@@ -50,4 +49,4 @@ class InputRow extends React.Component {
   }
 }
 
-export default connect(store => ({ commonStore: store.common }))(InputRow)
+export default InputSection
