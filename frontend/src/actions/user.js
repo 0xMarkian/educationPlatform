@@ -1,7 +1,9 @@
 import { createAction } from 'redux-act'
+import { push } from 'react-router-redux'
 
+import { fetchGroup } from 'actions/group'
 import { backend, defaultFetchParams } from '../config'
-import { parseResponse } from '../utils'
+import { parseResponse, parseLoginResponse } from '../utils'
 
 
 // Fetching data
@@ -14,7 +16,7 @@ export const fetchUserData = () => dispatch => {
   })
   .then(parseResponse)
   .then((res) => {
-    console.log(res)
+    dispatch(fetchGroup())
     dispatch(receivedUserData(res))
   })
 }
@@ -31,13 +33,14 @@ export const userLogin = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-  .then(parseResponse)
+  .then(parseLoginResponse)
   .then(res => {
-    dispatch(userLoggedIn(name))
+    dispatch(fetchGroup())
+    dispatch(userLoggedIn(res.name))
+    dispatch(push('dashboard'))
   })
   .catch(err => {
-    dispatch(rejectLogin())
-    throw new Error(err)
+    dispatch(rejectLogin(err.message))
   })
 }
 
@@ -55,6 +58,7 @@ export const userRegister = (name, password) => dispatch => {
   .then(parseResponse)
   .then(() => {
     dispatch(receiveRegisteredUser())
+    dispatch(push('dashboard'))
   })
   .catch(err => {
     throw new Error(err)
@@ -62,4 +66,17 @@ export const userRegister = (name, password) => dispatch => {
 }
 
 // Logging out
-export const userLogout = createAction('LOG USER OUT')
+export const userLoggedOut = createAction('USER LOGGED OUT')
+export const userLogout = () => dispatch => {
+  fetch(`${backend}/users/logout`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'POST',
+  })
+  .then(() => {
+    dispatch(userLoggedOut())
+    dispatch(push('/login'))
+  })
+}
+
+export const removeLoginError = createAction('REMOVE LOGIN ERROR')

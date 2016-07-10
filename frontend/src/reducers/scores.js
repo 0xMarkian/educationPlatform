@@ -30,6 +30,6 @@ export default createReducer({
   }),
   [closeScoreAppliedMsg]: state => ({
     ...state,
-    IsShownScoreAppliedMsg: false
+    IsShownScoreAppliedMsg: false,
   }),
 }, initialState)

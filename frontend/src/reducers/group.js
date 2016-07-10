@@ -10,7 +10,8 @@ import {
 
 
 const initialState = {
-  data: null,
+  groupName: null,
+  groupId: null,
   newGroupPopupStep: 0,
   requestMethod: 'POST',
   isCreating: false,
@@ -29,7 +30,8 @@ export default createReducer({
   [receiveCreatedGroup]: (state, payload) => ({
     ...state,
     isCreating: false,
-    data: payload,
+    groupId: payload._id,
+    groupName: payload.name,
     requestMethod: 'PATCH',
     newGroupPopupStep: 1,
   }),
@@ -40,6 +42,7 @@ export default createReducer({
   [receiveFetchedGroup]: (state, payload) => ({
     ...state,
     isFetching: false,
-    data: payload,
+    groupId: payload._id,
+    groupName: payload.name,
   }),
 }, initialState)

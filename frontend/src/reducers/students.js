@@ -29,7 +29,7 @@ export default createReducer({
     initiallyCreatedStudents: {
       ...state.initiallyCreatedStudents,
       [payload._id]: payload.name,
-    }
+    },
   }),
   [removedAddedStudent]: (state, payload) => {
     const initiallyCreatedStudents = { ...state.initiallyCreatedStudents }

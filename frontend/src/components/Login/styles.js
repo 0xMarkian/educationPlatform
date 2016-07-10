@@ -6,3 +6,9 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
 })
+
+export const muiStyles = {
+  snackbar: {
+    hideDuration: 2000,
+  },
+}

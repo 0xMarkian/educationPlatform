@@ -2,7 +2,7 @@ import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
 import { parseResponse } from '../utils'
-import { updateStudentWithScore } from './students'
+
 
 export const requestScores = createAction('REQUEST SCORES')
 export const receiveScores = createAction('RECEIVE SCORES')
@@ -32,7 +32,8 @@ export const fetchScores = () => dispatch => {
 export const openScoreAppliedMsg = createAction('OPEN SCORE APPLIED MSG')
 export const closeScoreAppliedMsg = createAction('CLOSE SCORE APPLIED MSG')
 export const applyNewScore = (scoreToUpdateId, student, course, scoreValue) => dispatch => {
-  let fetchParams, requestURL
+  let fetchParams
+  let requestURL
   if (scoreToUpdateId) {
     requestURL = `scores/${scoreToUpdateId}`
     fetchParams = {

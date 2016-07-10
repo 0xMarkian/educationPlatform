@@ -57,8 +57,12 @@ class ScoresTable extends React.Component {
     const students = studentsStore.data
     const courses = coursesStore.data
 
-    // Do not render until required lists are loaded
-    if(!scores || !students || !courses || !rebuiltSubjects) return(<div>Loading in progress...</div>)
+    if(!scores || !students || !courses || !rebuiltSubjects)
+      return(
+        <div>It seems you do not have any groups yet.
+          Would you like to <Link to='/newGroup'>create one</Link>?
+        </div>
+      )
 
     return (
       <div>

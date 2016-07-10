@@ -37,7 +37,7 @@ export default createReducer({
     addingNewCourse: false,
     initiallyCreatedCourses: {
       ...state.initiallyCreatedCourses,
-      [payload.subject]: payload._id
+      [payload.subject]: payload._id,
     },
   }),
   [removedAddedCourse]: (state, payload) => {

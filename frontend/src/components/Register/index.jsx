@@ -7,7 +7,6 @@ import { Dialog, RaisedButton } from 'material-ui'
 import autobind from 'autobind-decorator'
 import { css } from 'aphrodite'
 
-import history from 'appHistory'
 import { userRegister } from 'actions/user'
 import Username from './Username'
 import Password from './Password'
@@ -37,11 +36,6 @@ class RegisterSection extends Component{
     const { username, password } = this.state
 
     userRegister(username, password)
-  }
-
-  componentDidUpdate() {
-    const { userStore } = this.props
-    if(userStore.loggedIn) history.push('dashboard')
   }
 
   render() {
