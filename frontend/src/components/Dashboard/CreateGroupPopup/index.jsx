@@ -5,9 +5,9 @@ import autobind from 'autobind-decorator'
 
 import history from 'appHistory'
 import StepProgress from './StepProgress'
-import GroupNameForm from './GroupNameForm'
-import SubjectsForm from './SubjectsForm'
-import StudentsForm from './StudentsForm'
+import GroupNameSection from './GroupNameSection'
+import SubjectsSection from './SubjectsSection'
+import StudentsSection from './StudentsSection'
 
 
 class NewGroupPopup extends React.Component {
@@ -42,13 +42,13 @@ class NewGroupPopup extends React.Component {
       >
         <StepProgress step={newGroupPopupStep} />
         {
-          newGroupPopupStep === 0 ? <GroupNameForm
+          newGroupPopupStep === 0 ? <GroupNameSection
             handleClose={this.handleClose}
             inputData={this.state.groupName.input}
             updateGroupNameInputData={this.updateGroupNameInputData}
           /> :
-          newGroupPopupStep === 1 ? <SubjectsForm /> :
-          newGroupPopupStep === 2 ? <StudentsForm /> :
+          newGroupPopupStep === 1 ? <SubjectsSection /> :
+          newGroupPopupStep === 2 ? <StudentsSection /> :
           null
         }
       </Dialog>

@@ -1,8 +1,8 @@
 import React from 'react'
 import autobind from 'autobind-decorator'
 
-import InputRow from './InputRow'
-import ButtonsRow from './ButtonsRow'
+import InputSection from './InputSection'
+import NavigationButtons from './NavigationButtons'
 
 
 class StudentsForm extends React.Component {
@@ -30,13 +30,13 @@ class StudentsForm extends React.Component {
   render() {
     return(
       <div>
-        <InputRow
+        <InputSection
           studentsList={this.state.students}
           addStudent={this.addStudent}
           removeStudent={this.removeStudent}
         />
         <br/>
-        <ButtonsRow
+        <NavigationButtons
           studentsList={this.state.students}
         />
       </div>

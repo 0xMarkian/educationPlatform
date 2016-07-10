@@ -1,8 +1,8 @@
 import React from 'react'
 import autobind from 'autobind-decorator'
 
-import InputRow from './InputRow'
-import ButtonsRow from './ButtonsRow'
+import InputSection from './InputSection'
+import NavigationButtons from './NavigationButtons'
 
 
 class GroupNameInput extends React.Component {
@@ -31,11 +31,11 @@ class GroupNameInput extends React.Component {
 
     return(
       <div>
-        <InputRow
+        <InputSection
           inputData={inputData}
           updateGroupNameInputData={this.updateGroupNameInputData}
         />
-        <ButtonsRow
+        <NavigationButtons
           inputData={inputData}
           handleClose={this.props.handleClose}
         />

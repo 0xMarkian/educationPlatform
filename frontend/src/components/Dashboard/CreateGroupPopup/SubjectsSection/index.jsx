@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import autobind from 'autobind-decorator'
 
-import InputRow from './InputRow'
-import ButtonsRow from './ButtonsRow'
+import InputSection from './InputSection'
+import NavigationButtons from './NavigationButtons'
 
 
 class SubjectsForm extends React.Component {
@@ -26,12 +26,12 @@ class SubjectsForm extends React.Component {
 
     return(
       <div>
-        <InputRow
+        <InputSection
           chosenSubject={chosenSubject}
           setChosenSubject={this.setChosenSubject}
         />
         <br/><br/>
-        <ButtonsRow chosenSubject={chosenSubject} />
+        <NavigationButtons chosenSubject={chosenSubject} />
       </div>
     )
   }
