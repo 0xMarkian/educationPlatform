@@ -2,6 +2,9 @@ import { StyleSheet } from 'aphrodite'
 
 
 export const styles = StyleSheet.create({
+  navigationButtons: {
+    marginTop: 24,
+  },
   backButton: {
     marginRight: 24,
   },

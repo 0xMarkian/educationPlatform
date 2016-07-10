@@ -41,6 +41,7 @@ class ScoresTable extends React.Component {
           courses = coursesStore.data
 
     if(!subjects || !students || !courses) return false
+
     // Creating a list of ALL subjects, formatted like { subjectId: subjectName }
     const rebuiltSubjects = {}
     subjects.forEach(subject => { rebuiltSubjects[subject._id] = subject.name })
@@ -85,7 +86,7 @@ class ScoresTable extends React.Component {
           {
             // Iterating over all of the students including the ones who have any scores.
             // This object is ONLY used to build the frame of the table, all of the data about students'
-            // scores is being taken from the scores object as long as the students object does not provide any.
+            // scores is being taken from the scores object because the students object doesn't provide any.
             students.map((student, studentIndex) => (
               <TableRow key={studentIndex}>
                 <TableRowColumn>{student.name}</TableRowColumn>
@@ -127,7 +128,7 @@ class ScoresTable extends React.Component {
         </Table>
         <Snackbar
           open={IsShownScoreAppliedMsg}
-          message='New score has been successfully applied'
+          message='New score has been successfully applied!'
           autoHideDuration={muiStyles.snackbar.hideDuration}
           onRequestClose={closeScoreAppliedMsg}
         />
@@ -136,17 +137,8 @@ class ScoresTable extends React.Component {
   }
 }
 
-export default connect(store => ({
-  groupStore: store.group,
-  studentsStore: store.students,
-  subjectsStore: store.subjects,
-  scoresStore: store.scores,
-  coursesStore: store.courses,
+export default connect(store => ({ groupStore: store.group, studentsStore: store.students,
+  subjectsStore: store.subjects, scoresStore: store.scores, coursesStore: store.courses,
 }), {
-  fetchSubjects,
-  fetchStudents,
-  fetchScores,
-  fetchCourses,
-  applyNewScore,
-  closeScoreAppliedMsg,
+  fetchSubjects, fetchStudents, fetchScores, fetchCourses, applyNewScore, closeScoreAppliedMsg,
 })(ScoresTable)

@@ -26,7 +26,7 @@ class NavigationButtons extends React.Component {
     const { isFetching } = false
 
     return(
-      <div>
+      <div className={css(styles.navigationButtons)}>
         <FlatButton
           className={css(styles.backButton)}
           onTouchTap={this.prevStep}

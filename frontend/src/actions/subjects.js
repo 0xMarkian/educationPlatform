@@ -8,7 +8,7 @@ export const requestAddingNewSubject = createAction('REQUEST ADDING NEW SUBJECT'
 export const addedNewSubject = createAction('ADDED NEW SUBJECT')
 export const addSubjectToGroup = subject => dispatch => {
   dispatch(requestAddingNewSubject())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subject`, {
+  fetch(`${backend}/subject`, {
     ...defaultFetchParams,
     method: 'POST',
     credentials: 'include',
@@ -24,7 +24,7 @@ export const requestSubjects = createAction('REQUEST SUBJECTS')
 export const receiveSubjects = createAction('RECEIVE SUBJECTS')
 export const fetchSubjects = () => dispatch => {
   dispatch(requestSubjects())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
+  fetch(`${backend}/subjects`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',

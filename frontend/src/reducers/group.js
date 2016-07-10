@@ -29,7 +29,7 @@ export default createReducer({
   [receiveCreatedGroup]: (state, payload) => ({
     ...state,
     isCreating: false,
-    groupData: payload,
+    data: payload,
     requestMethod: 'PATCH',
     newGroupPopupStep: 1,
   }),

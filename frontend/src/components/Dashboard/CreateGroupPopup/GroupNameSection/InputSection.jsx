@@ -35,7 +35,7 @@ class InputSection extends React.Component {
           hintText='Group name'
           type='text'
           onChange={this.handleInput}
-        /><br/><br/>
+        />
       </div>
     )
   }

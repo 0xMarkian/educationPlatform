@@ -8,7 +8,7 @@ export const requestStudents = createAction('REQUEST STUDENTS')
 export const receiveStudents = createAction('RECEIVE STUDENTS')
 export const fetchStudents = () => dispatch => {
   dispatch(requestStudents())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students`,
+  fetch(`${backend}/students`,
     {
       ...defaultFetchParams,
       method: 'GET',
@@ -22,7 +22,7 @@ export const fetchStudents = () => dispatch => {
 
 export const addedNewStudent = createAction('ADDED NEW STUDENT')
 export const addNewStudent = name => dispatch => {
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students`, {
+  fetch(`${backend}/students`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
@@ -39,7 +39,7 @@ export const addNewStudent = name => dispatch => {
 
 export const removedAddedStudent = createAction('removedAddedStudent')
 export const removeAddedStudent = studentId => dispatch => {
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students/${studentId}`, {
+  fetch(`${backend}/students/${studentId}`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'DELETE',

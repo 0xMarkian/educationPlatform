@@ -55,7 +55,7 @@ class Password extends React.Component {
           id='login-modal-password'
           hintText='password'
           type='password'
-        /><br/><br/>
+        />
       </div>
     )
   }
@@ -110,7 +110,7 @@ class ConfirmePassword extends Component {
           id='login-modal-retyped-password'
           hintText='Retype password'
           type='password'
-        /><br/><br/>
+        />
       </div>
     )
   }

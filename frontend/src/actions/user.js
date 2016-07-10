@@ -4,13 +4,28 @@ import { backend, defaultFetchParams } from '../config'
 import { parseResponse } from '../utils'
 
 
+// Fetching data
+export const receivedUserData = createAction('RECEIVED USER DATA')
+export const fetchUserData = () => dispatch => {
+  fetch(`${backend}/users/me`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'GET',
+  })
+  .then(parseResponse)
+  .then((res) => {
+    console.log(res)
+    dispatch(receivedUserData(res))
+  })
+}
+
 // Logging in
 export const requestUserLogin = createAction('LOG USER IN')
 export const userLoggedIn = createAction('LOG USER IN')
 export const rejectLogin = createAction('REJECT SIGNING IN')
 export const userLogin = (name, password) => dispatch => {
   dispatch(requestUserLogin(name))
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/users/login`, {
+  fetch(`${backend}/users/login`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
@@ -31,7 +46,7 @@ export const requestUserRegistration = createAction('REQUEST USER REGISTRATION')
 export const receiveRegisteredUser = createAction('RECEIVE REGISTERED USER')
 export const userRegister = (name, password) => dispatch => {
   dispatch(requestUserRegistration())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/users/register`, {
+  fetch(`${backend}/users/register`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',

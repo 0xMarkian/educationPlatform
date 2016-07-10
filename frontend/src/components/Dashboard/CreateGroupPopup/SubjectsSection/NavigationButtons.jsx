@@ -29,7 +29,7 @@ class NavigationButtons extends React.Component {
     const { isFetching } = this.props.subjectsStore
 
     return(
-      <div>
+      <div className={css(styles.navigationButtons)}>
         <FlatButton
           className={css(styles.backButton)}
           onClick={this.prevStep}

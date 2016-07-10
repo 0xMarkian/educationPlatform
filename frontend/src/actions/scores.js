@@ -8,7 +8,7 @@ export const requestScores = createAction('REQUEST SCORES')
 export const receiveScores = createAction('RECEIVE SCORES')
 export const fetchScores = () => dispatch => {
   dispatch(requestScores())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/scores?embed=student&embed=course`, {
+  fetch(`${backend}/scores?embed=student&embed=course`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
@@ -47,7 +47,7 @@ export const applyNewScore = (scoreToUpdateId, student, course, scoreValue) => d
     }
   }
 
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/${requestURL}`, {
+  fetch(`${backend}/${requestURL}`, {
     ...defaultFetchParams,
     ...fetchParams,
     credentials: 'include',

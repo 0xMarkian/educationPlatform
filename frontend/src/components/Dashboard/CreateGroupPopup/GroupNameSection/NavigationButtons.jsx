@@ -1,7 +1,8 @@
-import { muiStyles } from '../styles'
+import { styles, muiStyles } from '../styles'
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { css } from 'aphrodite'
 import autobind from 'autobind-decorator'
 import { RaisedButton, CircularProgress } from 'material-ui'
 
@@ -23,7 +24,7 @@ class NavigationButtons extends React.Component {
     const buttonDisabled = (!!inputData.error || isLoading)
 
     return(
-      <div>
+      <div className={css(styles.navigationButtons)}>
         <RaisedButton
           primary={true}
           disabled={buttonDisabled}

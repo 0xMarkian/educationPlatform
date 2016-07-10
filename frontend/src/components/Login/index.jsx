@@ -5,9 +5,9 @@ import autobind from 'autobind-decorator'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Dialog, RaisedButton } from 'material-ui'
+import { push } from 'react-router-redux'
 import { css } from 'aphrodite'
 
-import history from 'appHistory'
 import { userLogin, userLogout } from 'actions/user'
 import Username from './Username'
 import Password from './Password'
@@ -48,7 +48,7 @@ class LoginSection extends Component{
 
   componentDidUpdate() {
     const { userStore } = this.props
-    if(userStore.loggedIn) history.push('/dashboard')
+    if(userStore.loggedIn) push('dashboard')
   }
 
   render() {
@@ -57,21 +57,25 @@ class LoginSection extends Component{
 
     return(
       <Dialog
-        title='Sign in in a second'
+        title='Login in a second'
         modal={true}
         open={true}
         titleClassName={css(styles.popupHeader)}
         autoScrollBodyContent={true}
       >
-        <br/>
         <Username
           updateUsernameState={this.updateUsernameState}
         />
         <Password
           updatePasswordState={this.updatePasswordState}
         />
-        <RaisedButton label="Login" primary={true} disabled={submitButtonDisabled} onClick={this.handleLogin} />
-        <p>Do not have an account yet? <Link to='/register'>Sign up</Link> in a second!</p>
+        <RaisedButton
+          primary={true}
+          label="Login"
+          disabled={submitButtonDisabled}
+          onClick={this.handleLogin}
+        />
+        <p>Do not have an account yet? <Link to='/register'>Register now!</Link></p>
       </Dialog>
     )
   }

@@ -63,7 +63,13 @@ class RegisterSection extends Component{
         <Password
           updatePasswordState={this.updatePasswordState}
         />
-        <RaisedButton label="Register me" primary={true} disabled={submitButtonDisabled} onClick={this.handleLogin} />
+        <RaisedButton
+          className={css(styles.registerButton)}
+          label="Register me"
+          primary={true}
+          disabled={submitButtonDisabled}
+          onClick={this.handleLogin}
+        />
         <p>Already have an account? <Link to='/login'>Sign in</Link></p>
       </Dialog>
     )

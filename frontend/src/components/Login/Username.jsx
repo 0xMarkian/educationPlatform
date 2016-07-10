@@ -1,6 +1,9 @@
+import { styles } from './styles'
+
 import React from 'react'
 import autobind from 'autobind-decorator'
 import { TextField } from 'material-ui'
+import { css } from 'aphrodite'
 
 
 class Username extends React.Component {
@@ -42,7 +45,7 @@ class Username extends React.Component {
     const { errorText} = this.state
 
     return(
-      <div>
+      <div className={css(styles.username)}>
         <label htmlFor='login-modal-username'>Username:</label><br/>
         <TextField
           errorText={errorText}

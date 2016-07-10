@@ -6,17 +6,24 @@ import {
   requestUserLogin,
   userLoggedIn,
   userLogout,
+  receivedUserData,
 } from 'actions/user'
 
 
 const initialState = {
   name: null,
+  groupId: null,
   registering: false,
   loggingIn: false,
-  loggedIn: false,
 }
 
 export default createReducer({
+  [receivedUserData]: (state, payload) => ({
+    ...state,
+    name: payload.name,
+    groupId: payload.group,
+  }),
+
   [requestUserRegister]: state => ({
     ...state,
     registering: true,
