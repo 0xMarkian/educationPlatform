@@ -12,4 +12,8 @@ router.route('/register')
 router.route('/login')
   .post(userCtrl.login)
 
+router.route('/me')
+  .get(userCtrl.getMe)
+  .patch(userCtrl.update)
+
 export default router

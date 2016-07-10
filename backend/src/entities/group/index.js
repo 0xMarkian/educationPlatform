@@ -11,5 +11,7 @@ router.route('/')
   .post(groupCtrl.create)
   .get(groupCtrl.list)
 
+router.route('/:id')
+  .patch(groupCtrl.update)
 
 export default router

@@ -27,7 +27,6 @@ class Student2CourseCtrl extends BasicCtrl {
     // For example /?embed=student&embed=course
     const { embed = '' } = req.query,
       { _id: userId } = req.user
-
     findCurrUserGroup(userId).then( group => {
       this.Model
         .find({group})

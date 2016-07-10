@@ -10,5 +10,7 @@ router.route('/')
   .post(scoreCtrl.create)
   .get(scoreCtrl.list)
 
+router.route('/:id')
+  .patch(scoreCtrl.update)
 
 export default router

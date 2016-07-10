@@ -6,7 +6,20 @@ import config from '../../config'
 import BasicCtrl from '../../lib/ctrl'
 
 
-class UserCtrl extends BasicCtrl{
+class UserCtrl extends BasicCtrl {
+  @autobind
+  getMe(req, res, next) {
+    const { _id: userId } = req.user
+
+    this.Model
+      .findById(userId)
+      .exec( (err, user) => {
+        if(err) return next(err)
+
+        res.json(user)
+      })
+  }
+
   @autobind
   register(req, res, next){
     const { name, password } = req.body
@@ -27,18 +40,27 @@ class UserCtrl extends BasicCtrl{
     this.Model.findOne({name}, (err, user) => {
       if (err) return next(err)
 
-      if (!user) return res.status(401).json({success: false, message: 'Authentication failed. User not found.'})
+      if (!user) return res.status(401).json({message: 'Authentication failed. User not found.'})
 
       if (user.password !== password) return res.status(401).json({
-        success: false,
         message: 'Authentication failed. Wrong password.'
       })
 
       const { _id } = user
       const token = jwt.sign({_id}, config.secret)
-      res.cookie('accessToken',token,{httpOnly:true}).json(user)
+      res.cookie('accessToken',token,{path:'/', httpOnly:true}).json(user)
     })
   }
+
+  @autobind
+  update(req,res, next){
+    req.params.id = req.user._id
+    const { password } = req.body
+    if(password) return res.status(400).json({message: 'You can\'t change password using PATCH /users/me'})
+
+    BasicCtrl.prototype.update.call(this, req,res,next)
+  }
 }
+
 
 export default UserCtrl
