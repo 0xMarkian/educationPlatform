@@ -46,10 +46,15 @@ class UserCtrl extends BasicCtrl {
         message: 'Authentication failed. Wrong password.'
       })
 
-      const { _id } = user
-      const token = jwt.sign({_id}, config.secret)
+      const { _id, name } = user
+      const token = jwt.sign({_id, name, lastLoginDate: new Date() }, config.secret)
       res.cookie('accessToken',token,{path:'/', httpOnly:true}).json(user)
     })
+  }
+
+  @autobind
+  logout(req, rest, next){
+
   }
 
   @autobind

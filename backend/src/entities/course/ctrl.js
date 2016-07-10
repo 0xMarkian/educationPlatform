@@ -25,16 +25,17 @@ class CourseCtrl extends Studets2CourseCtrl {
           .select('_id')
           .exec((err, findedStudents) => {
             if (err) return next(err)
+            if(findedStudents.length === 0) return next(new Error('No students found. The group must have students.'))
 
-            findedStudents.forEach(student => {
-              Student2Course.create({
-                group,
-                student: student._id,
-                course: newCourse._id,
-              }, err => {
-                if (err) return next(err)
-                res.status(201).json(newCourse)
-              })
+            const student2CourseDocs = findedStudents.map( student => ({
+              group,
+              student: student._id,
+              course: newCourse._id
+            }))
+
+            Student2Course.create(student2CourseDocs, (err, entities) => {
+              if(err) return next(err)
+              res.json(newCourse)
             })
           })
       })
