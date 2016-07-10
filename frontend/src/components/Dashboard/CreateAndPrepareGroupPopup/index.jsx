@@ -5,8 +5,8 @@ import autobind from 'autobind-decorator'
 
 import history from 'appHistory'
 import StepProgress from './StepProgress'
-import GroupNameSection from './GroupNameSection'
-import SubjectsSection from './SubjectsSection'
+import GroupNameSection from './CreateGroupSection'
+import SubjectsSection from './CourseSection'
 import StudentsSection from './StudentsSection'
 
 

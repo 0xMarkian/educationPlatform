@@ -11,7 +11,7 @@ import {
 
 const initialState = {
   data: null,
-  newGroupPopupStep: 0,
+  newGroupPopupStep: 2,
   requestMethod: 'POST',
   isCreating: false,
   isFetching: false,

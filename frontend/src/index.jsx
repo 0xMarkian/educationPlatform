@@ -13,7 +13,7 @@ import createStore from './store'
 
 import App from './components/App'
 import Dashboard from './components/Dashboard'
-import NewGroupPopup from './components/Dashboard/CreateGroupPopup'
+import NewGroupPopup from './components/Dashboard/CreateAndPrepareGroupPopup'
 import Login from './components/Login/'
 import Register from './components/Register'
 

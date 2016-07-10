@@ -1,7 +1,7 @@
 import React from 'react'
 import autobind from 'autobind-decorator'
 
-import InputSection from './InputSection'
+import InputSection from './MainSection'
 import NavigationButtons from './NavigationButtons'
 
 

@@ -15,8 +15,8 @@ export const fetchStudents = () => dispatch => {
       credentials: 'include',
     })
   .then(parseResponse)
-  .then(res => {
-    dispatch(receiveStudents(res))
+  .then(data => {
+    dispatch(receiveStudents(data))
   })
 }
 

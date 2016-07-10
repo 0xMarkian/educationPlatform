@@ -14,8 +14,8 @@ class InputSection extends React.Component {
   @autobind
   handleInput() {
     const { addNewStudent } = this.props
-    const studentName = this.refs['new-group-modal-students'].input.value
-    this.refs['new-group-modal-students'].input.value = null
+    const studentName = this.refs['newStudentInput'].input.value
+    this.refs['newStudentInput'].input.value = null
 
     addNewStudent(studentName)
   }
@@ -34,8 +34,7 @@ class InputSection extends React.Component {
     return(
       <div>
         <TextField
-          ref='new-group-modal-students'
-          id='new-group-modal-students'
+          ref='newStudentInput'
           hintText='Student name'
           type='text'
         />
