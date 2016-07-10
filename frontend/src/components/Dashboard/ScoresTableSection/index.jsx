@@ -45,7 +45,6 @@ class ScoresTable extends React.Component {
           courses = coursesStore.data
 
     if(!subjects || !students || !courses) return false
-
     // Creating a list of ALL subjects, formatted like { subjectId: subjectName }
     const rebuiltSubjects = {}
     subjects.forEach(subject => { rebuiltSubjects[subject._id] = subject.name })
@@ -93,24 +92,36 @@ class ScoresTable extends React.Component {
               <TableRowColumn>{student.name}</TableRowColumn>
               {
                 // Going over subjects
-                courses.map((course, subjectIndex) => (
-                  <TableRowColumn key={subjectIndex}>
-                    <TextField
-                      type='text'
-                      underlineShow={false}
-                      id={course.subject + '/' + student._id}
-                      defaultValue={scores[student._id][course.subject].scoreValue}
-                      onBlur={
-                        this.handleInput.bind(
-                          this,
-                          student._id,
-                          courses[course.subject],
-                          scores[student._id][course.subject]
-                        )
-                      }
-                    />
-                  </TableRowColumn>
-                ))
+                courses.map((course, subjectIndex) => {
+                  let currentScoreValue, currentScoreObj
+                  if(scores[student._id]){ // If the student exists in scores collection ...
+                    if(scores[student._id][course.subject]){ // ... and has a subject linked to him
+                      currentScoreObj = scores[student._id][course.subject]
+                      currentScoreValue = currentScoreObj.scoreValue
+                    }
+                  } else{
+                    currentScoreObj = null
+                    currentScoreValue = null
+                  }
+                  return(
+                    <TableRowColumn key={subjectIndex}>
+                      <TextField
+                        type='text'
+                        underlineShow={false}
+                        id={course.subject + '/' + student._id}
+                        defaultValue={currentScoreValue}
+                        onBlur={
+                          this.handleInput.bind(
+                            this,
+                            student._id,
+                            courses[course.subject],
+                            currentScoreObj
+                          )
+                        }
+                      />
+                    </TableRowColumn>
+                  )
+                })
               }
             </TableRow>
           ))
