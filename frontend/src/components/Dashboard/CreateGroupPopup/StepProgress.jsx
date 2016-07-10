@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Step, Stepper, StepLabel } from 'material-ui'
 
 
@@ -23,4 +22,4 @@ class StepProgress extends React.Component {
   }
 }
 
-export default connect()(StepProgress)
+export default StepProgress

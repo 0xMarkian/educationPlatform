@@ -1,7 +1,6 @@
 import React from 'react'
 import autobind from 'autobind-decorator'
-import {connect} from 'react-redux'
-import {TextField} from 'material-ui'
+import { TextField } from 'material-ui'
 
 
 class Username extends React.Component {

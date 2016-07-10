@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import autobind from 'autobind-decorator'
 
 import InputRow from './InputRow'
@@ -46,4 +45,4 @@ class GroupNameInput extends React.Component {
 }
 
 
-export default connect()(GroupNameInput)
+export default GroupNameInput

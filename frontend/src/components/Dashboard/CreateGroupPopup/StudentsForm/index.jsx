@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import InputRow from './InputRow'
 import ButtonsRow from './ButtonsRow'
@@ -44,4 +43,4 @@ class StudentsForm extends React.Component {
   }
 }
 
-export default connect()(StudentsForm)
+export default StudentsForm

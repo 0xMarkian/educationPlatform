@@ -1,5 +1,4 @@
 import React from 'react'
-import {connect} from 'react-redux'
 import {TextField} from 'material-ui'
 import autobind from 'autobind-decorator'
 
@@ -46,4 +45,4 @@ class InputRow extends React.Component {
   }
 }
 
-export default connect()(InputRow)
+export default InputRow

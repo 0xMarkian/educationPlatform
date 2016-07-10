@@ -1,7 +1,6 @@
 import { styles } from '../styles'
 
 import React from 'react'
-import { connect } from 'react-redux'
 import { css } from 'aphrodite'
 import Remove from 'material-ui/svg-icons/content/backspace'
 import Person from 'material-ui/svg-icons/social/person'
@@ -53,4 +52,4 @@ class InputRow extends React.Component {
   }
 }
 
-export default connect()(InputRow)
+export default InputRow
