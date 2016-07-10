@@ -1,5 +1,6 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import autobind from 'autobind-decorator'
 
 import InputRow from './InputRow'
 import ButtonsRow from './ButtonsRow'
@@ -15,14 +16,14 @@ class GroupNameInput extends React.Component {
         errorText: null,
       },
     }
-    this.updateGroupNameInputData = this.updateGroupNameInputData.bind(this)
   }
 
+  @autobind
   updateGroupNameInputData(value, error, errorText) {
     this.setState({
       groupName: {
         value, error, errorText
-      }
+      },
     })
   }
 

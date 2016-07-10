@@ -1,4 +1,4 @@
-import { styles } from './styles'
+import { styles } from '../styles'
 
 import React from 'react'
 import { connect } from 'react-redux'
@@ -34,11 +34,11 @@ class InputRow extends React.Component {
         />
         <RaisedButton
           label='ADD'
-          className={css(styles.addButtonMargin)}
+          className={css(styles.addButton)}
           primary={true}
           onClick={this.handleInput}
         />
-        <List className={css(styles.listMaxHeight, styles.listOverflowY)}>
+        <List className={css(styles.studentsList)}>
           {studentsList ? studentsList.map((value, index) => (
             <ListItem
               key={index}

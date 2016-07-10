@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {TextField} from 'material-ui'
+import autobind from 'autobind-decorator'
 
 
 class InputRow extends React.Component {
@@ -8,9 +9,9 @@ class InputRow extends React.Component {
     super(props)
     this.groupNamePattern = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/
     this.invalidGroupNameError = 'Please use [ a-z A-Z 0-9 _ - ]'
-    this.handleInput = this.handleInput.bind(this)
   }
 
+  @autobind
   handleInput(event) {
     const inputValue = event.target.value
     const {groupNamePattern, invalidGroupNameError} = this

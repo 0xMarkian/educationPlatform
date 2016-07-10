@@ -1,3 +1,5 @@
+import { muiStyles } from '../styles'
+
 import React from 'react'
 import { connect } from 'react-redux'
 import { DropDownMenu, MenuItem } from 'material-ui'
@@ -26,7 +28,7 @@ class InputRow extends React.Component {
   render() {
     const subjects = this.props.subjectsStore.data
 
-    if(!subjects) return null // Waiting fetch to end
+    if(!subjects) return null // Waiting for fetch to end
 
     return(
       <div>
@@ -36,14 +38,14 @@ class InputRow extends React.Component {
           autoWidth={true}
           value={subjects[0]._id}
           onChange={this.handleInput}
-          menuStyle={{overflowX: 'hidden'}}
+          menuStyle={muiStyles.dropDownMenu}
         >
           {
-            subjects.map((subject, index) => (
+            subjects.map((subject, i) => (
               <MenuItem
                 value={subject._id}
                 primaryText={subject.name}
-                key={index}
+                key={i}
               ></MenuItem>
             ))
           }

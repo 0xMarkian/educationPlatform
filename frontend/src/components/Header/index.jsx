@@ -18,7 +18,7 @@ class Header extends React.Component {
             this.props.userStore.name ? this.props.userStore.name[0].toUpperCase() : 'U'
           }
           </Avatar>
-          <ToolbarTitle text="Manage your groups" className={css(styles.toolbarTitle)} />
+          <ToolbarTitle text="Manage your groups" className={css(styles.headerTitle)} />
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarSeparator />

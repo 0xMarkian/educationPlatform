@@ -2,16 +2,23 @@ import { StyleSheet } from 'aphrodite'
 
 
 export const styles = StyleSheet.create({
-  buttonMargin: {
+  backButton: {
     marginRight: 24,
   },
-  addButtonMargin: {
+  addButton: {
     marginLeft: 12,
   },
-  listMaxHeight: {
+  studentsList: {
     maxHeight: 150,
-  },
-  listOverflowY: {
     overflowY: 'auto',
   },
 })
+
+export const muiStyles = {
+  dropDownMenu: {
+    overflowX: 'hidden',
+  },
+  progress: {
+    size: 0.5,
+  },
+}

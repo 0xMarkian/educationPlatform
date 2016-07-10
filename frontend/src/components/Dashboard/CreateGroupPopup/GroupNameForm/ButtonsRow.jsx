@@ -1,9 +1,8 @@
-import { styles } from './styles'
+import { muiStyles } from '../styles'
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { css } from 'aphrodite'
-import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
+import { RaisedButton, CircularProgress } from 'material-ui'
 
 import { createGroup } from 'actions/group'
 
@@ -23,15 +22,10 @@ class ButtonsRow extends React.Component {
 
   render() {
     const {isLoading} = this.props.groupStore
-    const {inputData} = this.props
+    const { inputData } = this.props
 
     return(
       <div>
-        <FlatButton
-          label='Back'
-          className={css(styles.buttonMargin)}
-          onClick={this.props.handleClose}
-        />
         <RaisedButton
           primary={true}
           disabled={inputData.error || isLoading}
@@ -39,7 +33,7 @@ class ButtonsRow extends React.Component {
           label='Next'
         />
         {isLoading ? (
-          <CircularProgress size={0.5}/>
+          <CircularProgress size={muiStyles.progress.size}/>
         ) : (null)}
       </div>
     )

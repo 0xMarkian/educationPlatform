@@ -1,4 +1,4 @@
-import { styles } from './styles'
+import { muiStyles, styles } from '../styles'
 
 import React from 'react'
 import { connect } from 'react-redux'
@@ -30,7 +30,7 @@ class ButtonsRow extends React.Component {
     return(
       <div>
         <FlatButton
-          className={css(styles.buttonMargin)}
+          className={css(styles.backButton)}
           onTouchTap={this.prevStep}
           label='Back'
         />
@@ -40,7 +40,7 @@ class ButtonsRow extends React.Component {
           label='Finish'
         />
         {isFetching ? (
-          <CircularProgress size={0.5}/>
+          <CircularProgress size={muiStyles.progress.size}/>
         ) : (null)}
       </div>
     )

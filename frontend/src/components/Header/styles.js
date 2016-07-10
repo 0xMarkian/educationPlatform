@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   avatar: {
     alignSelf: 'center',
   },
-  toolbarTitle: {
+  headerTitle: {
     marginLeft: 24,
   },
 })
