@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import autobind from 'autobind-decorator'
 
 import InputRow from './InputRow'
 import ButtonsRow from './ButtonsRow'
@@ -11,9 +12,9 @@ class SubjectsForm extends React.Component {
     this.state = {
       chosenSubject: null,
     }
-    this.setChosenSubject = this.setChosenSubject.bind(this)
   }
 
+  @autobind
   setChosenSubject(subject) {
     this.setState({
       chosenSubject: subject

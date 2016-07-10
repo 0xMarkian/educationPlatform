@@ -3,23 +3,20 @@ import { muiStyles, styles } from '../styles'
 import React from 'react'
 import { connect } from 'react-redux'
 import { css } from 'aphrodite'
+import autobind from 'autobind-decorator'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
 import history from 'appHistory'
 import { setGroupPopupStep } from 'actions/group'
 
 class ButtonsRow extends React.Component {
-  constructor(props) {
-    super(props)
-    this.nextStep = this.nextStep.bind(this)
-    this.prevStep = this.prevStep.bind(this)
-  }
-
+  @autobind
   prevStep() {
     const { setGroupPopupStep } = this.props
     setGroupPopupStep(1)
   }
 
+  @autobind
   nextStep() {
     history.push('/dashboard')
   }

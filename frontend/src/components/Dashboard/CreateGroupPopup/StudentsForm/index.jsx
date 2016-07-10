@@ -1,4 +1,5 @@
 import React from 'react'
+import autobind from 'autobind-decorator'
 
 import InputRow from './InputRow'
 import ButtonsRow from './ButtonsRow'
@@ -10,16 +11,16 @@ class StudentsForm extends React.Component {
     this.state = {
       students: [],
     }
-    this.addStudent = this.addStudent.bind(this)
-    this.removeStudent = this.removeStudent.bind(this)
   }
 
+  @autobind
   addStudent(studentName) {
     this.setState({
       students: [ ...this.state.students, studentName]
     })
   }
 
+  @autobind
   removeStudent(index) {
      this.setState({
       students: [ ...this.state.students.slice(0, index), ...this.state.students.slice(index + 1) ]

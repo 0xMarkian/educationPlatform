@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Dialog} from 'material-ui'
+import autobind from 'autobind-decorator'
 
 import history from 'appHistory'
 import StepProgress from './StepProgress'
@@ -21,9 +22,9 @@ class NewGroupPopup extends React.Component {
         },
       },
     }
-    this.handleClose = this.handleClose.bind(this)
   }
 
+  @autobind
   handleClose() {
     history.push('/dashboard')
   }

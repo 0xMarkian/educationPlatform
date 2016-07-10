@@ -2,6 +2,7 @@ import { muiStyles } from '../styles'
 
 import React from 'react'
 import { connect } from 'react-redux'
+import autobind from 'autobind-decorator'
 import { DropDownMenu, MenuItem } from 'material-ui'
 
 import {
@@ -10,11 +11,7 @@ import {
 
 
 class InputRow extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleInput = this.handleInput.bind(this)
-  }
-
+  @autobind
   handleInput(event, index, value) {
     const { subjectsStore, setChosenSubject } = this.props
     setChosenSubject(subjectsStore.data[index])

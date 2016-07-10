@@ -1,7 +1,7 @@
 import { styles } from './styles'
 
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { css } from 'aphrodite'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle, RaisedButton, Avatar } from 'material-ui'
 

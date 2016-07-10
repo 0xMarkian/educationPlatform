@@ -36,7 +36,7 @@ class Username extends React.Component {
   enableEditMode(){
     const { updateUsernameState } = this.props
 
-    this.setState({errorText: null})
+    this.setState({ errorText: null })
     updateUsernameState(null)
   }
 

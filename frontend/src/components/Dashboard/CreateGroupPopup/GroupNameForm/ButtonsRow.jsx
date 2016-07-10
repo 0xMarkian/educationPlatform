@@ -2,17 +2,14 @@ import { muiStyles } from '../styles'
 
 import React from 'react'
 import { connect } from 'react-redux'
+import autobind from 'autobind-decorator'
 import { RaisedButton, CircularProgress } from 'material-ui'
 
 import { createGroup } from 'actions/group'
 
 
 class ButtonsRow extends React.Component {
-  constructor(props) {
-    super(props)
-    this.nextStep = this.nextStep.bind(this)
-  }
-
+  @autobind
   nextStep() {
     const {groupStore, createGroup, inputData} = this.props
     const groupName = inputData.value
