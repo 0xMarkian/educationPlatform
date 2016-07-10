@@ -8,7 +8,7 @@ import { RaisedButton, CircularProgress } from 'material-ui'
 import { createGroup } from 'actions/group'
 
 
-class ButtonsRow extends React.Component {
+class NavigationButtons extends React.Component {
   @autobind
   nextStep() {
     const {groupStore, createGroup, inputData} = this.props
@@ -18,14 +18,15 @@ class ButtonsRow extends React.Component {
   }
 
   render() {
-    const {isLoading} = this.props.groupStore
-    const { inputData } = this.props
+    const { inputData, groupStore } = this.props
+    const { isLoading } = groupStore
+    const buttonDisabled = (!!inputData.error || isLoading)
 
     return(
       <div>
         <RaisedButton
           primary={true}
-          disabled={inputData.error || isLoading}
+          disabled={buttonDisabled}
           onClick={this.nextStep}
           label='Next'
         />
@@ -37,4 +38,4 @@ class ButtonsRow extends React.Component {
   }
 }
 
-export default connect( store => ({ groupStore: store.group }), { createGroup })(ButtonsRow)
+export default connect( store => ({ groupStore: store.group }), { createGroup })(NavigationButtons)

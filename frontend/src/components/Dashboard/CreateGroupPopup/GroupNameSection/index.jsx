@@ -5,14 +5,13 @@ import InputSection from './InputSection'
 import NavigationButtons from './NavigationButtons'
 
 
-class GroupNameInput extends React.Component {
+class GroupNameSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       groupName: {
         value: null,
-        error: true,
-        errorText: null,
+        error: null,
       },
     }
   }
@@ -20,9 +19,7 @@ class GroupNameInput extends React.Component {
   @autobind
   updateGroupNameInputData(value, error, errorText) {
     this.setState({
-      groupName: {
-        value, error, errorText
-      },
+      groupName: { value, error, },
     })
   }
 
@@ -37,7 +34,6 @@ class GroupNameInput extends React.Component {
         />
         <NavigationButtons
           inputData={inputData}
-          handleClose={this.props.handleClose}
         />
       </div>
     )
@@ -45,4 +41,4 @@ class GroupNameInput extends React.Component {
 }
 
 
-export default GroupNameInput
+export default GroupNameSection

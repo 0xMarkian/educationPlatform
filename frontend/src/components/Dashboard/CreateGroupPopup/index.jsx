@@ -42,11 +42,7 @@ class NewGroupPopup extends React.Component {
       >
         <StepProgress step={newGroupPopupStep} />
         {
-          newGroupPopupStep === 0 ? <GroupNameSection
-            handleClose={this.handleClose}
-            inputData={this.state.groupName.input}
-            updateGroupNameInputData={this.updateGroupNameInputData}
-          /> :
+          newGroupPopupStep === 0 ? <GroupNameSection /> :
           newGroupPopupStep === 1 ? <SubjectsSection /> :
           newGroupPopupStep === 2 ? <StudentsSection /> :
           null

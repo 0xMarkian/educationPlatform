@@ -6,7 +6,7 @@ import InputSection from './InputSection'
 import NavigationButtons from './NavigationButtons'
 
 
-class SubjectsForm extends React.Component {
+class SubjectsSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,4 +37,4 @@ class SubjectsForm extends React.Component {
   }
 }
 
-export default connect( store => ({ groupStore: store.group }))(SubjectsForm)
+export default connect( store => ({ groupStore: store.group }))(SubjectsSection)

@@ -9,7 +9,7 @@ import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 import history from 'appHistory'
 import { setGroupPopupStep } from 'actions/group'
 
-class ButtonsRow extends React.Component {
+class NavigationButtons extends React.Component {
   @autobind
   prevStep() {
     const { setGroupPopupStep } = this.props
@@ -48,4 +48,4 @@ export default connect( store => ({
   groupStore: store.newGroupPopup,
 }), {
   setGroupPopupStep
-})(ButtonsRow)
+})(NavigationButtons)

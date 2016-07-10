@@ -3,7 +3,7 @@ import {TextField} from 'material-ui'
 import autobind from 'autobind-decorator'
 
 
-class InputRow extends React.Component {
+class InputSection extends React.Component {
   constructor(props) {
     super(props)
     this.groupNamePattern = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/
@@ -13,16 +13,12 @@ class InputRow extends React.Component {
   @autobind
   handleInput(event) {
     const inputValue = event.target.value
-    const {groupNamePattern, invalidGroupNameError} = this
-    const {updateGroupNameInputData} = this.props
+    const { groupNamePattern, invalidGroupNameError } = this
+    const { updateGroupNameInputData } = this.props
 
-    if(!inputValue){
-      updateGroupNameInputData(inputValue, true, null)
-      return
-    }
-    if(!groupNamePattern.test(inputValue))
-      updateGroupNameInputData(inputValue, true, invalidGroupNameError)
-    else updateGroupNameInputData(inputValue, false, null)
+    if(!inputValue) return updateGroupNameInputData(inputValue, null)
+    if(!groupNamePattern.test(inputValue))return updateGroupNameInputData(inputValue, invalidGroupNameError)
+    return updateGroupNameInputData(inputValue, null)
   }
 
   render() {
@@ -33,7 +29,7 @@ class InputRow extends React.Component {
         <label htmlFor='new-group-modal-name'>Group name:</label><br/>
         <TextField
           defaultValue={inputData.value}
-          errorText={inputData.errorText}
+          errorText={inputData.error}
           ref='new-group-modal-name'
           id='new-group-modal-name'
           hintText='Group name'
@@ -45,4 +41,4 @@ class InputRow extends React.Component {
   }
 }
 
-export default InputRow
+export default InputSection

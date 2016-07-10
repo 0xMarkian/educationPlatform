@@ -10,7 +10,7 @@ import {
 } from 'actions/subjects'
 
 
-class InputRow extends React.Component {
+class InputSection extends React.Component {
   @autobind
   handleInput(event, index, value) {
     const { subjectsStore, setChosenSubject } = this.props
@@ -54,4 +54,4 @@ class InputRow extends React.Component {
 
 export default connect(store => ({ subjectsStore: store.subjects }), {
   fetchSubjects,
-})(InputRow)
+})(InputSection)

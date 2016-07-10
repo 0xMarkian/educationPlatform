@@ -8,7 +8,7 @@ import autobind from 'autobind-decorator'
 import {List, ListItem, TextField, RaisedButton} from 'material-ui'
 
 
-class InputRow extends React.Component {
+class InputSection extends React.Component {
   @autobind
   handleInput() {
     const studentName = this.refs['new-group-modal-students'].input.value
@@ -49,4 +49,4 @@ class InputRow extends React.Component {
   }
 }
 
-export default InputRow
+export default InputSection

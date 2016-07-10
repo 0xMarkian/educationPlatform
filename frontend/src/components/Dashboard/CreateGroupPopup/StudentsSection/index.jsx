@@ -5,7 +5,7 @@ import InputSection from './InputSection'
 import NavigationButtons from './NavigationButtons'
 
 
-class StudentsForm extends React.Component {
+class StudentsSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -44,4 +44,4 @@ class StudentsForm extends React.Component {
   }
 }
 
-export default StudentsForm
+export default StudentsSection

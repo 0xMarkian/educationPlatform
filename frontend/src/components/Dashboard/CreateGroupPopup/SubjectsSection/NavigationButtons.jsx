@@ -10,7 +10,7 @@ import { setGroupPopupStep } from 'actions/group'
 import { sendChosenSubject } from 'actions/subjects'
 
 
-class ButtonsRow extends React.Component {
+class NavigationButtons extends React.Component {
   @autobind
   prevStep() {
     const { setGroupPopupStep } = this.props
@@ -54,4 +54,4 @@ export default connect( store => ({
 }), {
   setGroupPopupStep,
   sendChosenSubject,
-})(ButtonsRow)
+})(NavigationButtons)
