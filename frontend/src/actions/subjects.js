@@ -2,22 +2,21 @@ import { createAction } from 'redux-act'
 
 import { backend, defaultFetchParams } from '../config'
 import { parseResponse } from '../utils'
-import { setGroupPopupStep } from './group'
 
-export const requestSetChosenSubject = createAction('REQUEST SEND CHOSEN SUBJECT')
-export const appliedChosenSubject = createAction('APPLIED CHOSEN SUBJECT')
-export const sendChosenSubject = (subject, method) => dispatch => {
-  dispatch(requestSetChosenSubject())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subjects`, {
+
+export const requestAddingNewSubject = createAction('REQUEST ADDING NEW SUBJECT')
+export const addedNewSubject = createAction('ADDED NEW SUBJECT')
+export const addSubjectToGroup = subject => dispatch => {
+  dispatch(requestAddingNewSubject())
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/subject`, {
     ...defaultFetchParams,
-    method,
+    method: 'POST',
     credentials: 'include',
     body: JSON.stringify({ ...subject }),
   })
   .then(parseResponse)
-  .then(res => {
-    dispatch(appliedChosenSubject(res))
-    dispatch(setGroupPopupStep(2))
+  .then(() => {
+    dispatch(addedNewSubject(subject._id))
   })
 }
 

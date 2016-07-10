@@ -12,6 +12,10 @@ export const styles = StyleSheet.create({
     maxHeight: 150,
     overflowY: 'auto',
   },
+  subjectsList: {
+    maxHeight: 150,
+    overflowY: 'auto',
+  },
 })
 
 export const muiStyles = {
