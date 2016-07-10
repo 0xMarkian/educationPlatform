@@ -16,9 +16,6 @@ import { fetchScores, applyNewScore } from 'actions/scores'
 class ScoresTable extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      subjectsToRender: null,
-    }
   }
 
   handleInput(studentId, courseId, prevScore, event){
@@ -91,9 +88,9 @@ class ScoresTable extends React.Component {
           // Iterating over all of the students including the ones who have any scores.
           // This object is ONLY used to build the frame of the table, all of the data about students'
           // scores is being taken from the scores object as long as the students object does not provide any.
-          Object.keys(students).map((studentId, studentIndex) => (
+          students.map((student, studentIndex) => (
             <TableRow key={studentIndex}>
-              <TableRowColumn>{students[studentId]}</TableRowColumn>
+              <TableRowColumn>{student.name}</TableRowColumn>
               {
                 // Going over subjects
                 courses.map((course, subjectIndex) => (
@@ -101,14 +98,14 @@ class ScoresTable extends React.Component {
                     <TextField
                       type='text'
                       underlineShow={false}
-                      id={course.subject + '/' + studentId}
-                      defaultValue={scores[studentId][course.subject].scoreValue}
+                      id={course.subject + '/' + student._id}
+                      defaultValue={scores[student._id][course.subject].scoreValue}
                       onBlur={
                         this.handleInput.bind(
                           this,
-                          studentId,
+                          student._id,
                           courses[course.subject],
-                          scores[studentId][course.subject]
+                          scores[student._id][course.subject]
                         )
                       }
                     />

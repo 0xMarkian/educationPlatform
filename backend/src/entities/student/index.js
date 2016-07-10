@@ -10,4 +10,6 @@ router.route('/')
   .post(studentCtrl.create)
   .get(studentCtrl.list)
 
+router.route('/:id').delete(studentCtrl.deleteById)
+
 export default router

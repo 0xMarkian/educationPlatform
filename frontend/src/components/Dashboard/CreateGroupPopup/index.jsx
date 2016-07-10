@@ -11,19 +11,6 @@ import StudentsSection from './StudentsSection'
 
 
 class NewGroupPopup extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      groupName: {
-        input: {
-          value: null,
-          error: true,
-          errorText: null,
-        },
-      },
-    }
-  }
-
   @autobind
   handleClose() {
     history.push('/dashboard')
@@ -43,8 +30,8 @@ class NewGroupPopup extends React.Component {
         <StepProgress step={newGroupPopupStep} />
         {
           newGroupPopupStep === 0 ? <GroupNameSection /> :
-          newGroupPopupStep === 1 ? <SubjectsSection /> :
-          newGroupPopupStep === 2 ? <StudentsSection /> :
+          newGroupPopupStep === 1 ? <StudentsSection /> :
+          newGroupPopupStep === 2 ? <SubjectsSection /> :
           null
         }
       </Dialog>

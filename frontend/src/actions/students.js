@@ -8,7 +8,7 @@ export const requestStudents = createAction('REQUEST STUDENTS')
 export const receiveStudents = createAction('RECEIVE STUDENTS')
 export const fetchStudents = () => dispatch => {
   dispatch(requestStudents())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students2courses?embed=student&embed=course`,
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students`,
     {
       ...defaultFetchParams,
       method: 'GET',
@@ -16,16 +16,12 @@ export const fetchStudents = () => dispatch => {
     })
   .then(parseResponse)
   .then(res => {
-    const students = {}
-    res.forEach(studentObj => {
-      students[studentObj.student._id] = studentObj.student.name
-    })
-    console.log(students)
-    dispatch(receiveStudents(students))
+    dispatch(receiveStudents(res))
   })
 }
 
-export const addNewStudent = name => () => {
+export const addedNewStudent = createAction('ADDED NEW STUDENT')
+export const addNewStudent = name => dispatch => {
   fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students`, {
     ...defaultFetchParams,
     credentials: 'include',
@@ -33,10 +29,22 @@ export const addNewStudent = name => () => {
     body: JSON.stringify({ name }),
   })
   .then(parseResponse)
-  .then(() => {
-    // console.log(res)
+  .then((res) => {
+    dispatch(addedNewStudent(res))
   })
   .catch(err => {
     throw new Error(err)
+  })
+}
+
+export const removedAddedStudent = createAction('removedAddedStudent')
+export const removeAddedStudent = studentId => dispatch => {
+  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/students/${studentId}`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'DELETE',
+  })
+  .then(() => {
+    dispatch(removedAddedStudent(studentId))
   })
 }
