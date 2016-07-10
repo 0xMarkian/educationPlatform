@@ -37,6 +37,7 @@ export default class BasicCtrl {
     })
   }
 
+  @autobind
   deleteById(req, res, next){
     const { id: _id } = req.params
 
