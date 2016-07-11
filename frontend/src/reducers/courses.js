@@ -15,7 +15,7 @@ const initialState = {
   isFetching: false,
 
   addingNewCourse: false,
-  initiallyCreatedCourses: {},
+  initiallyCreatedCourses: [],
 }
 
 export default createReducer({
@@ -35,10 +35,10 @@ export default createReducer({
   [addedNewCourse]: (state, payload) => ({
     ...state,
     addingNewCourse: false,
-    initiallyCreatedCourses: {
+    initiallyCreatedCourses: [
       ...state.initiallyCreatedCourses,
-      [payload.subject]: payload._id,
-    },
+      payload,
+    ],
   }),
   [removedAddedCourse]: (state, payload) => {
     const initiallyCreatedCourses = { ...state.initiallyCreatedCourses }

@@ -69,7 +69,7 @@ class LoginSection extends Component{
             primary={true}
             label="Login"
             disabled={submitButtonDisabled}
-            onClick={this.handleLogin}
+            onTouchTap={this.handleLogin}
           />
           <p>Do not have an account yet? <Link to='/register'>Register now!</Link></p>
         </Dialog>

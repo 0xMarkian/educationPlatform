@@ -12,7 +12,7 @@ class StepProgress extends React.Component {
           <StepLabel>Enter a group name</StepLabel>
         </Step>
         <Step>
-          <StepLabel>{'Enter students\' names'}</StepLabel>
+          <StepLabel>Enter students' names</StepLabel>
         </Step>
         <Step>
           <StepLabel>Pick some subjects</StepLabel>

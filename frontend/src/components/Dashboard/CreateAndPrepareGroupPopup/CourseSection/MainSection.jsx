@@ -52,13 +52,13 @@ class InputSection extends React.Component {
     const subjects = this.props.subjectsStore.data
     const { rebuiltSubjects } = this.state
     const { initiallyCreatedCourses } = this.props.coursesStore
+    console.log(initiallyCreatedCourses)
 
     if(!subjects || !rebuiltSubjects) return (<div>Loading subjects list...</div>) // Waiting for fetch to end
 
     return(
       <div>
         {
-          (subjects.length === Object.keys(initiallyCreatedCourses).length) ? null :
           <div>
             <label htmlFor='new-group-subject'>Pick some subjects:</label><br/>
             <DropDownMenu
@@ -69,27 +69,33 @@ class InputSection extends React.Component {
               menuStyle={muiStyles.dropDownMenu}
             >
               {
-                subjects.map((subject, i) => {
-                  if(!initiallyCreatedCourses[subject._id]) return(
-                    <MenuItem
-                      value={subject._id}
-                      primaryText={subject.name}
-                      key={i}
-                    ></MenuItem>
-                  )
-                })
+                subjects.length === initiallyCreatedCourses.length ? null :
+                  subjects.map((subject, i) => {
+                    let subjectAlreadyInUse = false
+                    initiallyCreatedCourses.some( course =>
+                      course.subject === subject ? subjectAlreadyInUse = true : false
+                    )
+
+                    if(!subjectAlreadyInUse) return(
+                      <MenuItem
+                        value={subject._id}
+                        primaryText={subject.name}
+                        key={i}
+                      ></MenuItem>
+                    )
+                  })
               }
             </DropDownMenu>
           </div>
         }
         <List className={css(styles.subjectsList)}>
           {
-            Object.keys(initiallyCreatedCourses).map((subjectId, index) => (
+            initiallyCreatedCourses.map((course, i) => (
               <ListItem
-                key={index}
-                primaryText={rebuiltSubjects[subjectId]}
+                key={i}
+                primaryText={rebuiltSubjects[course.subject]}
                 rightIcon={<Remove />}
-                onClick={() => {this.removeAddedCourse(subjectId)}}
+                onTouchTap={() => {this.removeAddedCourse(course._id)}}
               />
             ))
           }

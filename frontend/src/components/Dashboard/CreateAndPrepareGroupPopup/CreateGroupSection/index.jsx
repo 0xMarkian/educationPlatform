@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import autobind from 'autobind-decorator'
 
-import InputSection from './InputSection'
+import InputSection from './MainSection'
 import NavigationButtons from './NavigationButtons'
 
 
-class GroupNameSection extends React.Component {
+class CreateGroupSection extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,4 +41,4 @@ class GroupNameSection extends React.Component {
 }
 
 
-export default GroupNameSection
+export default CreateGroupSection

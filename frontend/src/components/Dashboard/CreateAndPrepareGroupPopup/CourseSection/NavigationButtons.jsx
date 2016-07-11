@@ -8,7 +8,6 @@ import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 import { push } from 'react-router-redux'
 
 import { setGroupPopupStep } from 'actions/group'
-import { sendChosenSubject } from 'actions/subjects'
 
 
 class NavigationButtons extends React.Component {
@@ -21,7 +20,6 @@ class NavigationButtons extends React.Component {
   @autobind
   nextStep() {
     const { push } = this.props
-    console.log('pushing')
     push('dashboard')
   }
 
@@ -32,17 +30,15 @@ class NavigationButtons extends React.Component {
       <div className={css(styles.navigationButtons)}>
         <FlatButton
           className={css(styles.backButton)}
-          onClick={this.prevStep}
+          onTouchTap={this.prevStep}
           label='Back'
         />
         <RaisedButton
           primary={true}
-          onClick={this.nextStep}
+          onTouchTap={this.nextStep}
           label='Next'
         />
-        {isFetching ? (
-          <CircularProgress size={muiStyles.progress.size}/>
-        ) : (null)}
+        {isFetching ? <CircularProgress size={muiStyles.progress.size}/>: null }
       </div>
     )
   }
@@ -53,5 +49,4 @@ export default connect( store => ({
 }), {
   push,
   setGroupPopupStep,
-  sendChosenSubject,
 })(NavigationButtons)

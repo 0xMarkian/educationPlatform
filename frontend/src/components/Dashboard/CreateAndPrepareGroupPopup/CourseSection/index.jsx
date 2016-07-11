@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import autobind from 'autobind-decorator'
 
-import InputSection from './InputSection'
+import InputSection from './MainSection'
 import NavigationButtons from './NavigationButtons'
 
 

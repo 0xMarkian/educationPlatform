@@ -2,14 +2,14 @@ import { createAction } from 'redux-act'
 import { push } from 'react-router-redux'
 
 import { fetchGroup } from 'actions/group'
-import { backend, defaultFetchParams } from '../config'
+import { backendAdress, defaultFetchParams } from '../config'
 import { parseResponse, parseLoginResponse } from '../utils'
 
 
 // Fetching data
 export const receivedUserData = createAction('RECEIVED USER DATA')
 export const fetchUserData = () => dispatch => {
-  fetch(`${backend}/users/me`, {
+  fetch(`${backendAdress}/users/me`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'GET',
@@ -27,7 +27,7 @@ export const userLoggedIn = createAction('LOG USER IN')
 export const rejectLogin = createAction('REJECT SIGNING IN')
 export const userLogin = (name, password) => dispatch => {
   dispatch(requestUserLogin(name))
-  fetch(`${backend}/users/login`, {
+  fetch(`${backendAdress}/users/login`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
@@ -49,7 +49,7 @@ export const requestUserRegistration = createAction('REQUEST USER REGISTRATION')
 export const receiveRegisteredUser = createAction('RECEIVE REGISTERED USER')
 export const userRegister = (name, password) => dispatch => {
   dispatch(requestUserRegistration())
-  fetch(`${backend}/users/register`, {
+  fetch(`${backendAdress}/users/register`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
@@ -68,7 +68,7 @@ export const userRegister = (name, password) => dispatch => {
 // Logging out
 export const userLoggedOut = createAction('USER LOGGED OUT')
 export const userLogout = () => dispatch => {
-  fetch(`${backend}/users/logout`, {
+  fetch(`${backendAdress}/users/logout`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',

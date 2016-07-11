@@ -13,7 +13,7 @@ import createStore from './store'
 
 import App from './components/App'
 import Dashboard from './components/Dashboard'
-import NewGroupPopup from './components/Dashboard/CreateGroupPopup'
+import CreateAndPrepareGroupPopup from './components/Dashboard/CreateAndPrepareGroupPopup'
 import Login from './components/Login/'
 import Register from './components/Register'
 
@@ -29,7 +29,7 @@ const Root = () => (
         <Router history={syncHistoryWithStore(history, store)}>
           <Route path={'/'} component={App}>
             <Route path={'dashboard'} component={Dashboard} />
-            <Route path={'newGroup'} component={NewGroupPopup} />
+            <Route path={'create-group'} component={CreateAndPrepareGroupPopup} />
             <Route path={'login'} component={Login} />
             <Route path={'register'} component={Register} />
           </Route>

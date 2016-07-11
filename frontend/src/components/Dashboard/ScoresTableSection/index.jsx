@@ -1,4 +1,6 @@
 import { muiStyles } from './styles'
+
+import autobind from 'autobind-decorator'
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
@@ -19,11 +21,14 @@ class ScoresTable extends React.Component {
     super(props)
   }
 
-  handleInput(studentId, courseId, scoreToUpdateId, event){
-    const { applyNewScore } = this.props
-    const inputValue = event.target.value
+  @autobind
+  handleInput(studentId, courseId, scoreToUpdateId){
+    return event => {
+      const { applyNewScore } = this.props
+      const inputValue = event.target.value
 
-    applyNewScore(scoreToUpdateId, studentId, courseId, inputValue)
+      applyNewScore(scoreToUpdateId, studentId, courseId, inputValue)
+    }
   }
 
   componentWillMount() {
@@ -60,7 +65,7 @@ class ScoresTable extends React.Component {
     if(!scores || !students || !courses || !rebuiltSubjects)
       return(
         <div>It seems you do not have any groups yet.
-          Would you like to <Link to='/newGroup'>create one</Link>?
+          Would you like to <Link to='/create-group'>create one</Link>?
         </div>
       )
 
@@ -88,33 +93,28 @@ class ScoresTable extends React.Component {
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
           {
-            // Iterating over all of the students including the ones who have any scores.
-            // This object is ONLY used to build the frame of the table, all of the data about students'
-            // scores is being taken from the scores object because the students object doesn't provide any.
             students.map((student, studentIndex) => (
               <TableRow key={studentIndex}>
                 <TableRowColumn>{student.name}</TableRowColumn>
                 {
-                  // Going over subjects
-                  courses.map((course, subjectIndex) => {
+                  courses.map((course, i) => {
+                    const curStudentScores = scores[student._id]
                     let currentScoreObj
-                    if(scores[student._id]){
-                      if(scores[student._id][course.subject])
-                        currentScoreObj = scores[student._id][course.subject]
+                    if(curStudentScores && curStudentScores[course.subject]){
+                      currentScoreObj = curStudentScores[course.subject]
                     } else{
                       currentScoreObj = { scoreId: null, scoreValue: null }
                     }
 
                     return(
-                      <TableRowColumn key={subjectIndex}>
+                      <TableRowColumn key={i}>
                         <TextField
                           type='text'
                           underlineShow={false}
                           id={course.subject + '/' + student._id}
                           defaultValue={currentScoreObj.scoreValue}
                           onBlur={
-                            this.handleInput.bind(
-                              this,
+                            this.handleInput(
                               student._id,
                               course._id,
                               currentScoreObj.scoreId

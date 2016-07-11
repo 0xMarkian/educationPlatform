@@ -62,7 +62,7 @@ class RegisterSection extends Component{
           label="Register me"
           primary={true}
           disabled={submitButtonDisabled}
-          onClick={this.handleLogin}
+          onTouchTap={this.handleLogin}
         />
         <p>Already have an account? <Link to='/login'>Sign in</Link></p>
       </Dialog>

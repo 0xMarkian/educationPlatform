@@ -1,6 +1,6 @@
 import { createAction } from 'redux-act'
 
-import { backend, defaultFetchParams } from '../config'
+import { backendAdress, defaultFetchParams } from '../config'
 import { parseResponse } from '../utils'
 
 
@@ -8,7 +8,7 @@ export const requestCourses = createAction('REQUEST COURSES')
 export const receiveCourses = createAction('RECEIVE COURSES')
 export const fetchCourses = () => dispatch => {
   dispatch(requestCourses())
-  fetch(`${backend}/courses`, {
+  fetch(`${backendAdress}/courses`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
@@ -23,7 +23,7 @@ export const requestAddingNewCourse = createAction('REQUEST ADDING NEW COURSE')
 export const addedNewCourse = createAction('ADDED NEW COURSE')
 export const addCourseToGroup = subject => dispatch => {
   dispatch(requestAddingNewCourse())
-  fetch(`${backend}/courses`, {
+  fetch(`${backendAdress}/courses`, {
     ...defaultFetchParams,
     method: 'POST',
     credentials: 'include',
@@ -37,7 +37,7 @@ export const addCourseToGroup = subject => dispatch => {
 
 export const removedAddedCourse = createAction('REMOVED ADDED COURSE')
 export const removeAddedCourse = (courseId, subjectId) => dispatch => {
-  fetch(`${backend}/courses/${courseId}`, {
+  fetch(`${backendAdress}/courses/${courseId}`, {
     ...defaultFetchParams,
     method: 'DELETE',
     credentials: 'include',

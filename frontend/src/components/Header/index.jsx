@@ -27,7 +27,7 @@ class Header extends React.Component {
           <RaisedButton
             label="Log out"
             primary={true}
-            onClick={userLogout} />
+            onTouchTap={userLogout} />
         </ToolbarGroup>
       </Toolbar>
     )

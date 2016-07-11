@@ -6,7 +6,7 @@ import {
   requestUserLogin,
   userLoggedIn,
   rejectLogin,
-  userLoggedOut,
+  userLoggedOut, //TODO Add funtionality to clear all redux store.
   receivedUserData,
   removeLoginError,
 } from 'actions/user'

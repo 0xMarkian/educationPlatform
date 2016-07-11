@@ -1,6 +1,6 @@
 import { createAction } from 'redux-act'
 
-import { backend, defaultFetchParams } from '../config'
+import { backendAdress, defaultFetchParams } from '../config'
 import { parseResponse } from '../utils'
 
 
@@ -8,7 +8,7 @@ export const requestScores = createAction('REQUEST SCORES')
 export const receiveScores = createAction('RECEIVE SCORES')
 export const fetchScores = () => dispatch => {
   dispatch(requestScores())
-  fetch(`${backend}/scores?embed=student&embed=course`, {
+  fetch(`${backendAdress}/scores?embed=student&embed=course`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
@@ -48,7 +48,7 @@ export const applyNewScore = (scoreToUpdateId, student, course, scoreValue) => d
     }
   }
 
-  fetch(`${backend}/${requestURL}`, {
+  fetch(`${backendAdress}/${requestURL}`, {
     ...defaultFetchParams,
     ...fetchParams,
     credentials: 'include',

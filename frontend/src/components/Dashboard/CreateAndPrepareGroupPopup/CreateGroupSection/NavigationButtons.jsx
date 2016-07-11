@@ -21,19 +21,17 @@ class NavigationButtons extends React.Component {
   render() {
     const { inputData, groupStore } = this.props
     const { isLoading } = groupStore
-    const buttonDisabled = (!!inputData.error || isLoading)
+    const buttonDisabled = !!inputData.error || isLoading
 
     return(
       <div className={css(styles.navigationButtons)}>
         <RaisedButton
           primary={true}
           disabled={buttonDisabled}
-          onClick={this.nextStep}
+          onTouchTap={this.nextStep}
           label='Next'
         />
-        {isLoading ? (
-          <CircularProgress size={muiStyles.progress.size}/>
-        ) : (null)}
+        { isLoading ? <CircularProgress size={muiStyles.progress.size}/> : null }
       </div>
     )
   }
