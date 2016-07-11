@@ -7,7 +7,6 @@ import { Dialog, RaisedButton } from 'material-ui'
 import autobind from 'autobind-decorator'
 import { css } from 'aphrodite'
 
-import history from 'appHistory'
 import { userRegister } from 'actions/user'
 import Username from './Username'
 import Password from './Password'
@@ -39,11 +38,6 @@ class RegisterSection extends Component{
     userRegister(username, password)
   }
 
-  componentDidUpdate() {
-    const { userStore } = this.props
-    if(userStore.loggedIn) history.push('dashboard')
-  }
-
   render() {
     const { password, username } = this.state
 
@@ -63,7 +57,13 @@ class RegisterSection extends Component{
         <Password
           updatePasswordState={this.updatePasswordState}
         />
-        <RaisedButton label="Register me" primary={true} disabled={submitButtonDisabled} onClick={this.handleLogin} />
+        <RaisedButton
+          className={css(styles.registerButton)}
+          label="Register me"
+          primary={true}
+          disabled={submitButtonDisabled}
+          onTouchTap={this.handleLogin}
+        />
         <p>Already have an account? <Link to='/login'>Sign in</Link></p>
       </Dialog>
     )

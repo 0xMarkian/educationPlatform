@@ -1,6 +1,6 @@
 import { createAction } from 'redux-act'
 
-import { backend, defaultFetchParams } from '../config'
+import { backendAdress, defaultFetchParams } from '../config'
 import { parseResponse } from '../utils'
 
 
@@ -10,7 +10,7 @@ export const requestCreateGroup = createAction('REQUEST CREATE GROUP')
 export const receiveCreatedGroup = createAction('RECEIVE CREATED GROUP')
 export const createGroup = (name, method) => dispatch => {
   dispatch(requestCreateGroup())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
+  fetch(`${backendAdress}/groups`, {
     ...defaultFetchParams,
     method,
     credentials: 'include',
@@ -27,7 +27,7 @@ export const requestFetchGroup = createAction('REQUEST FETCH GROUP')
 export const receiveFetchedGroup = createAction('RECEIVE FETCHED GROUP')
 export const fetchGroup = () => dispatch => {
   dispatch(requestFetchGroup())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/groups`, {
+  fetch(`${backendAdress}/groups`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',

@@ -3,11 +3,15 @@ import { styles } from './styles'
 import React from 'react'
 import { connect } from 'react-redux'
 import { css } from 'aphrodite'
-import { Toolbar, ToolbarGroup, ToolbarTitle, Avatar } from 'material-ui'
+import { Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator, Avatar, RaisedButton } from 'material-ui'
+
+import { userLogout } from 'actions/user'
 
 
 class Header extends React.Component {
   render() {
+    const { groupStore, userLogout } = this.props
+
     return(
       <Toolbar>
         <ToolbarGroup>
@@ -16,7 +20,14 @@ class Header extends React.Component {
             this.props.userStore.name ? this.props.userStore.name[0].toUpperCase() : 'U'
           }
           </Avatar>
-          <ToolbarTitle text="Manage your groups" className={css(styles.headerTitle)} />
+          <ToolbarTitle text={groupStore.groupName} className={css(styles.headerTitle)} />
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <ToolbarSeparator />
+          <RaisedButton
+            label="Log out"
+            primary={true}
+            onTouchTap={userLogout} />
         </ToolbarGroup>
       </Toolbar>
     )
@@ -25,4 +36,7 @@ class Header extends React.Component {
 
 export default connect(store => ({
   userStore: store.user,
-}))(Header)
+  groupStore: store.group,
+}), {
+  userLogout,
+})(Header)

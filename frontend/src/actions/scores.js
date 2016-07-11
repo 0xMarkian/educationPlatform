@@ -1,14 +1,14 @@
 import { createAction } from 'redux-act'
 
-import { backend, defaultFetchParams } from '../config'
+import { backendAdress, defaultFetchParams } from '../config'
 import { parseResponse } from '../utils'
-import { updateStudentWithScore } from './students'
+
 
 export const requestScores = createAction('REQUEST SCORES')
 export const receiveScores = createAction('RECEIVE SCORES')
 export const fetchScores = () => dispatch => {
   dispatch(requestScores())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/scores?embed=student&embed=course`, {
+  fetch(`${backendAdress}/scores?embed=student&embed=course`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
@@ -29,8 +29,11 @@ export const fetchScores = () => dispatch => {
   })
 }
 
-export const applyNewScore = (student, course, scoreValue, scoreToUpdateId) => () => {
-  let fetchParams, requestURL
+export const openScoreAppliedMsg = createAction('OPEN SCORE APPLIED MSG')
+export const closeScoreAppliedMsg = createAction('CLOSE SCORE APPLIED MSG')
+export const applyNewScore = (scoreToUpdateId, student, course, scoreValue) => dispatch => {
+  let fetchParams
+  let requestURL
   if (scoreToUpdateId) {
     requestURL = `scores/${scoreToUpdateId}`
     fetchParams = {
@@ -44,13 +47,14 @@ export const applyNewScore = (student, course, scoreValue, scoreToUpdateId) => (
       body: JSON.stringify({ student, course, scoreValue }),
     }
   }
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/${requestURL}`, {
+
+  fetch(`${backendAdress}/${requestURL}`, {
     ...defaultFetchParams,
     ...fetchParams,
     credentials: 'include',
   })
   .then(() => {
-    // console.log('A new score has been successfully applied!')
+    dispatch(openScoreAppliedMsg(scoreToUpdateId))
   })
   .catch(err => {
     throw new Error(err)

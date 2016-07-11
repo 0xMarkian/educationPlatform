@@ -11,7 +11,7 @@ import {
 
 const initialState = {
   data: null,
-  newGroupPopupStep: 0,
+  createAndPrepareGroupPopupStep: 1,
   requestMethod: 'POST',
   isCreating: false,
   isFetching: false,
@@ -20,7 +20,7 @@ const initialState = {
 export default createReducer({
   [setGroupPopupStep]: (state, payload) => ({
     ...state,
-    newGroupPopupStep: payload,
+    createAndPrepareGroupPopupStep: payload,
   }),
   [requestCreateGroup]: state => ({
     ...state,
@@ -29,9 +29,10 @@ export default createReducer({
   [receiveCreatedGroup]: (state, payload) => ({
     ...state,
     isCreating: false,
-    groupData: payload,
+    groupId: payload._id,
+    groupName: payload.name,
     requestMethod: 'PATCH',
-    newGroupPopupStep: 1,
+    createAndPrepareGroupPopupStep: 1,
   }),
   [requestFetchGroup]: state => ({
     ...state,
@@ -40,6 +41,7 @@ export default createReducer({
   [receiveFetchedGroup]: (state, payload) => ({
     ...state,
     isFetching: false,
-    data: payload,
+    groupId: payload._id,
+    groupName: payload.name,
   }),
 }, initialState)

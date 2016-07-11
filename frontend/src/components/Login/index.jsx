@@ -1,14 +1,14 @@
-import { styles } from './styles'
+import { styles, muiStyles } from './styles'
 
 import React, { Component } from 'react'
 import autobind from 'autobind-decorator'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Dialog, RaisedButton } from 'material-ui'
+import { Dialog, RaisedButton, Snackbar } from 'material-ui'
+import { push } from 'react-router-redux'
 import { css } from 'aphrodite'
 
-import history from 'appHistory'
-import { userLogin, userLogout } from 'actions/user'
+import { userLogin, userLogout, removeLoginError } from 'actions/user'
 import Username from './Username'
 import Password from './Password'
 
@@ -39,42 +39,54 @@ class LoginSection extends Component{
     userLogin(username, password)
   }
 
-  componentWillMount() {
-    // Unless we log the user out every time he comes to /login, the updates he does on the UI cause firing CDU, so the
-    // logged in user gets redirected to /dashboard by simply focusing on an input.
-    const { userLogout } = this.props
-    userLogout()
-  }
-
   componentDidUpdate() {
-    const { userStore } = this.props
-    if(userStore.loggedIn) history.push('/dashboard')
+    const { userStore, push } = this.props
+
+    if(userStore.name) return push('/dashboard')
   }
 
   render() {
+    const { userStore, removeLoginError } = this.props
     const { password, username } = this.state
     const submitButtonDisabled = !(password && username)
 
     return(
-      <Dialog
-        title='Sign in in a second'
-        modal={true}
-        open={true}
-        titleClassName={css(styles.popupHeader)}
-        autoScrollBodyContent={true}
-      >
-        <br/>
-        <Username
-          updateUsernameState={this.updateUsernameState}
+      <div>
+        <Dialog
+          title='Login in a second'
+          modal={true}
+          open={true}
+          titleClassName={css(styles.popupHeader)}
+          autoScrollBodyContent={true}
+        >
+          <Username
+            updateUsernameState={this.updateUsernameState}
+          />
+          <Password
+            updatePasswordState={this.updatePasswordState}
+          />
+          <RaisedButton
+            primary={true}
+            label="Login"
+            disabled={submitButtonDisabled}
+            onTouchTap={this.handleLogin}
+          />
+          <p>Do not have an account yet? <Link to='/register'>Register now!</Link></p>
+        </Dialog>
+        <Snackbar
+          open={!!userStore.loginError}
+          autoHideDuration={muiStyles.snackbar.hideDuration}
+          message={userStore.loginError || ''}
+          onRequestClose={removeLoginError}
         />
-        <Password
-          updatePasswordState={this.updatePasswordState}
-        />
-        <RaisedButton label="Login" primary={true} disabled={submitButtonDisabled} onClick={this.handleLogin} />
-        <p>Do not have an account yet? <Link to='/register'>Sign up</Link> in a second!</p>
-      </Dialog>
+      </div>
     )
   }
 }
 
-export default connect(store => ({ userStore: store.user }), { userLogin, userLogout })(LoginSection)
+export default connect(store => ({ userStore: store.user }), {
+  userLogin,
+  userLogout,
+  push,
+  removeLoginError,
+})(LoginSection)

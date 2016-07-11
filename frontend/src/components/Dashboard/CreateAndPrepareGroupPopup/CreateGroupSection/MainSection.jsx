@@ -3,7 +3,7 @@ import {TextField} from 'material-ui'
 import autobind from 'autobind-decorator'
 
 
-class InputSection extends React.Component {
+class MainSection extends React.Component {
   constructor(props) {
     super(props)
     this.groupNamePattern = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/
@@ -35,10 +35,10 @@ class InputSection extends React.Component {
           hintText='Group name'
           type='text'
           onChange={this.handleInput}
-        /><br/><br/>
+        />
       </div>
     )
   }
 }
 
-export default InputSection
+export default MainSection

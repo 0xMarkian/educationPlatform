@@ -1,8 +1,25 @@
 import { createAction } from 'redux-act'
+import { push } from 'react-router-redux'
 
-import { backend, defaultFetchParams } from '../config'
-import { parseResponse } from '../utils'
+import { fetchGroup } from 'actions/group'
+import { backendAdress, defaultFetchParams } from '../config'
+import { parseResponse, parseLoginResponse } from '../utils'
 
+
+// Fetching data
+export const receivedUserData = createAction('RECEIVED USER DATA')
+export const fetchUserData = () => dispatch => {
+  fetch(`${backendAdress}/users/me`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'GET',
+  })
+  .then(parseResponse)
+  .then((res) => {
+    dispatch(fetchGroup())
+    dispatch(receivedUserData(res))
+  })
+}
 
 // Logging in
 export const requestUserLogin = createAction('LOG USER IN')
@@ -10,19 +27,20 @@ export const userLoggedIn = createAction('LOG USER IN')
 export const rejectLogin = createAction('REJECT SIGNING IN')
 export const userLogin = (name, password) => dispatch => {
   dispatch(requestUserLogin(name))
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/users/login`, {
+  fetch(`${backendAdress}/users/login`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-  .then(parseResponse)
+  .then(parseLoginResponse)
   .then(res => {
-    dispatch(userLoggedIn(name))
+    dispatch(fetchGroup())
+    dispatch(userLoggedIn(res.name))
+    dispatch(push('dashboard'))
   })
   .catch(err => {
-    dispatch(rejectLogin())
-    throw new Error(err)
+    dispatch(rejectLogin(err.message))
   })
 }
 
@@ -31,7 +49,7 @@ export const requestUserRegistration = createAction('REQUEST USER REGISTRATION')
 export const receiveRegisteredUser = createAction('RECEIVE REGISTERED USER')
 export const userRegister = (name, password) => dispatch => {
   dispatch(requestUserRegistration())
-  fetch(`${backend.protocol}://${backend.domain}:${backend.port}/users/register`, {
+  fetch(`${backendAdress}/users/register`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
@@ -40,6 +58,7 @@ export const userRegister = (name, password) => dispatch => {
   .then(parseResponse)
   .then(() => {
     dispatch(receiveRegisteredUser())
+    dispatch(push('dashboard'))
   })
   .catch(err => {
     throw new Error(err)
@@ -47,4 +66,17 @@ export const userRegister = (name, password) => dispatch => {
 }
 
 // Logging out
-export const userLogout = createAction('LOG USER OUT')
+export const userLoggedOut = createAction('USER LOGGED OUT')
+export const userLogout = () => dispatch => {
+  fetch(`${backendAdress}/users/logout`, {
+    ...defaultFetchParams,
+    credentials: 'include',
+    method: 'POST',
+  })
+  .then(() => {
+    dispatch(userLoggedOut())
+    dispatch(push('/login'))
+  })
+}
+
+export const removeLoginError = createAction('REMOVE LOGIN ERROR')

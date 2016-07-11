@@ -1,7 +1,9 @@
+import { styles } from './styles'
+
 import React from 'react'
 import autobind from 'autobind-decorator'
 import { TextField } from 'material-ui'
-
+import { css } from 'aphrodite'
 
 class Username extends React.Component {
   constructor(props) {
@@ -53,7 +55,7 @@ class Username extends React.Component {
           type='text'
           onChange={this.handleInput}
           onFocus={this.enableEditMode}
-        /><br/><br/>
+        />
       </div>
     )
   }

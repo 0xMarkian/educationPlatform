@@ -1,7 +1,8 @@
-import { muiStyles } from '../styles'
+import { styles, muiStyles } from '../styles'
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { css } from 'aphrodite'
 import autobind from 'autobind-decorator'
 import { RaisedButton, CircularProgress } from 'material-ui'
 
@@ -20,19 +21,17 @@ class NavigationButtons extends React.Component {
   render() {
     const { inputData, groupStore } = this.props
     const { isLoading } = groupStore
-    const buttonDisabled = (!!inputData.error || isLoading)
+    const buttonDisabled = !!inputData.error || isLoading
 
     return(
-      <div>
+      <div className={css(styles.navigationButtons)}>
         <RaisedButton
           primary={true}
           disabled={buttonDisabled}
-          onClick={this.nextStep}
+          onTouchTap={this.nextStep}
           label='Next'
         />
-        {isLoading ? (
-          <CircularProgress size={muiStyles.progress.size}/>
-        ) : (null)}
+        { isLoading ? <CircularProgress size={muiStyles.progress.size}/> : null }
       </div>
     )
   }

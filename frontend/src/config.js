@@ -1,8 +1,4 @@
-export const backend = {
-  protocol: 'http',
-  domain: 'localhost',
-  port: 8080,
-}
+export const backendAdress = 'http://localhost:8080'
 export const defaultFetchParams = {
   mode: 'cors',
   headers: {

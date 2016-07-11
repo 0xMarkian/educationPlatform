@@ -1,44 +1,40 @@
-import { styles, muiStyles } from '../styles'
+import { muiStyles, styles } from '../styles'
 
 import React from 'react'
-import { css } from 'aphrodite'
 import { connect } from 'react-redux'
+import { css } from 'aphrodite'
 import autobind from 'autobind-decorator'
 import { FlatButton, RaisedButton, CircularProgress } from 'material-ui'
 
 import { setGroupPopupStep } from 'actions/group'
-import { sendChosenSubject } from 'actions/subjects'
-
 
 class NavigationButtons extends React.Component {
   @autobind
   prevStep() {
     const { setGroupPopupStep } = this.props
-    setGroupPopupStep(0)
+    setGroupPopupStep(1)
   }
 
   @autobind
   nextStep() {
-    const { sendChosenSubject, subjectsStore } = this.props,
-          { requestMethod } = subjectsStore
-    let { chosenSubject } = this.props
-    if(!chosenSubject) chosenSubject = subjectsStore.data[0]
-    sendChosenSubject(chosenSubject, requestMethod)
+    const { setGroupPopupStep } = this.props
+
+    setGroupPopupStep(2)
   }
 
   render() {
-    const { isFetching } = this.props.subjectsStore
+    const { isFetching } = false
 
     return(
-      <div>
+      <div className={css(styles.navigationButtons)}>
         <FlatButton
           className={css(styles.backButton)}
-          onClick={this.prevStep}
+          onTouchTap={this.prevStep}
           label='Back'
         />
         <RaisedButton
           primary={true}
-          onClick={this.nextStep}
+          onTouchTap={this.nextStep}
           label='Next'
         />
         {isFetching ? (
@@ -50,8 +46,7 @@ class NavigationButtons extends React.Component {
 }
 
 export default connect( store => ({
-  subjectsStore: store.subjects,
+  groupStore: store.newGroupPopup,
 }), {
-  setGroupPopupStep,
-  sendChosenSubject,
+  setGroupPopupStep
 })(NavigationButtons)

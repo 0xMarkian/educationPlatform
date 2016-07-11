@@ -5,7 +5,10 @@ import {
   receiveRegisteredUser,
   requestUserLogin,
   userLoggedIn,
-  userLogout,
+  rejectLogin,
+  userLoggedOut, //TODO Add funtionality to clear all redux store.
+  receivedUserData,
+  removeLoginError,
 } from 'actions/user'
 
 
@@ -13,10 +16,16 @@ const initialState = {
   name: null,
   registering: false,
   loggingIn: false,
-  loggedIn: false,
+  loginError: null,
 }
 
 export default createReducer({
+  [receivedUserData]: (state, payload) => ({
+    ...state,
+    name: payload.name,
+    groupId: payload.group,
+  }),
+
   [requestUserRegister]: state => ({
     ...state,
     registering: true,
@@ -28,19 +37,27 @@ export default createReducer({
 
   [requestUserLogin]: state => ({
     ...state,
-    loggedIn: false,
     loggingIn: true,
   }),
 
   [userLoggedIn]: (state, payload) => ({
     ...state,
     name: payload,
-    loggedIn: true,
     loggingIn: false,
   }),
 
-  [userLogout]: state => ({
+  [userLoggedOut]: state => ({
     ...state,
-    loggedIn: false,
+    name: null,
+  }),
+
+  [rejectLogin]: (state, payload) => ({
+    ...state,
+    loginError: payload,
+  }),
+
+  [removeLoginError]: (state, payload) => ({
+    ...state,
+    loginError: null,
   }),
 }, initialState)
