@@ -1,10 +1,9 @@
 import { push } from 'react-router-redux'
 
-import { showLoginError } from 'actions/user'
+export const parseResponse = (res) => {
+  const { message, status } = res
+  if (status >= 400 && status <= 600) return Promise.reject( { message, status, } )
 
-
-export const parseResponse = res => {
-  if (res.status === 401) return push('/login')
   return res.json()
 }
 

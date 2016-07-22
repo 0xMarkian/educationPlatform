@@ -1,6 +1,9 @@
 import { createReducer } from 'redux-act'
 
 import {
+  applyUserNeedsAccount,
+
+
   requestUserRegister,
   receiveRegisteredUser,
   requestUserLogin,
@@ -13,17 +16,22 @@ import {
 
 
 const initialState = {
-  name: null,
+  userNeedsAccount: false,
+  data: null,
+
   registering: false,
   loggingIn: false,
   loginError: null,
 }
 
 export default createReducer({
+  [applyUserNeedsAccount]: state => ({
+    ...state,
+    userNeedsAccount: true,
+  }),
   [receivedUserData]: (state, payload) => ({
     ...state,
-    name: payload.name,
-    groupId: payload.group,
+    data: payload,
   }),
 
   [requestUserRegister]: state => ({
@@ -40,16 +48,16 @@ export default createReducer({
     loggingIn: true,
   }),
 
-  [userLoggedIn]: (state, payload) => ({
-    ...state,
-    name: payload,
-    loggingIn: false,
-  }),
-
-  [userLoggedOut]: state => ({
-    ...state,
-    name: null,
-  }),
+  // [userLoggedIn]: (state, payload) => ({
+  //   ...state,
+  //   name: payload,
+  //   loggingIn: false,
+  // }),
+  //
+  // [userLoggedOut]: state => ({
+  //   ...state,
+  //   name: null,
+  // }),
 
   [rejectLogin]: (state, payload) => ({
     ...state,

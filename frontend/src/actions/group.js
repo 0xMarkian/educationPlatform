@@ -23,11 +23,11 @@ export const createGroup = (name, method) => dispatch => {
   .catch(err => { throw new Error(err) })
 }
 
-export const requestFetchGroup = createAction('REQUEST FETCH GROUP')
+export const requestFetchGroups = createAction('REQUEST FETCH GROUP')
 export const receiveFetchedGroup = createAction('RECEIVE FETCHED GROUP')
-export const fetchGroup = () => dispatch => {
-  dispatch(requestFetchGroup())
-  fetch(`${backendAdress}/groups`, {
+export const fetchUserGroups = () => dispatch => {
+  dispatch(requestFetchGroups())
+  return fetch(`${backendAdress}/groups`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',

@@ -42,7 +42,7 @@ class LoginSection extends Component{
   componentDidUpdate() {
     const { userStore, push } = this.props
 
-    if(userStore.name) return push('/dashboard')
+    if(userStore.data) return push('/dashboard')
   }
 
   render() {

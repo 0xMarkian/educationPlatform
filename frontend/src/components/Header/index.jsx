@@ -10,14 +10,15 @@ import { userLogout } from 'actions/user'
 
 class Header extends React.Component {
   render() {
-    const { groupStore, userLogout } = this.props
+    const { groupStore, userLogout, userStore } = this.props,
+      { data: userData } = userStore
 
     return(
       <Toolbar>
         <ToolbarGroup>
           <Avatar className={css(styles.avatar)}>
           {
-            this.props.userStore.name ? this.props.userStore.name[0].toUpperCase() : 'U'
+            userData ? userData.name[0].toUpperCase() : 'U'
           }
           </Avatar>
           <ToolbarTitle text={groupStore.groupName} className={css(styles.headerTitle)} />

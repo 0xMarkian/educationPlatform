@@ -1,24 +1,23 @@
 import { createAction } from 'redux-act'
 import { push } from 'react-router-redux'
 
-import { fetchGroup } from 'actions/group'
+import { fetchUserGroups } from 'actions/group'
 import { backendAdress, defaultFetchParams } from '../config'
 import { parseResponse, parseLoginResponse } from '../utils'
 
 
 // Fetching data
+export const applyUserNeedsAccount = createAction('applyUserNeedsAccount')
 export const receivedUserData = createAction('RECEIVED USER DATA')
 export const fetchUserData = () => dispatch => {
-  fetch(`${backendAdress}/users/me`, {
+  return fetch(`${backendAdress}/users/me`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'GET',
   })
   .then(parseResponse)
-  .then((res) => {
-    dispatch(fetchGroup())
-    dispatch(receivedUserData(res))
-  })
+    .then(res => dispatch(receivedUserData(res)))
+    .catch( () => dispatch( applyUserNeedsAccount() ) )
 }
 
 // Logging in
@@ -35,7 +34,7 @@ export const userLogin = (name, password) => dispatch => {
   })
   .then(parseLoginResponse)
   .then(res => {
-    dispatch(fetchGroup())
+    dispatch(fetchUserGroups())
     dispatch(userLoggedIn(res.name))
     dispatch(push('dashboard'))
   })

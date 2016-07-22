@@ -3,7 +3,7 @@ import { createReducer } from 'redux-act'
 import {
   requestCreateGroup,
   receiveCreatedGroup,
-  requestFetchGroup,
+  requestFetchGroups,
   receiveFetchedGroup,
   setGroupPopupStep,
 } from 'actions/group'
@@ -34,7 +34,7 @@ export default createReducer({
     requestMethod: 'PATCH',
     createAndPrepareGroupPopupStep: 1,
   }),
-  [requestFetchGroup]: state => ({
+  [requestFetchGroups]: state => ({
     ...state,
     isFetching: true,
   }),
