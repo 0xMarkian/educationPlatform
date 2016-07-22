@@ -4,7 +4,7 @@ import morgan from 'morgan'
 import expressJWT from 'express-jwt'
 import cookieParser from 'cookie-parser'
 
-import config from './config'
+import config from './config/index'
 
 import courseRoutes from './entities/course'
 import groupRoutes from './entities/group'

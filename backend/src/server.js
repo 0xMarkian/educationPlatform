@@ -1,8 +1,16 @@
+import https from 'https'
+import fs from 'fs'
 import mongoose from 'mongoose'
-import config from './config'
+import config from './config/index'
 
 import app from './index'
 
+app.listen = (port, cb) => {
+  https.createServer({
+    key: fs.readFileSync(`${__dirname}/config/server.key`),
+    cert : fs.readFileSync(`${__dirname}/config/server.crt`)
+  },app).listen(port, cb)
+}
 
 const connectDataBase = uri => {
   mongoose.connect(uri)
@@ -11,11 +19,9 @@ const connectDataBase = uri => {
   })
 }
 
-const startServer = (port) => app => {
-  app.listen(port, function(){
-    console.log(`Server is running on port ${port}`)
-  })
-}
 
 connectDataBase(config.databaseURI)
-startServer(config.port)(app)
+
+app.listen(config.port, function(){
+  console.log(`Server is running on port ${config.port}`)
+})

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import autobind from 'autobind-decorator'
 
-import config from '../../config'
+import config from '../../config/index'
 
 import BasicCtrl from '../../lib/ctrl'
 
@@ -10,7 +10,7 @@ class UserCtrl extends BasicCtrl {
   @autobind
   getMe(req, res, next) {
     const { _id: userId } = req.user
-
+    
     this.Model
       .findById(userId)
       .exec( (err, user) => {
