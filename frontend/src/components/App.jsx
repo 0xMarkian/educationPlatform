@@ -11,24 +11,20 @@ class App extends React.Component {
 
     fetchUserData()
       .then( () => fetchUserGroups() )
+      .catch( () => push('login') )
 
+    //auto redirect to dahsboard
     if(!children) push('dashboard')
   }
 
   render() {
-    const { children, user, pathname } = this.props,
-      { userNeedsAccount, data: userData,  } = user
+    const { children } = this.props
 
-    return <div>{ userData || userNeedsAccount ? children : null}</div>
+    return <div>{ children }</div>
   }
 }
 
-export default connect( store => {
-  const { user , routing } = store,
-    { pathname } = routing.locationBeforeTransitions
-
-  return { user, pathname }
-}, {
+export default connect( null, {
   push,
   fetchUserData,
   fetchUserGroups,

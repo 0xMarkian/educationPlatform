@@ -21,8 +21,8 @@ class Password extends React.Component {
 
   @autobind
   handleInput(e) {
-    const { errorMessages, passwordMinLength, props } = this
-    const { updatePasswordState } = props
+    const { errorMessages, passwordMinLength } = this
+    const { updatePasswordState } = this.props
     const password = e.target.value
 
     if(!password) return this.setState({ errorText: errorMessages.empty })
@@ -32,11 +32,15 @@ class Password extends React.Component {
     updatePasswordState(password)
   }
 
+
   @autobind
   enableEditMode(){
+    const { updatePasswordState } = this.props
+
     this.setState({
       errorText: null,
     })
+    updatePasswordState(null)
   }
   render() {
     const { errorText } = this.state

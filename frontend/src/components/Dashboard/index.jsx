@@ -1,21 +1,15 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 
 
-import Header from '../Header'
-import ScoresTableSection from './ScoresTableSection'
+import Header from '../../modules/Header/'
+import ScoresTableSection from './ScoresTableSection/'
 
-class Dashboard extends React.Component {
-  componentWillMount() {
-    const { userNeedsAccount, push } = this.props
-
-    if(userNeedsAccount) push('login')
-  }
-
+class Dashboard extends Component {
   render() {
-    const { userNeedsAccount } = this.props
-    if(userNeedsAccount) return null
+    const { userData } = this.props
+    if(!userData) return null
 
     return (
       <div>
@@ -26,4 +20,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default connect( store => ({ userNeedsAccount: store.user.userNeedsAccount}), { push })(Dashboard)
+export default connect( store => ({ userData: store.user.data}), { push })(Dashboard)

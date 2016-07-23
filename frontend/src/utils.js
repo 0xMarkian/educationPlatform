@@ -7,6 +7,8 @@ export const parseResponse = (res) => {
   return res.json()
 }
 
+export const startPage = '/dashboard'
+
 export const parseLoginResponse = res => {
   let json = res.json()
   if(res.status === 401) return json.then(Promise.reject.bind(Promise))

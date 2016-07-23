@@ -4,11 +4,12 @@ import React, { Component } from 'react'
 import autobind from 'autobind-decorator'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Dialog, RaisedButton, Snackbar } from 'material-ui'
+import { Dialog, RaisedButton, Snackbar, CircularProgress } from 'material-ui'
 import { push } from 'react-router-redux'
 import { css } from 'aphrodite'
 
-import { userLogin, userLogout, removeLoginError } from 'actions/user'
+import { userLogin, removeLoginError } from 'actions/user'
+import { startPage } from '../../utils'
 import Username from './Username'
 import Password from './Password'
 
@@ -36,19 +37,28 @@ class LoginSection extends Component{
   handleLogin() {
     const { userLogin } = this.props
     const { username, password } = this.state
+
+    if(!password || !username) return
     userLogin(username, password)
   }
 
   componentDidUpdate() {
     const { userStore, push } = this.props
 
-    if(userStore.data) return push('/dashboard')
+    if(userStore.data) push(startPage)
   }
 
+  getSubmitButton(){
+    const { loading } = this.props.userStore
+    return loading ? <CircularProgress/> : <RaisedButton
+        primary={true}
+        label="Login"
+        onTouchTap={this.handleLogin}
+      />
+  }
   render() {
-    const { userStore, removeLoginError } = this.props
-    const { password, username } = this.state
-    const submitButtonDisabled = !(password && username)
+    const { userStore, removeLoginError } = this.props,
+      { loading } = userStore
 
     return(
       <div>
@@ -65,12 +75,7 @@ class LoginSection extends Component{
           <Password
             updatePasswordState={this.updatePasswordState}
           />
-          <RaisedButton
-            primary={true}
-            label="Login"
-            disabled={submitButtonDisabled}
-            onTouchTap={this.handleLogin}
-          />
+          {this.getSubmitButton()}
           <p>Do not have an account yet? <Link to='/register'>Register now!</Link></p>
         </Dialog>
         <Snackbar
@@ -86,7 +91,6 @@ class LoginSection extends Component{
 
 export default connect(store => ({ userStore: store.user }), {
   userLogin,
-  userLogout,
   push,
   removeLoginError,
 })(LoginSection)

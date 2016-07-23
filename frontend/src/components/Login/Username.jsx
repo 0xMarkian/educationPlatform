@@ -37,7 +37,7 @@ class Username extends React.Component {
   enableEditMode(){
     const { updateUsernameState } = this.props
 
-    this.setState({errorText: null})
+    this.setState({ errorText: null})
     updateUsernameState(null)
   }
 
@@ -52,7 +52,7 @@ class Username extends React.Component {
           id='login-modal-username'
           hintText='username'
           type='text'
-          onChange={this.handleInput}
+          onBlur={this.handleInput}
           onFocus={this.enableEditMode}
         /><br/><br/>
       </div>

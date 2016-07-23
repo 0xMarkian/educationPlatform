@@ -1,23 +1,17 @@
 import { createReducer } from 'redux-act'
 
 import {
-  applyUserNeedsAccount,
-
-
-  requestUserRegister,
-  receiveRegisteredUser,
-  requestUserLogin,
-  userLoggedIn,
-  rejectLogin,
-  userLoggedOut, //TODO Add funtionality to clear all redux store.
+  iteractWithServerAboutUser,
   receivedUserData,
+
+  rejectLogin,
   removeLoginError,
 } from 'actions/user'
 
 
 const initialState = {
-  userNeedsAccount: false,
   data: null,
+  loading: false,
 
   registering: false,
   loggingIn: false,
@@ -25,39 +19,17 @@ const initialState = {
 }
 
 export default createReducer({
-  [applyUserNeedsAccount]: state => ({
-    ...state,
-    userNeedsAccount: true,
-  }),
   [receivedUserData]: (state, payload) => ({
     ...state,
+    loading: false,
     data: payload,
   }),
 
-  [requestUserRegister]: state => ({
+  [iteractWithServerAboutUser]: state => ({
     ...state,
-    registering: true,
-  }),
-  [receiveRegisteredUser]: state => ({
-    ...state,
-    registering: false,
+    loading: true,
   }),
 
-  [requestUserLogin]: state => ({
-    ...state,
-    loggingIn: true,
-  }),
-
-  // [userLoggedIn]: (state, payload) => ({
-  //   ...state,
-  //   name: payload,
-  //   loggingIn: false,
-  // }),
-  //
-  // [userLoggedOut]: state => ({
-  //   ...state,
-  //   name: null,
-  // }),
 
   [rejectLogin]: (state, payload) => ({
     ...state,

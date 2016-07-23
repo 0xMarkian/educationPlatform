@@ -1,5 +1,4 @@
 import 'normalize.css/normalize.css'
-import './styles/App.styl'
 
 import React from 'react'
 import { render } from 'react-dom'
@@ -27,11 +26,11 @@ const Root = () => (
     <MuiThemeProvider muiTheme={getMuiTheme()}>
       <main>
         <Router history={syncHistoryWithStore(history, store)}>
-          <Route path={'/'} component={App}>
-            <Route path={'dashboard'} component={Dashboard} />
-            <Route path={'create-group'} component={CreateAndPrepareGroupPopup} />
-            <Route path={'login'} component={Login} />
-            <Route path={'register'} component={Register} />
+          <Route path="/" component={App}>
+            <Route path="dashboard" component={Dashboard} />
+            <Route path="create-group" component={CreateAndPrepareGroupPopup} />
+            <Route path="login" component={Login} />
+            <Route path="register" component={Register} />
           </Route>
         </Router>
       </main>
