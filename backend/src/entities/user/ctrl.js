@@ -28,7 +28,9 @@ class UserCtrl extends BasicCtrl {
       name,
       password,
     }, err => {
-      if(err) return next(err)
+      console.log(err)
+
+      if(err) return res.status(400).json(err.errors)
 
       this.login(req, res, next)
     })

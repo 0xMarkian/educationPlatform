@@ -1,13 +1,10 @@
 import { Schema } from 'mongoose'
 
-export const basicSchemaCtrls = {
-
-}
 
 export const uniqueName = {
-  type:String,
-  unique: true,
-  required: true,
+  type: String,
+  required: [ true, 'Field {PATH} is required'],
+  unique: `This name is already taken`,
 }
 
 export const requiredObjectId = {

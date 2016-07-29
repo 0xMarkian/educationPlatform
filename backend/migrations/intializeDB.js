@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import { spawn } from 'child_process'
 
-
 import { handleError } from '../src/lib/utils'
 
 import Subject from '../src/entities/subject/model'

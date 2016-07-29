@@ -1,7 +1,7 @@
 import https from 'https'
 import fs from 'fs'
 import mongoose from 'mongoose'
-import config from './config/index'
+import config from './config/'
 
 import app from './index'
 
@@ -17,6 +17,7 @@ const connectDataBase = uri => {
   mongoose.connection.on('error', () => {
     throw new Error(`unable to connect to database: ...`);
   })
+  mongoose.set('debug', true)
 }
 
 

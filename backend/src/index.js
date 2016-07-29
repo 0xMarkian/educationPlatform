@@ -34,6 +34,7 @@ function configureMiddelware(app){
       next()
     }
   })
+
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
   app.use(cookieParser())
@@ -64,16 +65,3 @@ configureMiddelware(app)
 configureRoutes(app)
 
 export default app
-
-
-// import fetch from 'node-fetch'
-// const handleError = response => {
-//   if(!response.ok) console.error(response)
-//   return response
-// }
-// const parseJSON = response => response.json()
-//
-// fetch('https://na25.salesforce.com/v37.0/')
-//   .then(handleError)
-//   .then(parseJSON)
-//   .then(response => console.log(response))

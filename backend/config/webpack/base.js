@@ -25,7 +25,7 @@ var base = {
   target: 'node',
   output: {
     path: path.join(backendRoot, './build'),
-    filename: 'backendAdress.js'
+    filename: 'bundle.js'
   },
   node: {
     __dirname: true,
