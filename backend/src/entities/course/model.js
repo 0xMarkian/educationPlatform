@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { requiredObjectId } from '../../lib/model'
+import { requiredObjectId } from '../common/model'
 
 const courseSchema = new mongoose.Schema({
   subject: requiredObjectId,

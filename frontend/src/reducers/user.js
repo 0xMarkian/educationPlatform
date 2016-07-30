@@ -12,10 +12,7 @@ import {
 const initialState = {
   data: null,
   loading: false,
-
-  registering: false,
-  loggingIn: false,
-  loginError: null,
+  validatingErrors: {},
 }
 
 export default createReducer({

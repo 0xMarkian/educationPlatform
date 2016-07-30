@@ -8,19 +8,19 @@ export default class BasicCtrl {
 
   @autobind
   listAll(req, res, next){
-    this.Model.find({}, (err, entities) => {
+    this.Model.find({}, (err, data) => {
       if(err) return next(err)
 
-      res.json(entities)
+      res.json({ data, })
     })
   }
 
   @autobind
   getOne(req, res, next){
     const { id: _id } = req.params
-    this.Model.findById(_id, (err, entity) => {
+    this.Model.findById(_id, (err, data) => {
       if (err) next(err)
-      res.json(entity)
+      res.json({ data,})
     })
   }
 

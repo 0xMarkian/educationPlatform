@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 
 import { fetchUserGroups } from 'actions/group'
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, parseLoginResponse, startPage } from '../utils'
+import { parseResponse, parseLoginResponse, startPage, handleMessage } from '../utils'
 
 
 export const receivedUserData = createAction('RECEIVED USER DATA')
@@ -18,8 +18,9 @@ export const fetchUserData = () => dispatch => {
     method: 'GET',
   })
   .then(parseResponse)
+    .then( handleMessage(dispatch) )
     .then(res => dispatch(receivedUserData(res)))
-    .catch( () => { dispatch( applyUserNeedsAccount() ); return Promise.reject() })
+    .catch( () => { return Promise.reject() })
 }
 
 
@@ -36,7 +37,7 @@ export const userLogin = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(parseLoginResponse)
+    .then(parseResponse)
     .then(res => {
       dispatch( receivedUserData(res) )
       dispatch( push(startPage) )

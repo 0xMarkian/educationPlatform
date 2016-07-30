@@ -1,6 +1,6 @@
 import autobind from 'autobind-decorator'
 
-import BasicCtrl from '../../lib/ctrl'
+import BasicCtrl from '../common/ctrl'
 import { findCurrUserGroup } from '../user/utils'
 
 
@@ -14,10 +14,10 @@ class Student2CourseCtrl extends BasicCtrl {
       student,
       course,
       group
-    }, (err, newEntity) => {
+    }, (err, data) => {
       if(err) return next(err)
 
-      res.status(201).json(newEntity)
+      res.status(201).json({ data })
     })
   }
 
@@ -31,10 +31,10 @@ class Student2CourseCtrl extends BasicCtrl {
       this.Model
         .find({group})
         .populate(embed)
-        .exec((err, entities) => {
+        .exec((err, data) => {
           if (err) return next(err)
 
-          res.json(entities)
+          res.json({ data })
         })
     })
   }

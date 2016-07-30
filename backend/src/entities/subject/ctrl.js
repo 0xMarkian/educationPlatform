@@ -1,4 +1,4 @@
-import BasicCtrl from '../../lib/ctrl'
+import BasicCtrl from '../common/ctrl'
 import autobind from 'autobind-decorator'
 
 
@@ -9,10 +9,10 @@ class SubjectCtrl extends BasicCtrl {
 
     this.Model.create({
       name,
-    }, (err, newEntity ) => {
+    }, (err, data ) => {
       if(err) return next(err)
 
-      res.json(newEntity)
+      res.json({ data })
     })
 
   }

@@ -2,7 +2,7 @@ import autobind from 'autobind-decorator'
 
 import User from '../user/model'
 import { findCurrUserGroup } from '../user/utils'
-import BasicCtrl from '../../lib/ctrl'
+import BasicCtrl from '../common/ctrl'
 
 class GroupCtrl extends BasicCtrl {
   @autobind
@@ -23,7 +23,7 @@ class GroupCtrl extends BasicCtrl {
           .update({_id: userId}, { group: newGroup._id} )
           .exec( err => { if(err) return next(err)} )
 
-        res.status(201).json(newGroup)
+        res.status(201).json({ data: newGroup, })
       })
     })
   }
@@ -35,10 +35,10 @@ class GroupCtrl extends BasicCtrl {
     findCurrUserGroup(userId).then( group => {
       this.Model
         .find({_id: group})
-        .exec( (err, entity) => {
+        .exec( (err, data) => {
           if(err) return next(err)
 
-          res.json(entity)
+          res.json({ data })
         })
     })
   }

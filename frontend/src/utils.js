@@ -9,8 +9,7 @@ export const parseResponse = (res) => {
 
 export const startPage = '/dashboard'
 
-export const parseLoginResponse = res => {
-  let json = res.json()
-  if(res.status === 401) return json.then(Promise.reject.bind(Promise))
-  return json
+export const handleMessage = dispatch => parsedRes => {
+  //message handle
+  return parsedRes
 }

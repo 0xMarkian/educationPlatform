@@ -3,7 +3,9 @@ import autobind from 'autobind-decorator'
 
 import config from '../../config/index'
 
-import BasicCtrl from '../../lib/ctrl'
+import BasicCtrl from '../common/ctrl'
+
+import { filterValidationErrObj } from '../common/utils'
 
 
 class UserCtrl extends BasicCtrl {
@@ -16,7 +18,7 @@ class UserCtrl extends BasicCtrl {
       .exec( (err, user) => {
         if(err) return next(err)
 
-        res.json(user)
+        res.json({ data: user})
       })
   }
 
@@ -28,9 +30,7 @@ class UserCtrl extends BasicCtrl {
       name,
       password,
     }, err => {
-      console.log(err)
-
-      if(err) return res.status(400).json(err.errors)
+      if(err) return res.status(400).json({ errors: filterValidationErrObj(err.errors) })
 
       this.login(req, res, next)
     })
@@ -50,7 +50,7 @@ class UserCtrl extends BasicCtrl {
 
       const { _id, name } = user
       const token = jwt.sign({_id, name, lastLoginDate: new Date() }, config.secret)
-      res.cookie('accessToken',token,{path:'/', httpOnly:true}).json(user)
+      res.cookie('accessToken',token,{path:'/', httpOnly:true}).json({ data: user })
     })
   }
 

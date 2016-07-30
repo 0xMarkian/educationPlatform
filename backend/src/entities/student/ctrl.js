@@ -13,10 +13,10 @@ class StudentCtrl extends Student2CourseCtrl {
       this.Model.create({
         name,
         group,
-      }, (err, newEntity) => {
+      }, (err, data) => {
         if(err) return next(err)
 
-        res.json(newEntity)
+        res.json({ data })
       })
     })
   }

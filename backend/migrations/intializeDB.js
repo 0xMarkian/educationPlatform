@@ -1,8 +1,6 @@
 import mongoose from 'mongoose'
 import { spawn } from 'child_process'
 
-import { handleError } from '../src/lib/utils'
-
 import Subject from '../src/entities/subject/model'
 import Student from '../src/entities/student/model'
 import Group from '../src/entities/group/model'
@@ -11,7 +9,10 @@ import Score from '../src/entities/score/model'
 import Student2Course from '../src/entities/student2Course/model'
 import User from '../src/entities/user/model'
 
+
 const mode = 'prod'
+export const handleError = err => { if(err) console.error(err) }
+
 
 const connectDataBase = uri => {
   mongoose.connect(uri)

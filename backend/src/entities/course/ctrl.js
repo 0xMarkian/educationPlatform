@@ -35,7 +35,7 @@ class CourseCtrl extends Studets2CourseCtrl {
 
             Student2Course.create(student2CourseDocs, (err, entities) => {
               if(err) return next(err)
-              res.json(newCourse)
+              res.json({ data: newCourse})
             })
           })
       })

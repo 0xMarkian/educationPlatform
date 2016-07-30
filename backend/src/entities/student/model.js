@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { uniqueName, requiredObjectId } from '../../lib/model'
+import { uniqueName, requiredObjectId } from '../common/model'
 
 
 const studentSchema = new mongoose.Schema({

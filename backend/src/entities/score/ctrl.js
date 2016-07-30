@@ -14,10 +14,10 @@ class ScoreCtrl extends Student2CourseCtrl {
         student,
         course,
         group,
-      }, (err, newEntity) => {
+      }, (err, data) => {
         if(err) return next(err)
 
-        res.status(201).json(newEntity)
+        res.status(201).json({ data })
       })
     })
   }

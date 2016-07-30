@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
 import beautifyUnique from 'mongoose-beautiful-unique-validation'
 
-import { uniqueName, requiredObjectId } from '../../lib/model'
+import { uniqueName, requiredObjectId } from '../common/model'
 
 const userSchema = new Schema({
   name: uniqueName,

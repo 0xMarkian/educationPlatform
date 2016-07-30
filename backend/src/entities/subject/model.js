@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { uniqueName } from '../../lib/model'
+import { uniqueName } from '../common/model'
 
 
 const subjectSchema = new mongoose.Schema({
