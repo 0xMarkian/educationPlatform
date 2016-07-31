@@ -1,6 +1,9 @@
 import express from 'express'
 import autobind from 'autobind-decorator'
 
+import { filterValidationErrObj } from '../common/utils'
+
+
 export default class BasicCtrl {
   constructor(Model){
     this.Model = Model
@@ -27,11 +30,9 @@ export default class BasicCtrl {
   @autobind
   update(req,res, next){
     const { id: _id } = req.params
-
-    if( Object.keys(req.body).length === 0 ) return next(new Error('The request body is empty'))
-
-    this.Model.update( { _id}, req.body, err => {
-      if(err) return next(err)
+    
+    this.Model.update( { _id}, req.body, errObj => {
+      if(errObj) return res.status(400).json( { message: filterValidationErrObj(errObj.errors) })
       
       res.sendStatus(200)
     })

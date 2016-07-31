@@ -9,9 +9,6 @@ const userSchema = new Schema({
   group: { type: Schema.Types.ObjectId, default: null},
 })
 userSchema.plugin(beautifyUnique)
+userSchema.pre('update', function(next) { this.options.runValidators = true; next() })
 
-
-const User = mongoose.model('User', userSchema)
-
-
-export default User
+export default mongoose.model('User', userSchema)

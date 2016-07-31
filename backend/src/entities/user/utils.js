@@ -12,4 +12,3 @@ export const findCurrUserGroup = userId => new Promise( (resolve, reject) => {
       resolve(user.group)
     })
 })
-1

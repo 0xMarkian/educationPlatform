@@ -42,10 +42,14 @@ class UserCtrl extends BasicCtrl {
     this.Model.findOne({name}, (err, user) => {
       if (err) return next(err)
 
-      if (!user) return res.status(401).json({message: 'Authentication failed. User not found.'})
+      if (!user) return res.status(401).json({
+        message: 'Authentication failed.',
+        errors: { name: 'User not found.' },
+      })
 
       if (user.password !== password) return res.status(401).json({
-        message: 'Authentication failed. Wrong password.'
+        message: 'Authentication failed.',
+        errors: { password: 'Wrong password.' }
       })
 
       const { _id, name } = user
@@ -63,7 +67,7 @@ class UserCtrl extends BasicCtrl {
   update(req,res, next){
     req.params.id = req.user._id
     const { password } = req.body
-    if(password) return res.status(400).json({message: 'You can\'t change password using PATCH /users/me'})
+    if(password) return res.status(400).json({ message: 'You can\'t change password using PATCH /users/me' })
 
     BasicCtrl.prototype.update.call(this, req,res,next)
   }
