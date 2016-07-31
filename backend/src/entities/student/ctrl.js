@@ -3,6 +3,8 @@ import autobind from 'autobind-decorator'
 import Student2CourseCtrl from '../student2Course/ctrl'
 import { findCurrUserGroup } from '../user/utils'
 
+import { filterValidationErrObj } from '../common/utils'
+
 class StudentCtrl extends Student2CourseCtrl {
   @autobind
   create(req,res,next){
@@ -14,7 +16,7 @@ class StudentCtrl extends Student2CourseCtrl {
         name,
         group,
       }, (err, data) => {
-        if(err) return next(err)
+        if(err) return res.status(400).json({ errors: filterValidationErrObj(err.errors)})
 
         res.json({ data })
       })

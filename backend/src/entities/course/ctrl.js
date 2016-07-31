@@ -6,6 +6,8 @@ import { findCurrUserGroup } from '../user/utils'
 
 import Studets2CourseCtrl from '../student2Course/ctrl'
 
+import { filterValidationErrObj } from '../common/utils'
+
 
 class CourseCtrl extends Studets2CourseCtrl {
   @autobind
@@ -18,14 +20,15 @@ class CourseCtrl extends Studets2CourseCtrl {
         subject,
         group,
       }, (err, newCourse) => {
-        if (err) return next(err)
+        if (err) return res.status(400).json({ errors: filterValidationErrObj(err.errors)})
 
         Student
           .find({group})
           .select('_id')
           .exec((err, findedStudents) => {
             if (err) return next(err)
-            if(findedStudents.length === 0) return next(new Error('No students found. The group must have students.'))
+
+            if(findedStudents.length === 0) return res.status(400).json({ message: 'No students found. The group must have students.'})
 
             const student2CourseDocs = findedStudents.map( student => ({
               group,
@@ -34,7 +37,8 @@ class CourseCtrl extends Studets2CourseCtrl {
             }))
 
             Student2Course.create(student2CourseDocs, (err, entities) => {
-              if(err) return next(err)
+              if(err) res.status(400).json({ errors: filterValidationErrObj(err.errors)})
+
               res.json({ data: newCourse})
             })
           })

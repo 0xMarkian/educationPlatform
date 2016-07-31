@@ -23,6 +23,7 @@ export default class BasicCtrl {
     const { id: _id } = req.params
     this.Model.findById(_id, (err, data) => {
       if (err) next(err)
+      
       res.json({ data,})
     })
   }
@@ -30,7 +31,7 @@ export default class BasicCtrl {
   @autobind
   update(req,res, next){
     const { id: _id } = req.params
-    
+
     this.Model.update( { _id}, req.body, errObj => {
       if(errObj) return res.status(400).json( { message: filterValidationErrObj(errObj.errors) })
       
@@ -39,7 +40,7 @@ export default class BasicCtrl {
   }
 
   @autobind
-  deleteById(req, res, next){
+  removeById(req, res, next){
     const { id: _id } = req.params
 
     this.Model.remove( {_id}, err => {

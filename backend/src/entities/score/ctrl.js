@@ -2,6 +2,8 @@ import Student2CourseCtrl from '../student2Course/ctrl'
 import autobind from 'autobind-decorator'
 import { findCurrUserGroup } from '../user/utils'
 
+import { filterValidationErrObj } from '../common/utils'
+
 class ScoreCtrl extends Student2CourseCtrl {
   @autobind
   create(req,res, next){
@@ -15,7 +17,7 @@ class ScoreCtrl extends Student2CourseCtrl {
         course,
         group,
       }, (err, data) => {
-        if(err) return next(err)
+        if(err) return res.status(400).json({ errors: filterValidationErrObj(err.errors)})
 
         res.status(201).json({ data })
       })

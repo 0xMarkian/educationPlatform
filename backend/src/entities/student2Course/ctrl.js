@@ -3,6 +3,7 @@ import autobind from 'autobind-decorator'
 import BasicCtrl from '../common/ctrl'
 import { findCurrUserGroup } from '../user/utils'
 
+import { filterValidationErrObj } from '../common/utils'
 
 class Student2CourseCtrl extends BasicCtrl {
   @autobind
@@ -15,7 +16,7 @@ class Student2CourseCtrl extends BasicCtrl {
       course,
       group
     }, (err, data) => {
-      if(err) return next(err)
+      if(err) return res.status(400).json({ errors: filterValidationErrObj(err.errors)})
 
       res.status(201).json({ data })
     })

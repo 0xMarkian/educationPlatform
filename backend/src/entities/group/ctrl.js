@@ -4,6 +4,9 @@ import User from '../user/model'
 import { findCurrUserGroup } from '../user/utils'
 import BasicCtrl from '../common/ctrl'
 
+import { filterValidationErrObj } from '../common/utils'
+
+
 class GroupCtrl extends BasicCtrl {
   @autobind
   create(req, res, next){
@@ -17,7 +20,7 @@ class GroupCtrl extends BasicCtrl {
       this.Model.create({
         name,
       }, (err, newGroup ) => {
-        if(err) return next(err)
+        if(err) return res.status(400).json({ errors: filterValidationErrObj(err.errors)})
 
         User
           .update({_id: userId}, { group: newGroup._id} )

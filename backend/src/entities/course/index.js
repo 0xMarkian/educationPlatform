@@ -12,7 +12,7 @@ router.route('/')
   .get(courseCtrl.list)
 
 router.route('/:id')
-  .delete(courseCtrl.deleteById)
+  .delete(courseCtrl.removeById)
 
 
 
