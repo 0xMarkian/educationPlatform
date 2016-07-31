@@ -24,7 +24,8 @@ class ScoresTable extends React.Component {
   @autobind
   parseInput(scoreId) {
     const inputValue = this.refs[scoreId].input.value
-    const parsedValue = inputValue.replace(/[^0-9]/ig, '')
+    const notNumber = /[^0-9]/ig
+    const parsedValue = inputValue.replace(notNumber, '')
     
     this.refs[scoreId].input.value = parsedValue
   }
