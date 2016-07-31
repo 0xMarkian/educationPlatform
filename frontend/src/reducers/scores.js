@@ -3,15 +3,13 @@ import { createReducer } from 'redux-act'
 import {
   requestScores,
   receiveScores,
-  openScoreAppliedMsg,
-  closeScoreAppliedMsg,
+  appliedNewScore,
 } from 'actions/scores'
 
 
 const initialState = {
   data: null,
   isFetching: false,
-  IsShownScoreAppliedMsg: false,
 }
 
 export default createReducer({
@@ -24,12 +22,8 @@ export default createReducer({
     data: payload,
     isFetching: false,
   }),
-  [openScoreAppliedMsg]: state => ({
+  [appliedNewScore]: (state, payload) => ({
     ...state,
-    IsShownScoreAppliedMsg: true,
-  }),
-  [closeScoreAppliedMsg]: state => ({
-    ...state,
-    IsShownScoreAppliedMsg: false,
+    test: payload,
   }),
 }, initialState)

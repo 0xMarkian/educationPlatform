@@ -18,9 +18,9 @@ export const fetchUserData = () => dispatch => {
     method: 'GET',
   })
   .then(parseResponse)
-    .then( handleMessage(dispatch) )
-    .then(res => dispatch(receivedUserData(res)))
-    .catch( () => { return Promise.reject() })
+  .then( handleMessage(dispatch) )
+  .then(res => dispatch(receivedUserData(res)))
+  .catch( () => { return Promise.reject() })
 }
 
 
@@ -38,6 +38,7 @@ export const userLogin = (name, password) => dispatch => {
     body: JSON.stringify({ name, password }),
   })
     .then(parseResponse)
+    .then(handleMessage(dispatch))
     .then(res => {
       dispatch( receivedUserData(res) )
       dispatch( push(startPage) )

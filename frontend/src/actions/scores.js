@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse } from '../utils'
+import { parseResponse, handleMessage } from '../utils'
 
 
 export const requestScores = createAction('REQUEST SCORES')
@@ -14,6 +14,7 @@ export const fetchScores = () => dispatch => {
     credentials: 'include',
   })
   .then(parseResponse)
+  .then(handleMessage(dispatch))
   .then(res => {
     const studentsScores = {}
     res.forEach(scoreObj => {
@@ -29,8 +30,7 @@ export const fetchScores = () => dispatch => {
   })
 }
 
-export const openScoreAppliedMsg = createAction('OPEN SCORE APPLIED MSG')
-export const closeScoreAppliedMsg = createAction('CLOSE SCORE APPLIED MSG')
+export const appliedNewScore = createAction('NEW SCORE HAS BEEN SUCCESSFULLY APPLIED')
 export const applyNewScore = (scoreToUpdateId, student, course, scoreValue) => dispatch => {
   let fetchParams
   let requestURL
@@ -54,7 +54,7 @@ export const applyNewScore = (scoreToUpdateId, student, course, scoreValue) => d
     credentials: 'include',
   })
   .then(() => {
-    dispatch(openScoreAppliedMsg(scoreToUpdateId))
+    dispatch(appliedNewScore(scoreToUpdateId))
   })
   .catch(err => {
     throw new Error(err)

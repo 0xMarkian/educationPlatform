@@ -1,5 +1,3 @@
-import { muiStyles } from './styles'
-
 import autobind from 'autobind-decorator'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -13,7 +11,7 @@ import {
 import { fetchStudents } from 'actions/students'
 import { fetchSubjects } from 'actions/subjects'
 import { fetchCourses } from 'actions/courses'
-import { fetchScores, applyNewScore, closeScoreAppliedMsg } from 'actions/scores'
+import { fetchScores, applyNewScore } from 'actions/scores'
 
 
 class ScoresTable extends React.Component {
@@ -55,9 +53,8 @@ class ScoresTable extends React.Component {
   }
 
   render() {
-    const { scoresStore, studentsStore, coursesStore, closeScoreAppliedMsg } = this.props
+    const { scoresStore, studentsStore, coursesStore } = this.props
     const { rebuiltSubjects } = this
-    const { IsShownScoreAppliedMsg } = scoresStore
     const scores = scoresStore.data
     const students = studentsStore.data
     const courses = coursesStore.data
@@ -130,12 +127,6 @@ class ScoresTable extends React.Component {
           }
           </TableBody>
         </Table>
-        <Snackbar
-          open={IsShownScoreAppliedMsg}
-          message='New score has been successfully applied!'
-          autoHideDuration={muiStyles.snackbar.hideDuration}
-          onRequestClose={closeScoreAppliedMsg}
-        />
       </div>
     )
   }
@@ -144,5 +135,5 @@ class ScoresTable extends React.Component {
 export default connect(store => ({ groupStore: store.group, studentsStore: store.students,
   subjectsStore: store.subjects, scoresStore: store.scores, coursesStore: store.courses,
 }), {
-  fetchSubjects, fetchStudents, fetchScores, fetchCourses, applyNewScore, closeScoreAppliedMsg,
+  fetchSubjects, fetchStudents, fetchScores, fetchCourses, applyNewScore,
 })(ScoresTable)
