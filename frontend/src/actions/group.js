@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse } from '../utils'
+import { parseResponse, handleMessage } from '../utils'
 
 
 export const setGroupPopupStep = createAction('SET GROUP POPUP STEP')
@@ -33,6 +33,7 @@ export const fetchUserGroups = () => dispatch => {
     credentials: 'include',
   })
   .then(parseResponse)
+  .then(handleMessage(dispatch))
   .then(res => {
     dispatch(receiveFetchedGroup(res[0]))
   })

@@ -13,7 +13,7 @@ import {
 import { fetchStudents } from 'actions/students'
 import { fetchSubjects } from 'actions/subjects'
 import { fetchCourses } from 'actions/courses'
-import { fetchScores, applyNewScore, closeScoreAppliedMsg } from 'actions/scores'
+import { fetchScores, applyNewScore } from 'actions/scores'
 
 
 class ScoresTable extends React.Component {
@@ -22,7 +22,16 @@ class ScoresTable extends React.Component {
   }
 
   @autobind
-  handleInput(studentId, courseId, scoreToUpdateId){
+  parseInput(scoreId) {
+    const inputValue = this.refs[scoreId].input.value
+    const notNumber = /[^0-9]/ig
+    const parsedValue = inputValue.replace(notNumber, '')
+    
+    this.refs[scoreId].input.value = parsedValue
+  }
+
+  @autobind
+  handleInput(studentId, courseId, scoreToUpdateId) {
     return event => {
       const { applyNewScore } = this.props
       const inputValue = event.target.value
@@ -55,9 +64,8 @@ class ScoresTable extends React.Component {
   }
 
   render() {
-    const { scoresStore, studentsStore, coursesStore, closeScoreAppliedMsg } = this.props
+    const { scoresStore, studentsStore, coursesStore } = this.props
     const { rebuiltSubjects } = this
-    const { IsShownScoreAppliedMsg } = scoresStore
     const scores = scoresStore.data
     const students = studentsStore.data
     const courses = coursesStore.data
@@ -106,18 +114,24 @@ class ScoresTable extends React.Component {
                       currentScoreObj = { scoreId: null, scoreValue: null }
                     }
 
+                    const { scoreId, scoreValue } = currentScoreObj
                     return(
                       <TableRowColumn key={i}>
                         <TextField
                           type='text'
-                          underlineShow={false}
-                          id={course.subject + '/' + student._id}
-                          defaultValue={currentScoreObj.scoreValue}
+                          underlineStyle={muiStyles.underline}
+                          underlineFocusStyle={muiStyles.underlineFocus}
+                          inputStyle={muiStyles.scoreInput}
+                          id={scoreId}
+                          ref={scoreId}
+                          defaultValue={scoreValue}
+                          fullWidth={true}
+                          onChange={() => {this.parseInput(scoreId)}}
                           onBlur={
                             this.handleInput(
                               student._id,
                               course._id,
-                              currentScoreObj.scoreId
+                              scoreId
                             )
                           }
                         />
@@ -130,12 +144,6 @@ class ScoresTable extends React.Component {
           }
           </TableBody>
         </Table>
-        <Snackbar
-          open={IsShownScoreAppliedMsg}
-          message='New score has been successfully applied!'
-          autoHideDuration={muiStyles.snackbar.hideDuration}
-          onRequestClose={closeScoreAppliedMsg}
-        />
       </div>
     )
   }
@@ -144,5 +152,5 @@ class ScoresTable extends React.Component {
 export default connect(store => ({ groupStore: store.group, studentsStore: store.students,
   subjectsStore: store.subjects, scoresStore: store.scores, coursesStore: store.courses,
 }), {
-  fetchSubjects, fetchStudents, fetchScores, fetchCourses, applyNewScore, closeScoreAppliedMsg,
+  fetchSubjects, fetchStudents, fetchScores, fetchCourses, applyNewScore,
 })(ScoresTable)

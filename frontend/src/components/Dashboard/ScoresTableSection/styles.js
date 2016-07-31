@@ -1,5 +1,14 @@
+import { StyleSheet } from 'aphrodite'
+
+
 export const muiStyles = {
-  snackbar: {
-    hideDuration: 1000,
+  scoreInput: {
+    padding: '0 0 0 5px',
+  },
+  underline: {
+    display: 'none',
+  },
+  underlineFocus: {
+    display: 'block',
   },
 }
