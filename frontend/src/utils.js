@@ -1,6 +1,6 @@
 import { push } from 'react-router-redux'
 
-export const parseResponse = res => {
+export const parseResponse = res => { // ParseJSON
   if(!res) return // TODO: Deal with it
 
   const { message, status } = res
@@ -12,7 +12,7 @@ export const parseResponse = res => {
 
 export const startPage = '/dashboard'
 
-export const handleMessage = dispatch => parsedRes => {
+export const handleMessage = dispatch => parsedRes => { // displayMessageAndHandleResponse
   //message handle
   return parsedRes.data
 }

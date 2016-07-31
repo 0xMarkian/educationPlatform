@@ -1,3 +1,5 @@
+import { muiStyles } from './styles'
+
 import autobind from 'autobind-decorator'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -20,7 +22,15 @@ class ScoresTable extends React.Component {
   }
 
   @autobind
-  handleInput(studentId, courseId, scoreToUpdateId){
+  parseInput(scoreId) {
+    const inputValue = this.refs[scoreId].input.value
+    const parsedValue = inputValue.replace(/[^0-9]/ig, '')
+    
+    this.refs[scoreId].input.value = parsedValue
+  }
+
+  @autobind
+  handleInput(studentId, courseId, scoreToUpdateId) {
     return event => {
       const { applyNewScore } = this.props
       const inputValue = event.target.value
@@ -103,18 +113,24 @@ class ScoresTable extends React.Component {
                       currentScoreObj = { scoreId: null, scoreValue: null }
                     }
 
+                    const { scoreId, scoreValue } = currentScoreObj
                     return(
                       <TableRowColumn key={i}>
                         <TextField
                           type='text'
-                          underlineShow={false}
-                          id={course.subject + '/' + student._id}
-                          defaultValue={currentScoreObj.scoreValue}
+                          underlineStyle={muiStyles.underline}
+                          underlineFocusStyle={muiStyles.underlineFocus}
+                          inputStyle={muiStyles.scoreInput}
+                          id={scoreId}
+                          ref={scoreId}
+                          defaultValue={scoreValue}
+                          fullWidth={true}
+                          onChange={() => {this.parseInput(scoreId)}}
                           onBlur={
                             this.handleInput(
                               student._id,
                               course._id,
-                              currentScoreObj.scoreId
+                              scoreId
                             )
                           }
                         />
