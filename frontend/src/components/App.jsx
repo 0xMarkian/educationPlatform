@@ -5,7 +5,7 @@ import { Snackbar } from 'material-ui'
 import { fetchUserData } from 'actions/user'
 import { fetchUserGroups } from 'actions/group'
 
-import { showMessage, hideMessage } from 'actions/messages'
+import { hideMessage } from 'actions/message'
 
 
 class App extends React.Component {
@@ -40,6 +40,5 @@ export default connect( (store) => ({ messagesStore: store.messages }), {
   push,
   fetchUserData,
   fetchUserGroups,
-  showMessage,
   hideMessage,
 })(App)

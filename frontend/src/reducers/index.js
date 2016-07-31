@@ -7,7 +7,7 @@ import students from './students'
 import subjects from './subjects'
 import scores from './scores'
 import courses from './courses'
-import messages from './messages'
+import messages from './message'
 
 
 const rootReducer = combineReducers({

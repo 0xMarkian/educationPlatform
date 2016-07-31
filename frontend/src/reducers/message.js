@@ -3,11 +3,11 @@ import { createReducer } from 'redux-act'
 import {
   showMessage,
   hideMessage,
-} from 'actions/messages'
+} from 'actions/message'
 
 
 const initialState = {
- messageText: null,
+  messageText: null,
 }
 
 export default createReducer({
