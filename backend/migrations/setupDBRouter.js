@@ -1,6 +1,6 @@
 import express from 'express'
 
-import migrateDB from './intializeDB'
+import migrateDB from './setupDB'
 
 
 const setup = express.Router()

@@ -14,7 +14,7 @@ import student2CourseRoutes from './entities/student2Course'
 import subjectRoutes from './entities/subject'
 import userRoutes from './entities/user'
 
-import setupRoute from '../migrations/setupRouter'
+import setupRoute from '../migrations/setupDBRouter'
 
 const app = express()
 

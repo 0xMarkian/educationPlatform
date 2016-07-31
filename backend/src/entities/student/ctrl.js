@@ -16,6 +16,7 @@ class StudentCtrl extends Student2CourseCtrl {
         name,
         group,
       }, (err, data) => {
+        console.log(err)
         if(err) return res.status(400).json({ errors: filterValidationErrObj(err.errors)})
 
         res.json({ data })

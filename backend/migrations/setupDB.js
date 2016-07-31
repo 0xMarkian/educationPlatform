@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import { spawn } from 'child_process'
 
+import subjectsList from './subjectsList'
+
 import Subject from '../src/entities/subject/model'
 import Student from '../src/entities/student/model'
 import Group from '../src/entities/group/model'
@@ -22,16 +24,23 @@ const connectDataBase = uri => {
 }
 // connectDataBase('mongodb://localhost/educationPlatform')
 
-const string2ObjectInArray = propName => valueArr => valueArr.map( value => ({ [propName] : value}))
+const string2ObjectInArray = propName => valuesArr => valuesArr.map( value => ({ [propName] : value}))
 const generateName = baseName => mode === 'dev' ? baseName + Math.random() : baseName
 
-const createEntities = Entity => entitieConfigs => entitieConfigs.forEach( config => Entity.create(config)( err => err))
+const createEntities = Entity => entitiesData => (
+  entitiesData.forEach( data => Entity.create(data, err => {
+    if(err) handleError(err)
+  }))
+)
 
 export default () => {
   //dropDb
   spawn('mongo', ['educationPlatform','--eval', 'db.dropDatabase();'])
 
   setTimeout( () => {
+
+    createEntities(Subject)( string2ObjectInArray('name')(subjectsList) )
+    
     Subject.create( {name:generateName('Math')}, (err, subject) => {
       handleError(err)
       const subjectId = subject._id
@@ -40,7 +49,7 @@ export default () => {
         handleError(err)
         const groupId = group._id
 
-        User.create( {name: generateName('Lesia'), password: 'test', group: groupId}, (err, user) => {
+        User.create( {name: generateName('Dasha'), password: 'test', group: groupId}, (err, user) => {
           handleError(err)
           const userId = user._id
 
