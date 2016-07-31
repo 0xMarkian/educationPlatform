@@ -7,6 +7,7 @@ import students from './students'
 import subjects from './subjects'
 import scores from './scores'
 import courses from './courses'
+import messages from './messages'
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   students,
   subjects,
   scores,
+  messages,
   routing: routerReducer,
 })
 

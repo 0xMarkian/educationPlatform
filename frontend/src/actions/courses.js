@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, handleMessage } from '../utils'
+import { parseJSON, displayMessageAndHandleResponse } from '../utils'
 
 
 export const requestCourses = createAction('REQUEST COURSES')
@@ -13,8 +13,8 @@ export const fetchCourses = () => dispatch => {
     method: 'GET',
     credentials: 'include',
   })
-  .then(parseResponse)
-  .then(handleMessage(dispatch))
+  .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then(res => {
     dispatch(receiveCourses(res))
   })
@@ -30,7 +30,7 @@ export const addCourseToGroup = subject => dispatch => {
     credentials: 'include',
     body: JSON.stringify({ subject }),
   })
-  .then(parseResponse)
+  .then(parseJSON)
   .then((res) => {
     dispatch(addedNewCourse(res))
   })

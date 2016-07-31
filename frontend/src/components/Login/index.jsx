@@ -8,7 +8,7 @@ import { Dialog, RaisedButton, Snackbar, CircularProgress } from 'material-ui'
 import { push } from 'react-router-redux'
 import { css } from 'aphrodite'
 
-import { userLogin, removeLoginError } from 'actions/user'
+import { userLogin, removeLoginErrors } from 'actions/user'
 import { startPage } from '../../utils'
 import Username from './Username'
 import Password from './Password'
@@ -56,9 +56,12 @@ class LoginSection extends Component{
         onTouchTap={this.handleLogin}
       />
   }
+
   render() {
-    const { userStore, removeLoginError } = this.props,
+    const { userStore, removeLoginErrors } = this.props,
       { loading } = userStore
+
+    const validatingErrors = userStore.validatingErrors || { name: null, password: null, }
 
     return(
       <div>
@@ -70,9 +73,13 @@ class LoginSection extends Component{
           autoScrollBodyContent={true}
         >
           <Username
+            removeLoginErrors={removeLoginErrors}
+            validatingError={validatingErrors.name}
             updateUsernameState={this.updateUsernameState}
           />
           <Password
+            removeLoginErrors={removeLoginErrors}
+            validatingError={validatingErrors.password}
             updatePasswordState={this.updatePasswordState}
           />
           {this.getSubmitButton()}
@@ -82,7 +89,7 @@ class LoginSection extends Component{
           open={!!userStore.loginError}
           autoHideDuration={muiStyles.snackbar.hideDuration}
           message={userStore.loginError || ''}
-          onRequestClose={removeLoginError}
+          onRequestClose={removeLoginErrors}
         />
       </div>
     )
@@ -92,5 +99,5 @@ class LoginSection extends Component{
 export default connect(store => ({ userStore: store.user }), {
   userLogin,
   push,
-  removeLoginError,
+  removeLoginErrors,
 })(LoginSection)

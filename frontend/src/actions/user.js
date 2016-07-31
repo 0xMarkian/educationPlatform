@@ -3,7 +3,7 @@ import { push } from 'react-router-redux'
 
 import { fetchUserGroups } from 'actions/group'
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, parseLoginResponse, startPage, handleMessage } from '../utils'
+import { parseJSON, parseLoginResponse, startPage, displayMessageAndHandleResponse } from '../utils'
 
 
 export const receivedUserData = createAction('RECEIVED USER DATA')
@@ -17,8 +17,8 @@ export const fetchUserData = () => dispatch => {
     credentials: 'include',
     method: 'GET',
   })
-  .then(parseResponse)
-  .then( handleMessage(dispatch) )
+  .then(parseJSON)
+  .then( displayMessageAndHandleResponse(dispatch) )
   .then(res => dispatch(receivedUserData(res)))
   .catch( () => { return Promise.reject() })
 }
@@ -37,14 +37,14 @@ export const userLogin = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(parseResponse)
-    .then(handleMessage(dispatch))
+    .then(parseJSON)
+    .then(displayMessageAndHandleResponse(dispatch))
     .then(res => {
       dispatch( receivedUserData(res) )
       dispatch( push(startPage) )
     })
-    .catch(err => {
-      dispatch(rejectLogin(err.message))
+    .catch(errors => {
+      dispatch(rejectLogin(errors))
     })
 
 }
@@ -59,7 +59,8 @@ export const userRegister = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(parseResponse)
+    .then(parseJSON)
+    .then(displayMessageAndHandleResponse(dispatch))
       .then( data => {
         dispatch(receivedUserData(data))
         dispatch(push(startPage))
@@ -80,4 +81,4 @@ export const userLogout = () => dispatch => {
   .then( () => location.reload() )
 }
 
-export const removeLoginError = createAction('REMOVE LOGIN ERROR')
+export const removeLoginErrors = createAction('REMOVE LOGIN ERROR')

@@ -1,16 +1,23 @@
 import { push } from 'react-router-redux'
 
-export const parseResponse = res => { // ParseJSON
-  const { message, status } = res
+import { showMessage } from 'actions/messages'
 
-  if (status >= 400 && status <= 600) return Promise.reject( { message, status, } )
 
-  return res.json()
-}
+export const parseJSON = res => res.json()
 
 export const startPage = '/dashboard'
 
-export const handleMessage = dispatch => parsedRes => { // displayMessageAndHandleResponse
-  //message handle
-  return parsedRes.data
+export const displayMessageAndHandleResponse = dispatch => parsedRes => {
+  const { data, message, errors } = parsedRes
+
+  console.log(parsedRes)
+  if(message) {
+    dispatch(showMessage(message))
+  }
+
+  if(errors) {
+    return Promise.reject(errors)
+  }
+
+  return data
 }

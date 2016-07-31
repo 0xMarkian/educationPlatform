@@ -35,20 +35,23 @@ class Username extends React.Component {
 
   @autobind
   enableEditMode(){
-    const { updateUsernameState } = this.props
+    const { updateUsernameState, removeLoginErrors } = this.props
 
     this.setState({ errorText: null})
+    removeLoginErrors()
     updateUsernameState(null)
   }
 
   render() {
     const { errorText} = this.state
+    const { validatingError } = this.props
+    const foregroundErrorText = errorText || validatingError
 
     return(
       <div className={css(styles.username)}>
         <label htmlFor='login-modal-username'>Username:</label><br/>
         <TextField
-          errorText={errorText}
+          errorText={foregroundErrorText}
           id='login-modal-username'
           hintText='username'
           type='text'
