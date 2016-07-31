@@ -5,14 +5,14 @@ import {
   receivedUserData,
 
   rejectLogin,
-  removeLoginError,
+  removeLoginErrors,
 } from 'actions/user'
 
 
 const initialState = {
   data: null,
   loading: false,
-  validatingErrors: {},
+  validatingErrors: null,
 }
 
 export default createReducer({
@@ -30,11 +30,12 @@ export default createReducer({
 
   [rejectLogin]: (state, payload) => ({
     ...state,
-    loginError: payload,
+    validatingErrors: payload,
+    loading: false,
   }),
 
-  [removeLoginError]: (state, payload) => ({
+  [removeLoginErrors]: state => ({ // TODO: Remove fields partially
     ...state,
-    loginError: null,
+    validatingErrors: null,
   }),
 }, initialState)

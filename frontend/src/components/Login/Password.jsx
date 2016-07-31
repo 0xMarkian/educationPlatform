@@ -44,6 +44,8 @@ class Password extends React.Component {
   }
   render() {
     const { errorText } = this.state
+    const { validatingError } = this.props
+    const foregroundErrorText = errorText || validatingError
 
     return(
       <div>
@@ -51,7 +53,7 @@ class Password extends React.Component {
         <TextField
           onFocus={this.enableEditMode}
           onBlur={this.handleInput}
-          errorText={errorText}
+          errorText={foregroundErrorText}
           id='login-modal-password'
           hintText='password'
           type='password'

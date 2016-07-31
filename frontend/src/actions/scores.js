@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, handleMessage } from '../utils'
+import { parseJSON, displayMessageAndHandleResponse } from '../utils'
 
 
 export const requestScores = createAction('REQUEST SCORES')
@@ -13,8 +13,8 @@ export const fetchScores = () => dispatch => {
     method: 'GET',
     credentials: 'include',
   })
-  .then(parseResponse)
-  .then(handleMessage(dispatch))
+  .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then(res => {
     const studentsScores = {}
     res.forEach(scoreObj => {

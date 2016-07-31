@@ -1,9 +1,8 @@
 import { createAction } from 'redux-act'
 import { push } from 'react-router-redux'
 
-import { fetchUserGroups } from 'actions/group'
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, parseLoginResponse, startPage, handleMessage } from '../utils'
+import { parseJSON, startPage, displayMessageAndHandleResponse } from '../utils'
 
 
 export const receivedUserData = createAction('RECEIVED USER DATA')
@@ -11,23 +10,20 @@ export const iteractWithServerAboutUser = createAction('iteractWithServerAboutUs
 
 
 // Fetching data
-export const fetchUserData = () => dispatch => {
-  return fetch(`${backendAdress}/users/me`, {
+export const fetchUserData = () => dispatch =>
+  fetch(`${backendAdress}/users/me`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'GET',
   })
-  .then(parseResponse)
-  .then( handleMessage(dispatch) )
+  .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then(res => dispatch(receivedUserData(res)))
-  .catch( () => { return Promise.reject() })
-}
-
-
+  .catch(() => Promise.reject())
 
 
 // Logging in
-export const rejectLogin = createAction('REJECT SIGNING IN')
+export const rejectLogin = createAction('REJECT LOGGING IN')
 export const userLogin = (name, password) => dispatch => {
   dispatch(iteractWithServerAboutUser(name))
 
@@ -37,16 +33,15 @@ export const userLogin = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(parseResponse)
-    .then(handleMessage(dispatch))
+    .then(parseJSON)
+    .then(displayMessageAndHandleResponse(dispatch))
     .then(res => {
-      dispatch( receivedUserData(res) )
-      dispatch( push(startPage) )
+      dispatch(receivedUserData(res))
+      dispatch(push(startPage))
     })
-    .catch(err => {
-      dispatch(rejectLogin(err.message))
+    .catch(errors => {
+      dispatch(rejectLogin(errors))
     })
-
 }
 
 
@@ -59,8 +54,9 @@ export const userRegister = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(parseResponse)
-      .then( data => {
+    .then(parseJSON)
+    .then(displayMessageAndHandleResponse(dispatch))
+      .then(data => {
         dispatch(receivedUserData(data))
         dispatch(push(startPage))
       })
@@ -71,13 +67,13 @@ export const userRegister = (name, password) => dispatch => {
 
 
 // Logging out
-export const userLogout = () => dispatch => {
+export const userLogout = () => () => {
   fetch(`${backendAdress}/users/logout`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
   })
-  .then( () => location.reload() )
+  .then(() => location.reload())
 }
 
-export const removeLoginError = createAction('REMOVE LOGIN ERROR')
+export const removeLoginErrors = createAction('REMOVE LOGIN ERRORS')

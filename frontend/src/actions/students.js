@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, handleMessage } from '../utils'
+import { parseJSON, displayMessageAndHandleResponse } from '../utils'
 
 
 export const requestStudents = createAction('REQUEST STUDENTS')
@@ -14,29 +14,29 @@ export const fetchStudents = () => dispatch => {
       method: 'GET',
       credentials: 'include',
     })
-  .then(parseResponse)
-  .then(handleMessage(dispatch))
+  .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then(data => {
     dispatch(receiveStudents(data))
   })
 }
 
 export const addedNewStudent = createAction('ADDED NEW STUDENT')
-export const addNewStudent = name => dispatch => (
+export const addNewStudent = name => () => (
   fetch(`${backendAdress}/students`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
     body: JSON.stringify({ name }),
   })
-  .then(parseResponse)
-  .then( data => Promise.resolve(data))
+  .then(parseJSON)
+  .then(data => Promise.resolve(data))
   .catch(err => {
     throw new Error(err)
   })
 )
 
-export const removeStudent = studentId => dispatch => (
+export const removeStudent = studentId => () => (
   fetch(`${backendAdress}/students/${studentId}`, {
     ...defaultFetchParams,
     credentials: 'include',

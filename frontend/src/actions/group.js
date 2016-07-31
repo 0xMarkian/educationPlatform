@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, handleMessage } from '../utils'
+import { parseJSON, displayMessageAndHandleResponse } from '../utils'
 
 
 export const setGroupPopupStep = createAction('SET GROUP POPUP STEP')
@@ -16,7 +16,7 @@ export const createGroup = (name, method) => dispatch => {
     credentials: 'include',
     body: JSON.stringify({ name }),
   })
-  .then(parseResponse)
+  .then(parseJSON)
   .then(res => {
     dispatch(receiveCreatedGroup(res))
   })
@@ -32,8 +32,8 @@ export const fetchUserGroups = () => dispatch => {
     method: 'GET',
     credentials: 'include',
   })
-  .then(parseResponse)
-  .then(handleMessage(dispatch))
+  .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then(res => {
     dispatch(receiveFetchedGroup(res[0]))
   })

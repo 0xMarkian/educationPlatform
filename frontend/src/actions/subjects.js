@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseResponse, handleMessage } from '../utils'
+import { parseJSON, displayMessageAndHandleResponse } from '../utils'
 
 
 export const requestSubjects = createAction('REQUEST SUBJECTS')
@@ -13,8 +13,8 @@ export const fetchSubjects = () => dispatch => {
     method: 'GET',
     credentials: 'include',
   })
-  .then(parseResponse)
-  .then(handleMessage(dispatch))
+  .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then(res => {
     dispatch(receiveSubjects(res))
   })
