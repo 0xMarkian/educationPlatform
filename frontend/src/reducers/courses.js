@@ -44,7 +44,7 @@ export default createReducer({
     let courseToDeleteIndex = null
 
     state.initiallyCreatedCourses.find((course, i) => {
-      if(course._id === payload){
+      if (course._id === payload) {
         courseToDeleteIndex = i
         return true
       }

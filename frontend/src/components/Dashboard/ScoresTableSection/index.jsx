@@ -26,7 +26,7 @@ class ScoresTable extends React.Component {
     const inputValue = this.refs[scoreId].input.value
     const notNumber = /[^0-9]/ig
     const parsedValue = inputValue.replace(notNumber, '')
-    
+
     this.refs[scoreId].input.value = parsedValue
   }
 
@@ -35,8 +35,7 @@ class ScoresTable extends React.Component {
     return event => {
       const { applyNewScore } = this.props
       const inputValue = event.target.value
-
-      applyNewScore(scoreToUpdateId, studentId, courseId, inputValue)
+      if(inputValue) applyNewScore(scoreToUpdateId, studentId, courseId, inputValue)
     }
   }
 
@@ -115,6 +114,8 @@ class ScoresTable extends React.Component {
                     }
 
                     const { scoreId, scoreValue } = currentScoreObj
+                    const uniqueScoreId = scoreId || student._id + '/' + course.subject
+
                     return(
                       <TableRowColumn key={i}>
                         <TextField
@@ -122,11 +123,11 @@ class ScoresTable extends React.Component {
                           underlineStyle={muiStyles.underline}
                           underlineFocusStyle={muiStyles.underlineFocus}
                           inputStyle={muiStyles.scoreInput}
-                          id={scoreId}
-                          ref={scoreId}
+                          id={uniqueScoreId}
+                          ref={uniqueScoreId}
                           defaultValue={scoreValue}
                           fullWidth={true}
-                          onChange={() => {this.parseInput(scoreId)}}
+                          onChange={() => {this.parseInput(uniqueScoreId)}}
                           onBlur={
                             this.handleInput(
                               student._id,
