@@ -23,17 +23,15 @@ class InputSection extends React.Component {
   @autobind
   handleInput(event, index, value) {
     const { subjectsStore, addCourseToGroup } = this.props
-
-    console.log(subjectsStore.data[index])
     addCourseToGroup(subjectsStore.data[index]._id)
   }
 
   @autobind
-  removeAddedCourse(subjectId) {
+  removeAddedCourse(courseId) {
     const { removeAddedCourse, coursesStore } = this.props
     const { initiallyCreatedCourses } = coursesStore
 
-    removeAddedCourse(initiallyCreatedCourses[subjectId], subjectId)
+    removeAddedCourse(courseId)
   }
 
   componentWillMount() {
@@ -72,17 +70,19 @@ class InputSection extends React.Component {
                 subjects.length === initiallyCreatedCourses.length ? null :
                   subjects.map((subject, i) => {
                     let subjectAlreadyInUse = false
-                    initiallyCreatedCourses.some( course =>
-                      course.subject === subject ? subjectAlreadyInUse = true : false
-                    )
 
-                    if(!subjectAlreadyInUse) return(
+                    initiallyCreatedCourses.some( course => {
+                      return course.subject === subject._id ? subjectAlreadyInUse = true : false
+                    })
+
+                    return(
                       <MenuItem
+                        disabled={subjectAlreadyInUse}
                         className={css(styles.listItem)}
                         value={subject._id}
                         primaryText={subject.name}
                         key={i}
-                      ></MenuItem>
+                      />
                     )
                   })
               }

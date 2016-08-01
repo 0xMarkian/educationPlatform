@@ -38,13 +38,13 @@ export const addCourseToGroup = subject => dispatch => {
 }
 
 export const removedAddedCourse = createAction('REMOVED ADDED COURSE')
-export const removeAddedCourse = (courseId, subjectId) => dispatch => {
+export const removeAddedCourse = courseId => dispatch => {
   fetch(`${backendAdress}/courses/${courseId}`, {
     ...defaultFetchParams,
     method: 'DELETE',
     credentials: 'include',
   })
   .then(() => {
-    dispatch(removedAddedCourse(subjectId))
+    dispatch(removedAddedCourse(courseId))
   })
 }
