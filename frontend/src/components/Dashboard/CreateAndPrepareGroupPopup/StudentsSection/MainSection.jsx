@@ -75,6 +75,7 @@ class MainSection extends React.Component {
           {
             initiallyCreatedStudents.map((student, i) => (
               <ListItem
+                className={css(styles.listItem)}
                 key={i}
                 primaryText={student.name}
                 rightIcon={<Remove />}

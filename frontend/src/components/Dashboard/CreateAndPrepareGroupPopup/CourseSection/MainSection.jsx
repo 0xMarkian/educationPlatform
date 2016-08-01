@@ -24,6 +24,7 @@ class InputSection extends React.Component {
   handleInput(event, index, value) {
     const { subjectsStore, addCourseToGroup } = this.props
 
+    console.log(subjectsStore.data[index])
     addCourseToGroup(subjectsStore.data[index]._id)
   }
 
@@ -77,6 +78,7 @@ class InputSection extends React.Component {
 
                     if(!subjectAlreadyInUse) return(
                       <MenuItem
+                        className={css(styles.listItem)}
                         value={subject._id}
                         primaryText={subject.name}
                         key={i}
@@ -91,6 +93,7 @@ class InputSection extends React.Component {
           {
             initiallyCreatedCourses.map((course, i) => (
               <ListItem
+                className={css(styles.listItem)}
                 key={i}
                 primaryText={rebuiltSubjects[course.subject]}
                 rightIcon={<Remove />}

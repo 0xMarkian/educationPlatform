@@ -31,6 +31,7 @@ export const addCourseToGroup = subject => dispatch => {
     body: JSON.stringify({ subject }),
   })
   .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then((res) => {
     dispatch(addedNewCourse(res))
   })
