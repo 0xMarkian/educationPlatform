@@ -28,11 +28,11 @@ class MainSection extends React.Component {
     createStudentInput.value = null
 
     addNewStudent(studentName).then( newStudent => {
-      const {initiallyCreatedStudents}  = this.state
+      const {initiallyCreatedStudents} = this.state
       this.setState({
         initiallyCreatedStudents: [
-          newStudent,
           ...initiallyCreatedStudents,
+          newStudent,
         ]
       })
     })

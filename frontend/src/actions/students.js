@@ -22,7 +22,7 @@ export const fetchStudents = () => dispatch => {
 }
 
 export const addedNewStudent = createAction('ADDED NEW STUDENT')
-export const addNewStudent = name => () => (
+export const addNewStudent = name => dispatch => (
   fetch(`${backendAdress}/students`, {
     ...defaultFetchParams,
     credentials: 'include',
@@ -30,6 +30,7 @@ export const addNewStudent = name => () => (
     body: JSON.stringify({ name }),
   })
   .then(parseJSON)
+  .then(displayMessageAndHandleResponse(dispatch))
   .then(data => Promise.resolve(data))
   .catch(err => {
     throw new Error(err)

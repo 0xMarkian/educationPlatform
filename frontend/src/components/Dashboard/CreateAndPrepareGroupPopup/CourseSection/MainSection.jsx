@@ -52,7 +52,6 @@ class InputSection extends React.Component {
     const subjects = this.props.subjectsStore.data
     const { rebuiltSubjects } = this.state
     const { initiallyCreatedCourses } = this.props.coursesStore
-    console.log(initiallyCreatedCourses)
 
     if(!subjects || !rebuiltSubjects) return (<div>Loading subjects list...</div>) // Waiting for fetch to end
 
