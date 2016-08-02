@@ -1,7 +1,7 @@
 import autobind from 'autobind-decorator'
 
 import User from '../user/model'
-import { findCurrUserGroup } from '../user/utils'
+import { findCurrUserGroup, catchFindCurrUserGroup } from '../user/utils'
 import BasicCtrl from '../common/ctrl'
 
 import { filterValidationErrObj } from '../common/utils'
@@ -34,7 +34,6 @@ class GroupCtrl extends BasicCtrl {
   @autobind
   list(req,res, next){
     const { _id: userId } = req.user
-
     findCurrUserGroup(userId).then( group => {
       this.Model
         .find({_id: group})
@@ -43,7 +42,7 @@ class GroupCtrl extends BasicCtrl {
 
           res.json({ data })
         })
-    })
+    }).catch( catchFindCurrUserGroup(res) )
   }
 }
 

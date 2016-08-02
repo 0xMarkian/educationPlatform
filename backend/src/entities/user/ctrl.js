@@ -59,8 +59,8 @@ class UserCtrl extends BasicCtrl {
   }
 
   @autobind
-  logout(req, res, next){
-    res.clearCookie('accessToken', {httpOnly: true}).sendStatus(200)
+  logout(req, res, next) {
+    res.clearCookie('accessToken', { httpOnly: true }).sendStatus(200)
   }
 
   @autobind

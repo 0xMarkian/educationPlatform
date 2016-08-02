@@ -1,7 +1,7 @@
 import autobind from 'autobind-decorator'
 
 import BasicCtrl from '../common/ctrl'
-import { findCurrUserGroup } from '../user/utils'
+import { findCurrUserGroup, catchFindCurrUserGroup } from '../user/utils'
 
 import { filterValidationErrObj } from '../common/utils'
 
@@ -37,7 +37,7 @@ class Student2CourseCtrl extends BasicCtrl {
 
           res.json({ data })
         })
-    })
+    }).catch( catchFindCurrUserGroup(res) )
   }
 }
 

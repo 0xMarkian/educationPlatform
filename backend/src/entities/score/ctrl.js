@@ -1,6 +1,6 @@
 import Student2CourseCtrl from '../student2Course/ctrl'
 import autobind from 'autobind-decorator'
-import { findCurrUserGroup } from '../user/utils'
+import { findCurrUserGroup, catchFindCurrUserGroup } from '../user/utils'
 
 import { filterValidationErrObj } from '../common/utils'
 
@@ -21,7 +21,7 @@ class ScoreCtrl extends Student2CourseCtrl {
 
         res.status(201).json({ data })
       })
-    })
+    }).catch( catchFindCurrUserGroup(res) )
   }
 }
 

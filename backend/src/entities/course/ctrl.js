@@ -2,7 +2,7 @@ import autobind from 'autobind-decorator'
 
 import Student2Course from '../student2Course/model'
 import Student from '../student/model'
-import { findCurrUserGroup } from '../user/utils'
+import { findCurrUserGroup, catchFindCurrUserGroup } from '../user/utils'
 
 import Studets2CourseCtrl from '../student2Course/ctrl'
 
@@ -43,7 +43,7 @@ class CourseCtrl extends Studets2CourseCtrl {
             })
           })
       })
-    })
+    }).catch( catchFindCurrUserGroup(res) )
   }
 }
 
