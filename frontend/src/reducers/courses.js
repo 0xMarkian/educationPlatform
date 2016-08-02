@@ -12,7 +12,7 @@ import {
 
 const initialState = {
   data: null,
-  isFetching: false,
+  isLoading: false,
 
   addingNewCourse: false,
   initiallyCreatedCourses: [],
@@ -21,12 +21,12 @@ const initialState = {
 export default createReducer({
   [requestCourses]: state => ({
     ...state,
-    isFetching: true,
+    isLoading: true,
   }),
   [receiveCourses]: (state, payload) => ({
     ...state,
     data: payload,
-    isFetching: false,
+    isLoading: false,
   }),
   [requestAddingNewCourse]: state => ({
     ...state,

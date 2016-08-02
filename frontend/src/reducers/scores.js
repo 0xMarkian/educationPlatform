@@ -9,18 +9,18 @@ import {
 
 const initialState = {
   data: null,
-  isFetching: false,
+  isLoading: false,
 }
 
 export default createReducer({
   [requestScores]: state => ({
     ...state,
-    isFetching: true,
+    isLoading: true,
   }),
   [receiveScores]: (state, payload) => ({
     ...state,
     data: payload,
-    isFetching: false,
+    isLoading: false,
   }),
   [appliedNewScore]: (state, payload) => ({
     ...state,

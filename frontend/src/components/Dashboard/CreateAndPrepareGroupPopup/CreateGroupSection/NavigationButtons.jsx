@@ -6,16 +6,18 @@ import { css } from 'aphrodite'
 import autobind from 'autobind-decorator'
 import { RaisedButton, CircularProgress } from 'material-ui'
 
-import { createGroup } from 'actions/group'
+import { createGroup, patchGroupName } from 'actions/group'
 
 
 class NavigationButtons extends React.Component {
   @autobind
   nextStep() {
-    const {groupStore, createGroup, inputData} = this.props
-    const groupName = inputData.value
-
-    createGroup(groupName, groupStore.requestMethod)
+    const { groupStore, createGroup, patchGroupName, inputData } = this.props
+    const groupName = inputData.value,
+          { groupId } = groupStore
+    createGroup(groupName)
+    //if(groupId) patchGroupName(groupId)
+    //else createGroup(groupName)
   }
 
   render() {
@@ -37,4 +39,4 @@ class NavigationButtons extends React.Component {
   }
 }
 
-export default connect( store => ({ groupStore: store.group }), { createGroup })(NavigationButtons)
+export default connect( store => ({ groupStore: store.group, }), { createGroup, patchGroupName })(NavigationButtons)

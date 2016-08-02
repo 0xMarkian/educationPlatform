@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseJSON, displayMessageAndHandleResponse } from '../utils'
+import { parseJSON, handleResponseAndDisplayMessage } from '../utils'
 
 
 export const requestScores = createAction('REQUEST SCORES')
@@ -13,8 +13,7 @@ export const fetchScores = () => dispatch => {
     method: 'GET',
     credentials: 'include',
   })
-  .then(parseJSON)
-  .then(displayMessageAndHandleResponse(dispatch))
+  .then(handleResponseAndDisplayMessage(dispatch))
   .then(res => {
     const studentsScores = {}
     res.forEach(scoreObj => {
@@ -56,7 +55,5 @@ export const applyNewScore = (scoreToUpdateId, student, course, scoreValue) => d
   .then(() => {
     dispatch(appliedNewScore(scoreToUpdateId))
   })
-  .catch(err => {
-    throw new Error(err)
-  })
+  // .catch(err => {throw new Error(err)})
 }

@@ -5,14 +5,13 @@ import { connect } from 'react-redux'
 import { css } from 'aphrodite'
 import { Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator, Avatar, RaisedButton } from 'material-ui'
 
-import { userLogout } from '../../actions/user'
+import { userLogout } from 'actions/user'
 
 
 class Header extends React.Component {
   render() {
     const { groupStore, userLogout, userStore } = this.props,
       { data: userData } = userStore
-
     return(
       <Toolbar>
         <ToolbarGroup>

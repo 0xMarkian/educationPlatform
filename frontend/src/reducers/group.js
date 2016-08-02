@@ -3,6 +3,8 @@ import { createReducer } from 'redux-act'
 import {
   requestCreateGroup,
   receiveCreatedGroup,
+  requestPatchGroupName,
+  receivePatchedGroupName,
   requestFetchGroups,
   receiveFetchedGroup,
   setGroupPopupStep,
@@ -10,11 +12,8 @@ import {
 
 
 const initialState = {
-  data: null,
   createAndPrepareGroupPopupStep: 0,
-  requestMethod: 'POST',
-  isCreating: false,
-  isFetching: false,
+  isLoading: false,
 }
 
 export default createReducer({
@@ -24,23 +23,31 @@ export default createReducer({
   }),
   [requestCreateGroup]: state => ({
     ...state,
-    isCreating: true,
+    isLoading: true,
   }),
   [receiveCreatedGroup]: (state, payload) => ({
     ...state,
-    isCreating: false,
+    isLoading: false,
     groupId: payload._id,
     groupName: payload.name,
-    requestMethod: 'PATCH',
     createAndPrepareGroupPopupStep: 1,
+  }),
+  [requestPatchGroupName]: state => ({
+    ...state,
+    isLoading: true,
+  }),
+  [receivePatchedGroupName]: (state, payload) => ({
+    ...state,
+    isLoading: false,
+    groupName: payload,
   }),
   [requestFetchGroups]: state => ({
     ...state,
-    isFetching: true,
+    isLoading: true,
   }),
   [receiveFetchedGroup]: (state, payload) => ({
     ...state,
-    isFetching: false,
+    isLoading: false,
     groupId: payload._id,
     groupName: payload.name,
   }),

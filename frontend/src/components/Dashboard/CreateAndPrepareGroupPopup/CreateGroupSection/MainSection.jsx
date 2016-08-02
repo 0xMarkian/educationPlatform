@@ -1,5 +1,5 @@
 import React from 'react'
-import {TextField} from 'material-ui'
+import { TextField } from 'material-ui'
 import autobind from 'autobind-decorator'
 
 
@@ -17,7 +17,7 @@ class MainSection extends React.Component {
     const { updateGroupNameInputData } = this.props
 
     if(!inputValue) return updateGroupNameInputData(inputValue, null)
-    if(!groupNamePattern.test(inputValue))return updateGroupNameInputData(inputValue, invalidGroupNameError)
+    if(!groupNamePattern.test(inputValue)) return updateGroupNameInputData(inputValue, invalidGroupNameError)
     return updateGroupNameInputData(inputValue, null)
   }
 

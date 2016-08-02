@@ -36,7 +36,6 @@ class Username extends React.Component {
   @autobind
   enableEditMode(){
     const { updateUsernameState, removeLoginErrors } = this.props
-
     this.setState({ errorText: null})
     removeLoginErrors()
     updateUsernameState(null)

@@ -13,8 +13,13 @@ class App extends React.Component {
     const { children, push, fetchUserData, fetchUserGroups } = this.props
 
     fetchUserData()
-      .then( () => fetchUserGroups() )
-      .catch( () => push('login') )
+      .then((groupId) => {
+        if(groupId) fetchUserGroups()
+      })
+      .catch( (err) => {
+        console.warn('Pushing to login because of:', err)
+        push('login')
+      })
 
     //auto redirect to dahsboard
     if(!children) push('dashboard')
@@ -36,7 +41,7 @@ class App extends React.Component {
   }
 }
 
-export default connect( (store) => ({ messagesStore: store.messages }), {
+export default connect( (store) => ({ userStore: store.user, messagesStore: store.messages, }), {
   push,
   fetchUserData,
   fetchUserGroups,

@@ -8,17 +8,17 @@ import {
 
 const initialState = {
   data: null,
-  isFetching: false,
+  isLoading: false,
 }
 
 export default createReducer({
   [requestStudents]: state => ({
     ...state,
-    isFetching: true,
+    isLoading: true,
   }),
   [receiveStudents]: (state, payload) => ({
     ...state,
     data: payload,
-    isFetching: false,
+    isLoading: false,
   }),
 }, initialState)
