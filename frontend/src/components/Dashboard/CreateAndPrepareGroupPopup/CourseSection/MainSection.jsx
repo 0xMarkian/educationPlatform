@@ -4,7 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import autobind from 'autobind-decorator'
 import { css } from 'aphrodite'
-import Person from 'material-ui/svg-icons/social/person'
+import Book from 'material-ui/svg-icons/action/book'
 import Remove from 'material-ui/svg-icons/content/backspace'
 import { DropDownMenu, MenuItem, List, ListItem } from 'material-ui'
 
@@ -96,6 +96,7 @@ class InputSection extends React.Component {
                 className={css(styles.listItem)}
                 key={i}
                 primaryText={rebuiltSubjects[course.subject]}
+                leftIcon={<Book />}
                 rightIcon={<Remove />}
                 onTouchTap={() => {this.removeAddedCourse(course._id)}}
               />
