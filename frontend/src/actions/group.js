@@ -17,16 +17,13 @@ export const createGroup = name => dispatch => {
     body: JSON.stringify({ name }),
   })
   .then(handleResponseAndDisplayMessage(dispatch))
-  .then(res => {
-    dispatch(receiveCreatedGroup(res))
-  })
-  // .catch(err => { throw new Error(err) })
+  .then(res => dispatch(receiveCreatedGroup(res)))
+  //.catch(err => { throw new Error(err) })
 }
 
 export const requestPatchGroupName = createAction('REQUEST PATCH GROUP NAME')
 export const receivePatchedGroupName = createAction('RECEIVE PATCHED GROUP NAME')
 export const patchGroupName = (groupId, name) => dispatch => {
-  console.log('patching')
   dispatch(requestPatchGroupName())
   fetch(`${backendAdress}/groups/${groupId}`, {
     ...defaultFetchParams,

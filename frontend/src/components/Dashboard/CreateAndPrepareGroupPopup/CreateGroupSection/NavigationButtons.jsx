@@ -15,15 +15,14 @@ class NavigationButtons extends React.Component {
     const { groupStore, createGroup, patchGroupName, inputData } = this.props
     const groupName = inputData.value,
           { groupId } = groupStore
-    createGroup(groupName)
-    //if(groupId) patchGroupName(groupId)
-    //else createGroup(groupName)
+    if(groupId) patchGroupName(groupId)
+    else createGroup(groupName)
   }
 
   render() {
     const { inputData, groupStore } = this.props
     const { isLoading } = groupStore
-    const buttonDisabled = !!inputData.error || isLoading
+    const buttonDisabled = !!inputData.error || !inputData.value || isLoading
 
     return(
       <div className={css(styles.navigationButtons)}>

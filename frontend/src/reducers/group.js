@@ -40,6 +40,7 @@ export default createReducer({
     ...state,
     isLoading: false,
     groupName: payload,
+    createAndPrepareGroupPopupStep: 1,
   }),
   [requestFetchGroups]: state => ({
     ...state,
