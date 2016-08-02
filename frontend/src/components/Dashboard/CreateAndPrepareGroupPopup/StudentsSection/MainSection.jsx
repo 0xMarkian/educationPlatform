@@ -8,16 +8,16 @@ import Remove from 'material-ui/svg-icons/content/backspace'
 import autobind from 'autobind-decorator'
 import { List, ListItem, TextField, RaisedButton } from 'material-ui'
 
-import { addNewStudent, removeStudent } from 'actions/students'
+import { addNewStudent, removeAddedStudent } from 'actions/students'
 
 
 class MainSection extends React.Component {
   constructor(props){
     super(props)
 
-    this.state = {
-      initiallyCreatedStudents: []
-    }
+    // this.state = {
+    //   initiallyCreatedStudents: []
+    // }
   }
 
   @autobind
@@ -31,23 +31,15 @@ class MainSection extends React.Component {
 
     createStudentInput.value = null
 
-    addNewStudent(studentName).then( newStudent => {
-      const {initiallyCreatedStudents} = this.state
-      this.setState({
-        initiallyCreatedStudents: [
-          ...initiallyCreatedStudents,
-          newStudent,
-        ]
-      })
-    })
+    addNewStudent(studentName)
   }
 
   @autobind
   removeStudent(student) {
-    const { removeStudent } = this.props
-    const {initiallyCreatedStudents}  = this.state
+    const { studentsStore, removeAddedStudent } = this.props
+    const {initiallyCreatedStudents} = studentsStore
 
-    removeStudent(student._id).then( () => {
+    removeAddedStudent(student._id).then(() => {
       const indexOfRemoving = initiallyCreatedStudents.indexOf(student)
       this.setState({
         initiallyCreatedStudents: [
@@ -60,7 +52,7 @@ class MainSection extends React.Component {
 
   render() {
     const { removeStudent, studentsStore } = this.props
-    const { initiallyCreatedStudents } = this.state
+    const { initiallyCreatedStudents } = studentsStore
 
     return(
       <div>
@@ -96,5 +88,5 @@ class MainSection extends React.Component {
 
 export default connect(store => ({ studentsStore: store.students }), {
   addNewStudent,
-  removeStudent,
+  removeAddedStudent,
 })(MainSection)
