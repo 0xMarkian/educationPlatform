@@ -13,7 +13,7 @@ class App extends React.Component {
     const { children, push, fetchUserData, fetchUserGroups } = this.props
 
     fetchUserData()
-      .then((groupId) => {
+      .then(groupId => {
         if(groupId) fetchUserGroups()
       })
       .catch( (err) => {

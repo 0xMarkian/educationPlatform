@@ -15,7 +15,7 @@ class NavigationButtons extends React.Component {
     const { groupStore, createGroup, patchGroupName, inputData } = this.props
     const groupName = inputData.value,
           { groupId } = groupStore
-    if(groupId) patchGroupName(groupId)
+    if(groupId) patchGroupName(groupId, groupName)
     else createGroup(groupName)
   }
 
@@ -38,4 +38,4 @@ class NavigationButtons extends React.Component {
   }
 }
 
-export default connect( store => ({ groupStore: store.group, }), { createGroup, patchGroupName })(NavigationButtons)
+export default connect( store => ({ groupStore: store.group }), { createGroup, patchGroupName })(NavigationButtons)

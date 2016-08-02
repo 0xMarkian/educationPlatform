@@ -22,7 +22,7 @@ class MainSection extends React.Component {
   }
 
   render() {
-    const {inputData} = this.props
+    const { inputData } = this.props
 
     return(
       <div>

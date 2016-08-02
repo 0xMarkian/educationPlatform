@@ -23,16 +23,16 @@ export const createGroup = name => dispatch => {
 
 export const requestPatchGroupName = createAction('REQUEST PATCH GROUP NAME')
 export const receivePatchedGroupName = createAction('RECEIVE PATCHED GROUP NAME')
-export const patchGroupName = (groupId, name) => dispatch => {
+export const patchGroupName = (groupId, groupName) => dispatch => {
   dispatch(requestPatchGroupName())
   fetch(`${backendAdress}/groups/${groupId}`, {
     ...defaultFetchParams,
     method: 'PATCH',
     credentials: 'include',
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ groupName }),
   })
   .then(() => {
-    dispatch(receivePatchedGroupName(name))
+    dispatch(receivePatchedGroupName(groupName))
   })
   // .catch(err => { throw new Error(err) })
 }

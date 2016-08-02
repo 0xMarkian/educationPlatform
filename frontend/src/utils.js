@@ -10,7 +10,6 @@ export const handleResponseAndDisplayMessage = dispatch => res => {
 
     if (res.status < 200 || res.status >= 400){
       const errorText = errors || res.statusText
-      dispatch(showMessage(errorText))
       return Promise.reject(errorText)
     }
 

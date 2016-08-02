@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import autobind from 'autobind-decorator'
 
 import InputSection from './MainSection'
@@ -23,6 +24,16 @@ class CreateGroupSection extends Component {
     })
   }
 
+  componentWillMount() {
+    const { groupName } = this.props.groupStore
+    this.setState({
+      groupName: {
+        ...this.state.groupName,
+        value: groupName,
+      }
+    })
+  }
+
   render() {
     const inputData = this.state.groupName
 
@@ -41,4 +52,4 @@ class CreateGroupSection extends Component {
 }
 
 
-export default CreateGroupSection
+export default connect(store => ({ groupStore: store.group }))(CreateGroupSection)

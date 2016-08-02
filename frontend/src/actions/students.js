@@ -31,6 +31,7 @@ export const addNewStudent = name => dispatch => (
   // .catch(err => {throw new Error(err)})
 )
 
+// export const removedStudent = createAction('REMOVED STUDENT')
 export const removeStudent = studentId => () => (
   fetch(`${backendAdress}/students/${studentId}`, {
     ...defaultFetchParams,

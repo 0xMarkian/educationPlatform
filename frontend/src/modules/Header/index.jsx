@@ -17,7 +17,7 @@ class Header extends React.Component {
         <ToolbarGroup>
           <Avatar className={css(styles.avatar)}>
           {
-            userData ? userData.name[0].toUpperCase() : 'U'
+            userData.name ? userData.name[0].toUpperCase() : 'U'
           }
           </Avatar>
           <ToolbarTitle text={groupStore.groupName} className={css(styles.headerTitle)} />
