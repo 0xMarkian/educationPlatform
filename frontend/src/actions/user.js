@@ -35,12 +35,12 @@ export const userLogin = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(handleResponseAndDisplayMessage(dispatch))
-    .then(res => {
-      dispatch(receivedUserData(res))
-      dispatch(push(startPage))
-    })
-    .catch(errors => {dispatch(rejectLogin(errors))})
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(res => {
+    dispatch(receivedUserData(res))
+    dispatch(push(startPage))
+  })
+  .catch(err => dispatch(rejectLogin(err)))
 }
 
 

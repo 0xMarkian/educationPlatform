@@ -9,9 +9,11 @@ export const handleResponseAndDisplayMessage = dispatch => res => {
     if (message) dispatch(showMessage(message))
 
     if (res.status < 200 || res.status >= 400){
-      const errorText = errors.name || res.statusText
+      let errorText = res.statusText
+
+      if(errors) errorText = errors.name
       dispatch(showMessage(errorText))
-      return Promise.reject(errorText)
+      return Promise.reject(errors)
     }
 
     return (data || {})
