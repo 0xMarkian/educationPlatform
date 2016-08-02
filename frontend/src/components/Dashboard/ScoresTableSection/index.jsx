@@ -40,11 +40,13 @@ class ScoresTable extends React.Component {
   }
 
   componentWillMount() {
-    const { fetchSubjects, fetchStudents, fetchScores, fetchCourses } = this.props
-    fetchStudents()
-    fetchScores()
-    fetchCourses()
-    fetchSubjects()
+    const { userStore, fetchSubjects, fetchStudents, fetchScores, fetchCourses } = this.props
+    if(userStore.data.group) {
+      fetchStudents()
+      fetchScores()
+      fetchCourses()
+      fetchSubjects()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -150,8 +152,13 @@ class ScoresTable extends React.Component {
   }
 }
 
-export default connect(store => ({ groupStore: store.group, studentsStore: store.students,
-  subjectsStore: store.subjects, scoresStore: store.scores, coursesStore: store.courses,
+export default connect(store => ({
+  userStore: store.user,
+  groupStore: store.group,
+  studentsStore: store.students,
+  subjectsStore: store.subjects,
+  scoresStore: store.scores,
+  coursesStore: store.courses,
 }), {
   fetchSubjects, fetchStudents, fetchScores, fetchCourses, applyNewScore,
 })(ScoresTable)
