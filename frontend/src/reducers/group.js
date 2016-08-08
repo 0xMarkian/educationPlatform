@@ -1,19 +1,17 @@
 import { createReducer } from 'redux-act'
 
 import {
-  requestCreateGroup,
-  receiveCreatedGroup,
-  requestPatchGroupName,
-  receivePatchedGroupName,
-  requestFetchGroups,
-  receiveFetchedGroup,
+  receiveGroupData,
   setGroupPopupStep,
+  iteractWithServerAboutGroup,
 } from 'actions/group'
 
 
 const initialState = {
   createAndPrepareGroupPopupStep: 0,
   isLoading: false,
+
+  data: {},
 }
 
 export default createReducer({
@@ -21,35 +19,16 @@ export default createReducer({
     ...state,
     createAndPrepareGroupPopupStep: payload,
   }),
-  [requestCreateGroup]: state => ({
+  [iteractWithServerAboutGroup]: state => ({
     ...state,
     isLoading: true,
   }),
-  [receiveCreatedGroup]: (state, payload) => ({
+  [receiveGroupData]: (state, payload) => ({
     ...state,
     isLoading: false,
-    groupId: payload._id,
-    groupName: payload.name,
-    createAndPrepareGroupPopupStep: 1,
-  }),
-  [requestPatchGroupName]: state => ({
-    ...state,
-    isLoading: true,
-  }),
-  [receivePatchedGroupName]: (state, payload) => ({
-    ...state,
-    isLoading: false,
-    groupName: payload,
-    createAndPrepareGroupPopupStep: 1,
-  }),
-  [requestFetchGroups]: state => ({
-    ...state,
-    isLoading: true,
-  }),
-  [receiveFetchedGroup]: (state, payload) => ({
-    ...state,
-    isLoading: false,
-    groupId: payload._id,
-    groupName: payload.name,
+    data: {
+      ...state.data,
+      ...payload,
+    },
   }),
 }, initialState)

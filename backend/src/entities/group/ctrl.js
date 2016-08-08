@@ -15,7 +15,8 @@ class GroupCtrl extends BasicCtrl {
     const { _id: userId } = req.user
 
     User.findById(userId, (err, user) => {
-      if(user.group) return next(new Error('This user already have a group'))
+      if(err) return res.status(400).json({ errors: err})
+      if(user.group) return res.status(400).json({ message: 'This user already have a group'})
 
       this.Model.create({
         name,

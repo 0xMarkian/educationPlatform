@@ -1,28 +1,28 @@
 import { styles, muiStyles } from '../styles'
 
-import React from 'react'
+import React, { Component} from 'react'
 import { connect } from 'react-redux'
 import { css } from 'aphrodite'
 import autobind from 'autobind-decorator'
 import { RaisedButton, CircularProgress } from 'material-ui'
 
-import { createGroup, patchGroupName } from 'actions/group'
+import { createGroup, updateGroup } from 'actions/group'
 
 
-class NavigationButtons extends React.Component {
+class NavigationButtons extends Component {
   @autobind
   nextStep() {
-    const { groupStore, createGroup, patchGroupName, inputData } = this.props
-    const groupName = inputData.value,
-          { groupId } = groupStore
-    if(groupId) patchGroupName(groupId, groupName)
-    else createGroup(groupName)
+    const { groupId, createGroup, updateGroup, inputData } = this.props
+    const groupName = inputData.value
+
+
+    if(groupId) return updateGroup(groupId, { name: groupName })
+    createGroup({ name: groupName})
   }
 
   render() {
-    const { inputData, groupStore } = this.props
-    const { isLoading } = groupStore
-    const buttonDisabled = !!inputData.error || !inputData.value || isLoading
+    const { inputData, groupLoading } = this.props
+    const buttonDisabled = inputData.error || !inputData.value || groupLoading
 
     return(
       <div className={css(styles.navigationButtons)}>
@@ -32,10 +32,15 @@ class NavigationButtons extends React.Component {
           onTouchTap={this.nextStep}
           label='Next'
         />
-        { isLoading ? <CircularProgress size={muiStyles.progress.size}/> : null }
+        { groupLoading ? <CircularProgress size={muiStyles.progress.size}/> : null }
       </div>
     )
   }
 }
 
-export default connect( store => ({ groupStore: store.group }), { createGroup, patchGroupName })(NavigationButtons)
+export default connect( store => {
+  const { _id: groupId } = store.group.data
+  const { isLoading: groupLoading } = store.group
+
+  return { groupId, groupLoading }
+}, { createGroup, updateGroup })(NavigationButtons)

@@ -25,7 +25,7 @@ class CreateGroupSection extends Component {
   }
 
   componentWillMount() {
-    const { groupName } = this.props.groupStore
+    const { groupName } = this.props
     this.setState({
       groupName: {
         ...this.state.groupName,
@@ -52,4 +52,4 @@ class CreateGroupSection extends Component {
 }
 
 
-export default connect(store => ({ groupStore: store.group }))(CreateGroupSection)
+export default connect(store => ({ groupName: store.group.data.name }))(CreateGroupSection)

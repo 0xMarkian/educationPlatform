@@ -4,51 +4,45 @@ import { backendAdress, defaultFetchParams } from '../config'
 import { parseJSON, handleResponseAndDisplayMessage } from '../utils'
 
 
-export const setGroupPopupStep = createAction('SET GROUP POPUP STEP')
 
-export const requestCreateGroup = createAction('REQUEST CREATE GROUP')
-export const receiveCreatedGroup = createAction('RECEIVE CREATED GROUP')
-export const createGroup = name => dispatch => {
-  dispatch(requestCreateGroup())
-  fetch(`${backendAdress}/groups`, {
+export const setGroupPopupStep = createAction('SET GROUP POPUP STEP')
+export const receiveGroupData = createAction('RECEIVE CREATED GROUP')
+export const iteractWithServerAboutGroup = createAction('iteractWithServerAboutGroup')
+
+
+export const createGroup = groupData => dispatch => {
+  console.log(groupData)
+  dispatch(iteractWithServerAboutGroup())
+  return fetch(`${backendAdress}/groups`, {
     ...defaultFetchParams,
     method: 'POST',
     credentials: 'include',
-    body: JSON.stringify({ name }),
+    body: JSON.stringify( groupData ),
   })
   .then(handleResponseAndDisplayMessage(dispatch))
-  .then(res => dispatch(receiveCreatedGroup(res)))
-  //.catch(err => { throw new Error(err) })
+  .then(res => { dispatch(setGroupPopupStep(1)); return dispatch(receiveGroupData(res)) } )
+
 }
 
-export const requestPatchGroupName = createAction('REQUEST PATCH GROUP NAME')
-export const receivePatchedGroupName = createAction('RECEIVE PATCHED GROUP NAME')
-export const patchGroupName = (groupId, groupName) => dispatch => {
-  dispatch(requestPatchGroupName())
-  fetch(`${backendAdress}/groups/${groupId}`, {
+export const updateGroup = (groupId, newGroupData) => dispatch => {
+  dispatch( iteractWithServerAboutGroup() )
+
+  return fetch(`${backendAdress}/groups/${groupId}`, {
     ...defaultFetchParams,
     method: 'PATCH',
     credentials: 'include',
-    body: JSON.stringify({ groupName }),
+    body: JSON.stringify(newGroupData),
   })
-  .then(() => {
-    dispatch(receivePatchedGroupName(groupName))
-  })
-  // .catch(err => { throw new Error(err) })
+  .then( () => {  dispatch(setGroupPopupStep(1)); return dispatch(receiveGroupData(newGroupData)) })
 }
 
-export const requestFetchGroups = createAction('REQUEST FETCH GROUP')
-export const receiveFetchedGroup = createAction('RECEIVE FETCHED GROUP')
 export const fetchUserGroups = () => dispatch => {
-  dispatch(requestFetchGroups())
-  fetch(`${backendAdress}/groups`, {
+  dispatch(iteractWithServerAboutGroup())
+  return fetch(`${backendAdress}/groups`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
   })
   .then(handleResponseAndDisplayMessage(dispatch))
-  .then(res => {
-    dispatch(receiveFetchedGroup(res[0]))
-  })
-  // .catch(err => { throw new Error(err) })
+  .then(res => dispatch(receiveGroupData(res[0])) )
 }

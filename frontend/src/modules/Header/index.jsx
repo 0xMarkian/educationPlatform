@@ -10,17 +10,17 @@ import { userLogout } from 'actions/user'
 
 class Header extends React.Component {
   render() {
-    const { groupStore, userLogout, userStore } = this.props,
-      { data: userData } = userStore
+    const { userLogout, groupName, userName } = this.props
+
     return(
       <Toolbar>
         <ToolbarGroup>
           <Avatar className={css(styles.avatar)}>
           {
-            userData.name ? userData.name[0].toUpperCase() : 'U'
+            userName ? userName[0].toUpperCase() : 'U'
           }
           </Avatar>
-          <ToolbarTitle text={groupStore.groupName} className={css(styles.headerTitle)} />
+          <ToolbarTitle text={groupName} className={css(styles.headerTitle)} />
         </ToolbarGroup>
         <ToolbarGroup>
           <ToolbarSeparator />
@@ -34,9 +34,11 @@ class Header extends React.Component {
   }
 }
 
-export default connect(store => ({
-  userStore: store.user,
-  groupStore: store.group,
-}), {
+export default connect(store => {
+  const { name:userName } = store.user.data
+  const { name: groupName } = store.group
+
+  return { userData, groupName }
+}, {
   userLogout,
 })(Header)
