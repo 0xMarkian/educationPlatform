@@ -12,14 +12,6 @@ import { addNewStudent, removeAddedStudent } from 'actions/students'
 
 
 class MainSection extends React.Component {
-  constructor(props){
-    super(props)
-
-    // this.state = {
-    //   initiallyCreatedStudents: []
-    // }
-  }
-
   @autobind
   handleInput() {
     const { addNewStudent } = this.props
@@ -27,27 +19,17 @@ class MainSection extends React.Component {
     const createStudentInput = this.refs['createStudentInput'].input
     const studentName = createStudentInput.value
 
-    if(!studentName) return null
+    if(!studentName) return
 
     createStudentInput.value = null
-
     addNewStudent(studentName)
   }
 
   @autobind
   removeStudent(student) {
-    const { studentsStore, removeAddedStudent } = this.props
-    const {initiallyCreatedStudents} = studentsStore
+    const { removeAddedStudent } = this.props
 
-    removeAddedStudent(student._id).then(() => {
-      const indexOfRemoving = initiallyCreatedStudents.indexOf(student)
-      this.setState({
-        initiallyCreatedStudents: [
-          ...initiallyCreatedStudents.slice(0, indexOfRemoving),
-          ...initiallyCreatedStudents.slice(indexOfRemoving+1),
-        ]
-      })
-    })
+    removeAddedStudent(student._id)
   }
 
   render() {

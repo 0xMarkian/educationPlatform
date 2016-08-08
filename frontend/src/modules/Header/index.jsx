@@ -35,10 +35,10 @@ class Header extends React.Component {
 }
 
 export default connect(store => {
-  const { name:userName } = store.user.data
+  const { name: userName } = store.user.data
   const { name: groupName } = store.group
 
-  return { userData, groupName }
+  return { userName, groupName }
 }, {
   userLogout,
 })(Header)

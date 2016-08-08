@@ -40,13 +40,7 @@ export default createReducer({
   [removedAddedStudent]: (state, payload) => {
     let studentToDeleteIndex = null
 
-    state.initiallyCreatedStudents.find((student, i) => {
-      if (student._id === payload) {
-        studentToDeleteIndex = i
-        return true
-      }
-      return false
-    })
+    state.initiallyCreatedStudents.find( (student, i) => student._id === payload ? studentToDeleteIndex = i : false )
 
     return {
       ...state,
