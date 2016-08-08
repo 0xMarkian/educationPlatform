@@ -19,6 +19,9 @@ export const styles = StyleSheet.create({
     maxHeight: 150,
     overflowY: 'auto',
   },
+  listItem: {
+    appearance: 'none',
+  },
 })
 
 export const muiStyles = {

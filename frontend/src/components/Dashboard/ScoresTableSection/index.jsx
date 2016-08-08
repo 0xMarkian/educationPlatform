@@ -26,7 +26,7 @@ class ScoresTable extends React.Component {
     const inputValue = this.refs[scoreId].input.value
     const notNumber = /[^0-9]/ig
     const parsedValue = inputValue.replace(notNumber, '')
-    
+
     this.refs[scoreId].input.value = parsedValue
   }
 
@@ -35,17 +35,18 @@ class ScoresTable extends React.Component {
     return event => {
       const { applyNewScore } = this.props
       const inputValue = event.target.value
-
-      applyNewScore(scoreToUpdateId, studentId, courseId, inputValue)
+      if(inputValue) applyNewScore(scoreToUpdateId, studentId, courseId, inputValue)
     }
   }
 
   componentWillMount() {
-    const { fetchSubjects, fetchStudents, fetchScores, fetchCourses } = this.props
-    fetchStudents()
-    fetchScores()
-    fetchCourses()
-    fetchSubjects()
+    const { userStore, fetchSubjects, fetchStudents, fetchScores, fetchCourses } = this.props
+    if(userStore.data.group) {
+      fetchStudents()
+      fetchScores()
+      fetchCourses()
+      fetchSubjects()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -115,6 +116,8 @@ class ScoresTable extends React.Component {
                     }
 
                     const { scoreId, scoreValue } = currentScoreObj
+                    const uniqueScoreId = scoreId || student._id + '/' + course.subject
+
                     return(
                       <TableRowColumn key={i}>
                         <TextField
@@ -122,11 +125,11 @@ class ScoresTable extends React.Component {
                           underlineStyle={muiStyles.underline}
                           underlineFocusStyle={muiStyles.underlineFocus}
                           inputStyle={muiStyles.scoreInput}
-                          id={scoreId}
-                          ref={scoreId}
+                          id={uniqueScoreId}
+                          ref={uniqueScoreId}
                           defaultValue={scoreValue}
                           fullWidth={true}
-                          onChange={() => {this.parseInput(scoreId)}}
+                          onChange={() => {this.parseInput(uniqueScoreId)}}
                           onBlur={
                             this.handleInput(
                               student._id,
@@ -149,8 +152,13 @@ class ScoresTable extends React.Component {
   }
 }
 
-export default connect(store => ({ groupStore: store.group, studentsStore: store.students,
-  subjectsStore: store.subjects, scoresStore: store.scores, coursesStore: store.courses,
+export default connect(store => ({
+  userStore: store.user,
+  groupStore: store.group,
+  studentsStore: store.students,
+  subjectsStore: store.subjects,
+  scoresStore: store.scores,
+  coursesStore: store.courses,
 }), {
   fetchSubjects, fetchStudents, fetchScores, fetchCourses, applyNewScore,
 })(ScoresTable)

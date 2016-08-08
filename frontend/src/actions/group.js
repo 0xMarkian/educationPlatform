@@ -1,41 +1,48 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseJSON, displayMessageAndHandleResponse } from '../utils'
+import { parseJSON, handleResponseAndDisplayMessage } from '../utils'
+
 
 
 export const setGroupPopupStep = createAction('SET GROUP POPUP STEP')
+export const receiveGroupData = createAction('RECEIVE CREATED GROUP')
+export const iteractWithServerAboutGroup = createAction('iteractWithServerAboutGroup')
 
-export const requestCreateGroup = createAction('REQUEST CREATE GROUP')
-export const receiveCreatedGroup = createAction('RECEIVE CREATED GROUP')
-export const createGroup = (name, method) => dispatch => {
-  dispatch(requestCreateGroup())
-  fetch(`${backendAdress}/groups`, {
+
+export const createGroup = groupData => dispatch => {
+  console.log(groupData)
+  dispatch(iteractWithServerAboutGroup())
+  return fetch(`${backendAdress}/groups`, {
     ...defaultFetchParams,
-    method,
+    method: 'POST',
     credentials: 'include',
-    body: JSON.stringify({ name }),
+    body: JSON.stringify( groupData ),
   })
-  .then(parseJSON)
-  .then(res => {
-    dispatch(receiveCreatedGroup(res))
-  })
-  .catch(err => { throw new Error(err) })
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(res => { dispatch(setGroupPopupStep(1)); return dispatch(receiveGroupData(res)) } )
+
 }
 
-export const requestFetchGroups = createAction('REQUEST FETCH GROUP')
-export const receiveFetchedGroup = createAction('RECEIVE FETCHED GROUP')
+export const updateGroup = (groupId, newGroupData) => dispatch => {
+  dispatch( iteractWithServerAboutGroup() )
+
+  return fetch(`${backendAdress}/groups/${groupId}`, {
+    ...defaultFetchParams,
+    method: 'PATCH',
+    credentials: 'include',
+    body: JSON.stringify(newGroupData),
+  })
+  .then( () => {  dispatch(setGroupPopupStep(1)); return dispatch(receiveGroupData(newGroupData)) })
+}
+
 export const fetchUserGroups = () => dispatch => {
-  dispatch(requestFetchGroups())
+  dispatch(iteractWithServerAboutGroup())
   return fetch(`${backendAdress}/groups`, {
     ...defaultFetchParams,
     method: 'GET',
     credentials: 'include',
   })
-  .then(parseJSON)
-  .then(displayMessageAndHandleResponse(dispatch))
-  .then(res => {
-    dispatch(receiveFetchedGroup(res[0]))
-  })
-  .catch(err => { throw new Error(err) })
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(res => dispatch(receiveGroupData(res[0])) )
 }

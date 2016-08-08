@@ -3,60 +3,38 @@ import { styles } from '../styles'
 import React from 'react'
 import { connect } from 'react-redux'
 import { css } from 'aphrodite'
+import Person from 'material-ui/svg-icons/social/person'
 import Remove from 'material-ui/svg-icons/content/backspace'
 import autobind from 'autobind-decorator'
 import { List, ListItem, TextField, RaisedButton } from 'material-ui'
 
-import { addNewStudent, removeStudent } from 'actions/students'
+import { addNewStudent, removeAddedStudent } from 'actions/students'
 
 
 class MainSection extends React.Component {
-  constructor(props){
-    super(props)
-
-    this.state = {
-      initiallyCreatedStudents: []
-    }
-  }
-
   @autobind
   handleInput() {
     const { addNewStudent } = this.props
 
     const createStudentInput = this.refs['createStudentInput'].input
     const studentName = createStudentInput.value
-    createStudentInput.value = null
 
-    addNewStudent(studentName).then( newStudent => {
-      const {initiallyCreatedStudents}  = this.state
-      this.setState({
-        initiallyCreatedStudents: [
-          newStudent,
-          ...initiallyCreatedStudents,
-        ]
-      })
-    })
+    if(!studentName) return
+
+    createStudentInput.value = null
+    addNewStudent(studentName)
   }
 
   @autobind
   removeStudent(student) {
-    const { removeStudent } = this.props
-    const {initiallyCreatedStudents}  = this.state
+    const { removeAddedStudent } = this.props
 
-    removeStudent(student._id).then( () => {
-      const indexOfRemoving = initiallyCreatedStudents.indexOf(student)
-      this.setState({
-        initiallyCreatedStudents: [
-          ...initiallyCreatedStudents.slice(0, indexOfRemoving),
-          ...initiallyCreatedStudents.slice(indexOfRemoving+1),
-        ]
-      })
-    })
+    removeAddedStudent(student._id)
   }
 
   render() {
     const { removeStudent, studentsStore } = this.props
-    const { initiallyCreatedStudents } = this.state
+    const { initiallyCreatedStudents } = studentsStore
 
     return(
       <div>
@@ -75,8 +53,10 @@ class MainSection extends React.Component {
           {
             initiallyCreatedStudents.map((student, i) => (
               <ListItem
+                className={css(styles.listItem)}
                 key={i}
                 primaryText={student.name}
+                leftIcon={<Person />}
                 rightIcon={<Remove />}
                 onTouchTap={() => {this.removeStudent(student)}}
               />
@@ -90,5 +70,5 @@ class MainSection extends React.Component {
 
 export default connect(store => ({ studentsStore: store.students }), {
   addNewStudent,
-  removeStudent,
+  removeAddedStudent,
 })(MainSection)

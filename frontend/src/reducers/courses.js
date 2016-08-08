@@ -12,7 +12,7 @@ import {
 
 const initialState = {
   data: null,
-  isFetching: false,
+  isLoading: false,
 
   addingNewCourse: false,
   initiallyCreatedCourses: [],
@@ -21,12 +21,12 @@ const initialState = {
 export default createReducer({
   [requestCourses]: state => ({
     ...state,
-    isFetching: true,
+    isLoading: true,
   }),
   [receiveCourses]: (state, payload) => ({
     ...state,
     data: payload,
-    isFetching: false,
+    isLoading: false,
   }),
   [requestAddingNewCourse]: state => ({
     ...state,
@@ -41,12 +41,22 @@ export default createReducer({
     ],
   }),
   [removedAddedCourse]: (state, payload) => {
-    const initiallyCreatedCourses = { ...state.initiallyCreatedCourses }
+    let courseToDeleteIndex = null
 
-    delete initiallyCreatedCourses[payload]
+    state.initiallyCreatedCourses.find((course, i) => {
+      if (course._id === payload) {
+        courseToDeleteIndex = i
+        return true
+      }
+      return false
+    })
+
     return {
       ...state,
-      initiallyCreatedCourses,
+      initiallyCreatedCourses: [
+        ...state.initiallyCreatedCourses.slice(0, courseToDeleteIndex),
+        ...state.initiallyCreatedCourses.slice(courseToDeleteIndex + 1),
+      ],
     }
   },
 }, initialState)

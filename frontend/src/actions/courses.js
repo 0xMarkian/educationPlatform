@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseJSON, displayMessageAndHandleResponse } from '../utils'
+import { parseJSON, handleResponseAndDisplayMessage } from '../utils'
 
 
 export const requestCourses = createAction('REQUEST COURSES')
@@ -13,8 +13,7 @@ export const fetchCourses = () => dispatch => {
     method: 'GET',
     credentials: 'include',
   })
-  .then(parseJSON)
-  .then(displayMessageAndHandleResponse(dispatch))
+  .then(handleResponseAndDisplayMessage(dispatch))
   .then(res => {
     dispatch(receiveCourses(res))
   })
@@ -30,20 +29,20 @@ export const addCourseToGroup = subject => dispatch => {
     credentials: 'include',
     body: JSON.stringify({ subject }),
   })
-  .then(parseJSON)
+  .then(handleResponseAndDisplayMessage(dispatch))
   .then((res) => {
     dispatch(addedNewCourse(res))
   })
 }
 
 export const removedAddedCourse = createAction('REMOVED ADDED COURSE')
-export const removeAddedCourse = (courseId, subjectId) => dispatch => {
+export const removeAddedCourse = courseId => dispatch => {
   fetch(`${backendAdress}/courses/${courseId}`, {
     ...defaultFetchParams,
     method: 'DELETE',
     credentials: 'include',
   })
   .then(() => {
-    dispatch(removedAddedCourse(subjectId))
+    dispatch(removedAddedCourse(courseId))
   })
 }

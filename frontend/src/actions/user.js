@@ -2,7 +2,7 @@ import { createAction } from 'redux-act'
 import { push } from 'react-router-redux'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseJSON, startPage, displayMessageAndHandleResponse } from '../utils'
+import { parseJSON, startPage, handleResponseAndDisplayMessage } from '../utils'
 
 
 export const receivedUserData = createAction('RECEIVED USER DATA')
@@ -16,10 +16,12 @@ export const fetchUserData = () => dispatch =>
     credentials: 'include',
     method: 'GET',
   })
-  .then(parseJSON)
-  .then(displayMessageAndHandleResponse(dispatch))
-  .then(res => dispatch(receivedUserData(res)))
-  .catch(() => Promise.reject())
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(res => {
+    dispatch(receivedUserData(res))
+    return res.group
+  })
+  .catch(err => Promise.reject(err))
 
 
 // Logging in
@@ -33,15 +35,12 @@ export const userLogin = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(parseJSON)
-    .then(displayMessageAndHandleResponse(dispatch))
-    .then(res => {
-      dispatch(receivedUserData(res))
-      dispatch(push(startPage))
-    })
-    .catch(errors => {
-      dispatch(rejectLogin(errors))
-    })
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(res => {
+    dispatch(receivedUserData(res))
+    dispatch(push(startPage))
+  })
+  .catch(err => dispatch(rejectLogin(err)))
 }
 
 
@@ -54,15 +53,12 @@ export const userRegister = (name, password) => dispatch => {
     method: 'POST',
     body: JSON.stringify({ name, password }),
   })
-    .then(parseJSON)
-    .then(displayMessageAndHandleResponse(dispatch))
-      .then(data => {
-        dispatch(receivedUserData(data))
-        dispatch(push(startPage))
-      })
-      .catch(err => {
-        throw new Error(err)
-      })
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(data => {
+    dispatch(receivedUserData(data))
+    dispatch(push(startPage))
+  })
+  .catch(err => {throw new Error(err)})
 }
 
 

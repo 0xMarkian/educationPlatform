@@ -12,7 +12,7 @@ class NavigationButtons extends React.Component {
   @autobind
   prevStep() {
     const { setGroupPopupStep } = this.props
-    setGroupPopupStep(1)
+    setGroupPopupStep(0)
   }
 
   @autobind

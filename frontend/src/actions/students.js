@@ -1,7 +1,7 @@
 import { createAction } from 'redux-act'
 
 import { backendAdress, defaultFetchParams } from '../config'
-import { parseJSON, displayMessageAndHandleResponse } from '../utils'
+import { parseJSON, handleResponseAndDisplayMessage } from '../utils'
 
 
 export const requestStudents = createAction('REQUEST STUDENTS')
@@ -14,33 +14,30 @@ export const fetchStudents = () => dispatch => {
       method: 'GET',
       credentials: 'include',
     })
-  .then(parseJSON)
-  .then(displayMessageAndHandleResponse(dispatch))
-  .then(data => {
-    dispatch(receiveStudents(data))
-  })
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(data => dispatch(receiveStudents(data)))
 }
 
+export const requestAddingNewStudent = createAction('REQUEST ADDING NEW STUDENT')
 export const addedNewStudent = createAction('ADDED NEW STUDENT')
-export const addNewStudent = name => () => (
+export const addNewStudent = name => dispatch => {
+  dispatch(requestAddingNewStudent())
   fetch(`${backendAdress}/students`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'POST',
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({name}),
   })
-  .then(parseJSON)
-  .then(data => Promise.resolve(data))
-  .catch(err => {
-    throw new Error(err)
-  })
-)
+  .then(handleResponseAndDisplayMessage(dispatch))
+  .then(res => dispatch(addedNewStudent(res)))
+}
 
-export const removeStudent = studentId => () => (
+export const removedAddedStudent = createAction('REMOVED ADDED STUDENT')
+export const removeAddedStudent = studentId => dispatch => (
   fetch(`${backendAdress}/students/${studentId}`, {
     ...defaultFetchParams,
     credentials: 'include',
     method: 'DELETE',
   })
-  .then(() => Promise.resolve())
+  .then(() => dispatch(removedAddedStudent(studentId)))
 )

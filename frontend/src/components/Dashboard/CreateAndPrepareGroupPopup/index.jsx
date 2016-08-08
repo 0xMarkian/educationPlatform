@@ -17,7 +17,7 @@ class CreateAndPrepareGroupPopup extends React.Component {
   }
 
   render() {
-    const { createAndPrepareGroupPopupStep } = this.props.groupStore
+    const { navigationStep } = this.props
 
     return(
       <Dialog
@@ -28,11 +28,11 @@ class CreateAndPrepareGroupPopup extends React.Component {
         titleClassName='new-group-modal-title'
         onRequestClose={this.handleClose}
       >
-        <StepProgress step={createAndPrepareGroupPopupStep} />
+        <StepProgress step={navigationStep} />
         {
-          createAndPrepareGroupPopupStep === 0 ? <GroupNameSection /> :
-          createAndPrepareGroupPopupStep === 1 ? <StudentsSection /> :
-          createAndPrepareGroupPopupStep === 2 ? <SubjectsSection /> :
+          navigationStep === 0 ? <GroupNameSection /> :
+          navigationStep === 1 ? <StudentsSection /> :
+          navigationStep === 2 ? <SubjectsSection /> :
           null
         }
       </Dialog>
@@ -41,4 +41,4 @@ class CreateAndPrepareGroupPopup extends React.Component {
 }
 
 
-export default connect( store => ({ groupStore: store.group }) )(CreateAndPrepareGroupPopup)
+export default connect( store => ({ navigationStep: store.group.createAndPrepareGroupPopupStep }) )(CreateAndPrepareGroupPopup)
